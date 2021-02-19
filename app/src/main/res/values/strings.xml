@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">FOFPrac</string>
+    <string name="app_name">FoF_Android</string>
     <string name="email">이메일</string>
     <string name="emailcheck">올바른 이메일 주소를 입력하세요</string>
     <!-- TODO: Remove or change this placeholder text -->
