@@ -18,6 +18,9 @@ public class LoginActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         pswd_link=findViewById(R.id.pswd_link);
+        signup_link=findViewById(R.id.signup_link);
+        login=findViewById(R.id.login_btn);
+
         pswd_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -25,7 +28,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(pswdintent);
             }
         });
-        signup_link=findViewById(R.id.signup_link);
+
         signup_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -33,7 +36,7 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(signupintent);
             }
         });
-        login=findViewById(R.id.login_btn);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

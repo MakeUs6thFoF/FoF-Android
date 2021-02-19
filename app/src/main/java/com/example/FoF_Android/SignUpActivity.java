@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
 public class SignUpActivity extends AppCompatActivity {
     Button signup_btn;
     TextView tv_email_check;
-    TextView login;
+    TextView login_link;
     EditText ed_email;
 
     @Override
@@ -25,10 +25,10 @@ public class SignUpActivity extends AppCompatActivity {
 
         signup_btn = findViewById(R.id.signup_btn);
         tv_email_check = findViewById(R.id.email_check);
-        login = findViewById(R.id.login);
+        login_link = findViewById(R.id.login_link);
         ed_email = findViewById(R.id.ed_email);
 
-        login.setOnClickListener(new View.OnClickListener() {
+        login_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent loginintent = new Intent(SignUpActivity.this,LoginActivity.class);

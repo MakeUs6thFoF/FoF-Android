@@ -19,6 +19,7 @@ public class CategoryActivity extends AppCompatActivity {
 
         skip = findViewById(R.id.skip_btn);
         next = findViewById(R.id.next_btn);
+
         Intent mainIntent = new Intent(CategoryActivity.this, MainActivity.class);
         Button.OnClickListener onClickListener = new Button.OnClickListener() {
             @Override
