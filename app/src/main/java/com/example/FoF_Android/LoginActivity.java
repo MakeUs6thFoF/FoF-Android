@@ -12,9 +12,9 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
     TextView pswd_link;
     TextView signup_link;
-    Button login_btn;
     EditText ed_email;
     EditText ed_pswd;
+    Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
