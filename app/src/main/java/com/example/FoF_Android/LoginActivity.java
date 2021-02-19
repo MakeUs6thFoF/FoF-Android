@@ -11,15 +11,16 @@ import android.widget.TextView;
 public class LoginActivity extends AppCompatActivity {
     TextView pswd_link;
     TextView signup_link;
-    Button login;
+    Button login_btn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
         pswd_link=findViewById(R.id.pswd_link);
         signup_link=findViewById(R.id.signup_link);
-        login=findViewById(R.id.login_btn);
+        login_btn=findViewById(R.id.login_btn);
 
         pswd_link.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -37,7 +38,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
 
-        login.setOnClickListener(new View.OnClickListener() {
+        login_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 //TODO 판별
