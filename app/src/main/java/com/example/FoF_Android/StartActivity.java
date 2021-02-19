@@ -30,7 +30,6 @@ public class StartActivity extends AppCompatActivity {
                        Intent signupintent = new Intent(StartActivity.this,SignUpActivity.class);
                        startActivity(signupintent);
                         break;
-                    //두번째 버튼 행동
                     case R.id.login_btn:
                         Intent loginintent = new Intent(StartActivity.this,LoginActivity.class);
                         startActivity(loginintent);
