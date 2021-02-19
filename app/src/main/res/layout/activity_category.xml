@@ -8,7 +8,7 @@
     android:padding="20dp">
 
     <TextView
-        android:id="@+id/info"
+        android:id="@+id/information"
         style="@style/basic_32dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"

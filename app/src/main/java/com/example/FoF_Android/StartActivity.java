@@ -9,13 +9,19 @@ import android.widget.Button;
 
 public class StartActivity extends AppCompatActivity {
 
+    Button login_btn;
+    Button signup_btn;
+    Button kakao_login_btn;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_start);
-        Button signup_btn=findViewById(R.id.signup_btn);
-        Button login_btn=findViewById(R.id.login_btn);
-        Button kakao_login_btn=findViewById(R.id.kakao_login_btn);
+
+        signup_btn = findViewById(R.id.signup_btn);
+        login_btn = findViewById(R.id.login_btn);
+        kakao_login_btn = findViewById(R.id.kakao_login_btn);
+
         Button.OnClickListener onClickListener = new Button.OnClickListener() {
             @Override
             public void onClick(View v) {

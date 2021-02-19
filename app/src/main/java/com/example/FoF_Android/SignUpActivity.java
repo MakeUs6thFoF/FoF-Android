@@ -13,15 +13,21 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 public class SignUpActivity extends AppCompatActivity {
+    Button signup_btn;
+    TextView tv_email_check;
+    TextView login;
+    EditText ed_email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-        Button button=findViewById(R.id.signup_btn);
-        TextView text1=findViewById(R.id.email_check);
-        TextView login=findViewById(R.id.login);
-        EditText ed_email=findViewById(R.id.ed_email);
+
+        signup_btn = findViewById(R.id.signup_btn);
+        tv_email_check = findViewById(R.id.email_check);
+        login = findViewById(R.id.login);
+        ed_email = findViewById(R.id.ed_email);
+
         login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -29,10 +35,12 @@ public class SignUpActivity extends AppCompatActivity {
                 startActivity(loginintent);
             }
         });
-        button.setOnClickListener(new View.OnClickListener() {
+        signup_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(!checkEmail(ed_email.getText().toString())) text1.setVisibility(View.VISIBLE);
+                if(!checkEmail(ed_email.getText().toString())) tv_email_check.setVisibility(View.VISIBLE);
+                else tv_email_check.setVisibility(View.GONE);
+                //TODO 데이터 전달
             }
         });
 

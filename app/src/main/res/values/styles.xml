@@ -3,7 +3,7 @@
     <style name="basic_12dp">
         <item name="android:fontFamily">@font/notosansregular</item>
         <item name="android:textSize">12dp</item>
-        <item name="android:textColor">@color/black</item>
+        <item name="android:textColor">@color/gray</item>
         <item name="android:includeFontPadding">false</item>
     </style>
     <style name="basic_16dp">

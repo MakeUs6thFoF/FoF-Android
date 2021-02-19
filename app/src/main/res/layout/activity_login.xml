@@ -76,7 +76,6 @@
     <TextView
         android:id="@+id/login_check"
         style="@style/basic_12dp"
-        android:textColor="@color/gray"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="100dp"
@@ -85,14 +84,14 @@
         app:layout_constraintTop_toBottomOf="@+id/login_btn" />
 
     <TextView
-        android:id="@+id/login"
+        android:id="@+id/signup_link"
         style="@style/basic_12dp"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="20dp"
         android:linksClickable="true"
         android:text="@string/signup_link"
-
         app:layout_constraintStart_toEndOf="@+id/login_check"
         app:layout_constraintTop_toBottomOf="@+id/login_btn" />
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -9,12 +9,16 @@ import android.widget.Button;
 
 public class CategoryActivity extends AppCompatActivity {
 
+    Button skip;
+    Button next;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_category);
-        Button skip=findViewById(R.id.skip_btn);
-        Button next=findViewById(R.id.next_btn);
+
+        skip = findViewById(R.id.skip_btn);
+        next = findViewById(R.id.next_btn);
         Intent mainIntent = new Intent(CategoryActivity.this, MainActivity.class);
         Button.OnClickListener onClickListener = new Button.OnClickListener() {
             @Override
