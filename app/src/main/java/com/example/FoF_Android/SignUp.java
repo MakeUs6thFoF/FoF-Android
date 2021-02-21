@@ -1,20 +1,20 @@
 package com.example.FoF_Android;
 
 public class SignUp {
-    private final String email;
-    private final String password;
-    private final String nickname;
+    private final String isSuccess;
+    private final String code;
+    private final String message;
 
 
-    public String getEmail() {  return email;  }
+    public String getSuccess() {  return isSuccess;  }
 
-    public String getPassword() {   return password; }
+    public String getCode() {   return code; }
 
-    public String getNickname() {  return nickname; }
+    public String getMessage() {  return message; }
 
-    public SignUp(String email, String password, String nickname) {
-        this.email = email;
-        this.password = password;
-        this.nickname = nickname;
+    public SignUp(String isSuccess, String code, String message) {
+        this.isSuccess = isSuccess;
+        this.code = code;
+        this.message = message;
     }
 }

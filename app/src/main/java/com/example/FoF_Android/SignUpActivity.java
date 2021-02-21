@@ -87,7 +87,8 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
                 if (response.isSuccessful()){
                     System.out.println("포스트 성공1");
-                    System.out.println(response.toString());
+                    SignUp signup = response.body();
+                    System.out.println("확인"+signup.getCode());
                     Intent intent = new Intent(SignUpActivity.this, StartActivity.class);
                     startActivity(intent);
                     finish();
