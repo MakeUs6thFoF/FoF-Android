@@ -18,10 +18,107 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
+    <ToggleButton
+        android:id="@+id/button1"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="연예인"
+        android:textOff="연예인"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.458" />
+
+    <ToggleButton
+        android:id="@+id/button2"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="동물"
+        android:textOff="동물"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toTopOf="@+id/button3"
+        app:layout_constraintCircle="@+id/button1"
+        app:layout_constraintCircleAngle="0"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/button3"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="클립"
+        android:textOff="동물"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircle="@+id/button1"
+        app:layout_constraintCircleAngle="60"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/button4"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="감정"
+        android:textOff="연예인"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircle="@+id/button1"
+        app:layout_constraintCircleAngle="120"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/button1" />
+
+    <ToggleButton
+        android:id="@+id/button5"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="스티커"
+        android:textOff="스티커"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintCircle="@+id/button1"
+        app:layout_constraintCircleAngle="180"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/button6"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="상황"
+        android:textOff="상황"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toTopOf="@+id/button5"
+        app:layout_constraintCircle="@+id/button1"
+        app:layout_constraintCircleAngle="240"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ToggleButton
+        android:id="@+id/button7"
+        android:layout_width="90dp"
+        android:layout_height="90dp"
+        android:textOn="텍스트"
+        android:textOff="텍스트"
+        android:background="@drawable/category_circle"
+        app:layout_constraintBottom_toTopOf="@+id/button1"
+        app:layout_constraintCircle="@+id/button1"
+        app:layout_constraintCircleAngle="300"
+        app:layout_constraintCircleRadius="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
     <LinearLayout
+        android:id="@+id/linearLayout2"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
+        android:layout_marginBottom="80dp"
         android:weightSum="2"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -32,9 +129,9 @@
             style="@style/basic_16dp"
             android:layout_width="0dp"
             android:layout_height="61dp"
+            android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@drawable/skip_btn_box"
-            android:layout_marginRight="2dp"
             android:text="건너뛰기"
             android:textColor="@color/black" />
 
@@ -43,11 +140,10 @@
             style="@style/basic_16dp"
             android:layout_width="0dp"
             android:layout_height="61dp"
+            android:layout_marginLeft="2dp"
             android:layout_weight="1"
             android:background="@drawable/check_btn_box"
-            android:layout_marginLeft="2dp"
             android:text="다음"
-            android:textColor="@color/white"
-            />
+            android:textColor="@color/white" />
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
