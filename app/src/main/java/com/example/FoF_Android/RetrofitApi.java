@@ -13,10 +13,10 @@ public interface RetrofitApi {
     String URL = "https://test.fofapp.shop/";
 
     @FormUrlEncoded
-    @POST("/posts/{userId}")
+    @POST("/signup")
     Call<SignUp> postSignUp(@FieldMap HashMap<String, Object> param);
 
-    @GET("/posts/{userId}")
+    @GET("/post/{userId}")
     Call<SignUp> getData(@Path("userId") String userId);
 
 

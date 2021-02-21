@@ -87,14 +87,18 @@ public class SignUpActivity extends AppCompatActivity {
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
                 if (response.isSuccessful()){
                     System.out.println("포스트 성공1");
+                    System.out.println(response.toString());
+                    Intent intent = new Intent(SignUpActivity.this, StartActivity.class);
+                    startActivity(intent);
+                    finish();
                 }
                 else
-                    System.out.println(response.message());
+                    System.out.println(response.toString());
             }
 
             @Override
             public void onFailure(Call<SignUp> call, Throwable t) {
-                System.out.println("실패");
+
             }
         });
     }
