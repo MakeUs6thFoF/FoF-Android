@@ -21,7 +21,4 @@ public interface RetrofitApi {
     @GET("/post/{userId}")
     Call<SignUp> getData(@Path("userId") String userId);
 
-    @POST("/login")
-    Call<LoginActivity> postLogin(@FieldMap HashMap<String, Object> param);
-
 }
