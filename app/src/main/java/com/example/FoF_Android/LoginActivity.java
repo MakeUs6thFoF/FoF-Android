@@ -9,6 +9,8 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.FoF_Android.signup.SignUpActivity;
+
 public class LoginActivity extends AppCompatActivity {
     TextView pswd_link;
     TextView signup_link;

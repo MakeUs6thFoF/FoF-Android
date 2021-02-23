@@ -1,5 +1,7 @@
 package com.example.FoF_Android;
 
+import com.example.FoF_Android.signup.SignUp;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -19,5 +21,7 @@ public interface RetrofitApi {
     @GET("/post/{userId}")
     Call<SignUp> getData(@Path("userId") String userId);
 
+    @POST("/login")
+    Call<LoginActivity> postLogin(@FieldMap HashMap<String, Object> param);
 
 }

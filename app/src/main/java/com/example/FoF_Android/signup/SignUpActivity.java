@@ -1,22 +1,27 @@
-package com.example.FoF_Android;
+package com.example.FoF_Android.signup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.FoF_Android.HttpClient;
+import com.example.FoF_Android.LoginActivity;
+import com.example.FoF_Android.R;
+import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.StartActivity;
+
 import java.util.HashMap;
-import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
-import retrofit2.Retrofit;
 
 public class SignUpActivity extends AppCompatActivity {
     Button signup_btn;
@@ -26,6 +31,7 @@ public class SignUpActivity extends AppCompatActivity {
     EditText ed_pswd;
     EditText ed_nick;
 
+    String pswd_pattern="^[A-Za-z0-9_@./#&+-]*.{6,20}$";
     RetrofitApi api;
 
     @Override
@@ -56,7 +62,9 @@ public class SignUpActivity extends AppCompatActivity {
                 String pswd = ed_pswd.getText().toString();
                 String nickname = ed_nick.getText().toString();
 
-                if (!checkEmail(email)) tv_email_check.setVisibility(View.VISIBLE);
+                Pattern pattern= Patterns.EMAIL_ADDRESS;
+
+                if (!pattern.matcher(email).matches()) tv_email_check.setVisibility(View.VISIBLE);
                 else{
                     tv_email_check.setVisibility(View.GONE);
                     doSignUp(email, pswd, nickname, api);
@@ -67,15 +75,6 @@ public class SignUpActivity extends AppCompatActivity {
 
     }
 
-    public static boolean checkEmail(String email) {
-
-        String regex = "^[_a-zA-Z0-9-\\.]+@[\\.a-zA-Z0-9-]+\\.[a-zA-Z]+$";
-        Pattern p = Pattern.compile(regex);
-        Matcher m = p.matcher(email);
-        boolean isNormal = m.matches();
-        return isNormal;
-
-    }
 
     public void doSignUp(String email, String pswd, String nickname, RetrofitApi api){
         HashMap<String, Object> input = new HashMap<>();
@@ -89,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
                     System.out.println("포스트 성공1");
                     SignUp signup = response.body();
                     System.out.println("확인"+signup.getCode());
-                    Intent intent = new Intent(SignUpActivity.this, StartActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, SuccessActivity.class);
                     startActivity(intent);
                     finish();
                 }

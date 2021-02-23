@@ -1,4 +1,4 @@
-package com.example.FoF_Android;
+package com.example.FoF_Android.signup;
 
 public class SignUp {
     private final String isSuccess;
