@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     android:padding="39dp"
     android:background="@color/black"
-    tools:context=".StartActivity">
+    tools:context=".signup.StartActivity">
 
     <Button
         android:id="@+id/signup_btn"

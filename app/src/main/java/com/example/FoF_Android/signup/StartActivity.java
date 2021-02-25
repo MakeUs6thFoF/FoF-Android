@@ -1,4 +1,4 @@
-package com.example.FoF_Android;
+package com.example.FoF_Android.signup;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,7 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.FoF_Android.signup.SignUpActivity;
+import com.example.FoF_Android.LoginActivity;
+import com.example.FoF_Android.R;
 
 public class StartActivity extends AppCompatActivity {
 
@@ -33,7 +34,7 @@ public class StartActivity extends AppCompatActivity {
                        startActivity(signupintent);
                         break;
                     case R.id.login_btn:
-                        Intent loginintent = new Intent(StartActivity.this,LoginActivity.class);
+                        Intent loginintent = new Intent(StartActivity.this, LoginActivity.class);
                         startActivity(loginintent);
                         break;
                     case R.id.kakao_login_btn:
