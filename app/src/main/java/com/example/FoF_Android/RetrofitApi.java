@@ -1,5 +1,7 @@
 package com.example.FoF_Android;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.HashMap;
 
 import retrofit2.Call;
@@ -16,8 +18,12 @@ public interface RetrofitApi {
     @POST("/signup")
     Call<SignUp> postSignUp(@FieldMap HashMap<String, Object> param);
 
-    @GET("/post/{userId}")
-    Call<SignUp> getData(@Path("userId") String userId);
+    @FormUrlEncoded
+    @POST("/login")
+    Call<Login> postLogin(@FieldMap HashMap<String, Object> param);
+
+    @POST("/post/{userId}")
+    Call<SignUp> getLogin(@Path("userId") String userId);
 
 
 }
