@@ -1,6 +1,7 @@
 package com.example.FoF_Android;
 
-import com.google.gson.annotations.SerializedName;
+import com.example.FoF_Android.signup.SignUp;
+
 
 import java.util.HashMap;
 
@@ -24,6 +25,5 @@ public interface RetrofitApi {
 
     @POST("/post/{userId}")
     Call<SignUp> getLogin(@Path("userId") String userId);
-
 
 }

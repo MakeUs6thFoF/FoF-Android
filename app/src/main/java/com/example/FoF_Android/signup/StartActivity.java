@@ -7,6 +7,8 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.FoF_Android.signup.SignUpActivity;
+
 public class StartActivity extends AppCompatActivity {
 
     Button login_btn;
@@ -27,7 +29,7 @@ public class StartActivity extends AppCompatActivity {
             public void onClick(View v) {
                 switch (v.getId()){
                     case R.id.signup_btn:
-                       Intent signupintent = new Intent(StartActivity.this,SignUpActivity.class);
+                       Intent signupintent = new Intent(StartActivity.this, SignUpActivity.class);
                        startActivity(signupintent);
                         break;
                     case R.id.login_btn:

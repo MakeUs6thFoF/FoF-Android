@@ -1,4 +1,4 @@
-package com.example.FoF_Android;
+package com.example.FoF_Android.home;
 
 import android.os.Bundle;
 
@@ -7,6 +7,8 @@ import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import com.example.FoF_Android.R;
 
 public class HomeFragment extends Fragment {
 
