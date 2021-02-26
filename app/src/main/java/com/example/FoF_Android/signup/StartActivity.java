@@ -7,7 +7,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 
-import com.example.FoF_Android.LoginActivity;
+import com.example.FoF_Android.login.LoginActivity;
 import com.example.FoF_Android.R;
 
 public class StartActivity extends AppCompatActivity {

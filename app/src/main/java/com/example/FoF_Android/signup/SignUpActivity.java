@@ -11,7 +11,7 @@ import android.widget.EditText;
 import android.widget.TextView;
 
 import com.example.FoF_Android.HttpClient;
-import com.example.FoF_Android.LoginActivity;
+import com.example.FoF_Android.login.LoginActivity;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 
