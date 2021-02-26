@@ -10,6 +10,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.example.FoF_Android.CongActivity;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.login.LoginActivity;
 import com.example.FoF_Android.R;
@@ -87,7 +88,7 @@ public class SignUpActivity extends AppCompatActivity {
                     SignUp signup = response.body();
                     int flag = signup.getCode();
                     System.out.println("확인"+signup.getCode());
-                    Intent intent = new Intent(SignUpActivity.this, StartActivity.class);
+                    Intent intent = new Intent(SignUpActivity.this, CongActivity.class);
                     startActivity(intent);
                     finish();
                 }

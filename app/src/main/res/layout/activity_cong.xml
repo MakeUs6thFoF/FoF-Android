@@ -8,11 +8,11 @@
 
     <TextView
         android:id="@+id/information"
-        style="@style/basic_48dp"
+        style="@style/point_40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="80dp"
+        android:layout_marginStart="96dp"
+        android:layout_marginTop="296dp"
         android:text="축하합니다"
         android:textStyle="bold"
         app:layout_constraintStart_toStartOf="parent"
@@ -20,11 +20,12 @@
 
     <ImageView
         android:id="@+id/congRectangle"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:srcCompat="@drawable/ic_rectangle_251"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"/>
+        app:layout_constraintTop_toTopOf="parent"
+        app:srcCompat="@drawable/ic_rectangle_251" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
