@@ -12,7 +12,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         <activity android:name=".CongActivity"></activity>
-        <activity android:name=".signup.SuccessActivity" />
+
         <activity android:name=".PasswordActivity" />
         <activity android:name=".CategoryActivity" />
         <activity android:name=".login.LoginActivity" />

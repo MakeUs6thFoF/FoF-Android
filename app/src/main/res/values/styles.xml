@@ -6,6 +6,12 @@
         <item name="android:textColor">@color/gray</item>
         <item name="android:includeFontPadding">false</item>
     </style>
+    <style name="basic_14dp">
+        <item name="android:fontFamily">@font/notosansregular</item>
+        <item name="android:textSize">14dp</item>
+        <item name="android:textColor">@color/gray</item>
+        <item name="android:includeFontPadding">false</item>
+    </style>
     <style name="basic_16dp">
         <item name="android:fontFamily">@font/notosansregular</item>
         <item name="android:textSize">16dp</item>

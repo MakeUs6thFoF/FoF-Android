@@ -15,6 +15,7 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";
     Fragment homeFragment;
+    Fragment searchFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -22,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         homeFragment=new HomeFragment();
+        searchFragment=new SearchFragment();
 
         setDefaultFragment();
 
@@ -35,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG,"home");
                         break;
                     case R.id.navigation_search:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).commit();
                         Log.i(TAG,"search");
                         break;
                     case R.id.navigation_my:
