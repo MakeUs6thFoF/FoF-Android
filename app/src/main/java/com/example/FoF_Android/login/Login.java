@@ -1,4 +1,4 @@
-package com.example.FoF_Android;
+package com.example.FoF_Android.login;
 
 import com.example.FoF_Android.signup.SignUp;
 import com.google.gson.annotations.SerializedName;
