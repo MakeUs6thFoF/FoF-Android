@@ -12,9 +12,9 @@
         android:id="@+id/information"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        style="@style/basic_32dp"
-        android:layout_marginTop="92dp"
-        android:text="내 동료가 되어줘"
+        style="@style/point_32dp"
+        android:layout_marginTop="130dp"
+        android:text="내 친구가 되어줘"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -29,7 +29,7 @@
         android:inputType="textEmailAddress"
         android:textColorHint="@color/gray"
         android:paddingStart="20dp"
-        android:layout_marginTop="184dp"
+        android:layout_marginTop="230dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
