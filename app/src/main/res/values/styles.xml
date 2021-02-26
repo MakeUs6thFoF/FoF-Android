@@ -52,4 +52,10 @@
     <item name="android:textSize">32dp</item>
     <item name="android:textColor">@color/black</item>
         <item name="android:includeFontPadding">false</item></style>
+
+    <style name="point_24dp">
+        <item name="android:fontFamily">@font/bmhannapro</item>
+        <item name="android:textSize">24dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:includeFontPadding">false</item></style>
 </resources>
