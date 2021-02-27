@@ -26,12 +26,13 @@ import retrofit2.Response;
 public class SignUpActivity extends AppCompatActivity {
     Button signup_btn;
     TextView tv_email_check;
+    TextView tv_pswd_check;
     TextView login_link;
     EditText ed_email;
     EditText ed_pswd;
     EditText ed_nick;
-
-    String pswd_pattern="^[A-Za-z0-9_@./#&+-]*.{6,20}$";
+    Pattern pattern= Patterns.EMAIL_ADDRESS;
+    String pswd_pattern="^[A-Za-z0-9_@./#&+-]*.{8,20}$"; //수정해야함
     RetrofitApi api;
 
     @Override
@@ -41,6 +42,7 @@ public class SignUpActivity extends AppCompatActivity {
 
         signup_btn = findViewById(R.id.signup_btn);
         tv_email_check = findViewById(R.id.email_check);
+        tv_pswd_check = findViewById(R.id.paswd_check);
         login_link = findViewById(R.id.login_link);
         ed_email = findViewById(R.id.ed_email);
         ed_pswd = findViewById(R.id.ed_pswd);
@@ -62,17 +64,35 @@ public class SignUpActivity extends AppCompatActivity {
                 String pswd = ed_pswd.getText().toString();
                 String nickname = ed_nick.getText().toString();
 
-                Pattern pattern= Patterns.EMAIL_ADDRESS;
 
-                if (!pattern.matcher(email).matches()) tv_email_check.setVisibility(View.VISIBLE);
-                else{
+                if (!pattern.matcher(email).matches()) ;
+                else {
                     tv_email_check.setVisibility(View.GONE);
                     doSignUp(email, pswd, nickname, api);
                 }
                 //TODO 데이터 전달
             }
         });
-
+        ed_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                String email = ed_email.getText().toString();
+                if (!pattern.matcher(email).matches()) tv_email_check.setVisibility(View.VISIBLE);
+                else {
+                    tv_email_check.setVisibility(View.GONE);
+                }
+            }
+        });
+        ed_pswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
+            @Override
+            public void onFocusChange(View view, boolean b) {
+                String email = ed_email.getText().toString();
+                if (!pattern.matcher(pswd_pattern).matches()) tv_pswd_check.setVisibility(View.VISIBLE);
+                else {
+                    tv_pswd_check.setVisibility(View.GONE);
+                }
+            }
+        });
     }
 
 
