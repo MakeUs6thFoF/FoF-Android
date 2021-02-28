@@ -36,9 +36,6 @@ dependencies {
     compile 'com.mindorks:placeholderview:0.7.1'
     compile 'com.github.bumptech.glide:glide:3.7.0'
     implementation 'com.mindorks:butterknifelite:0.0.4'
-    //밈 페이지 넘기기
-    compile 'com.mindorks.android:placeholderview:1.0.3'
-    annotationProcessor 'com.mindorks.android:placeholderview-compiler:1.0.3'
 
     implementation 'de.hdodenhof:circleimageview:3.1.0'
     implementation 'androidx.appcompat:appcompat:1.2.0'
