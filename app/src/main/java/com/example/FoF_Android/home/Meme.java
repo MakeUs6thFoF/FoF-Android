@@ -14,7 +14,12 @@ public class Meme {
         @SerializedName("userIdx") Integer userIdx;
         @SerializedName("nickname") String nickname;
         @SerializedName("imageUrl") String imageUrl;
+        @SerializedName("profileImage") String profileImage;
         @SerializedName("Tag") String Tag;
+
+        public String getProfileImage() {
+            return profileImage;
+        }
 
         public Integer getMemeIdx() {
             return memeIdx;

@@ -90,5 +90,5 @@ public class HomeAllFragment extends Fragment {
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);
     }
-    
+
 }

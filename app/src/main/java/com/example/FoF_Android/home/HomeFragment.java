@@ -32,7 +32,7 @@ public class HomeFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         homeall=new HomeAllFragment();
-        recmeme=new BlankFragment();
+        recmeme=new HomeRecFragment();
 
         getChildFragmentManager().beginTransaction().add(R.id.container, recmeme).commit();
 
