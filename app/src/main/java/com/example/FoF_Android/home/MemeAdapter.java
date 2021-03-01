@@ -5,6 +5,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 
 import androidx.recyclerview.widget.RecyclerView;
@@ -58,14 +59,12 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                       /* Item clickedDataItem = items.get(pos);
-                        Intent intent = new Intent(context, DetailActivity.class);
+                        Meme.Data clickedDataItem = items.get(pos);
+                      /*  Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("login", items.get(pos).getLogin());
-                        intent.putExtra("html_url", items.get(pos).getHtmlUrl());
-                        intent.putExtra("avatar_url", items.get(pos).getAvatarUrl());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
-                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getLogin(), Toast.LENGTH_SHORT).show();*/
+               */         Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

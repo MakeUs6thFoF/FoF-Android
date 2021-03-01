@@ -22,6 +22,7 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.PasswordActivity;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.signup.SignUpActivity;
 
 public class LoginActivity extends AppCompatActivity {
@@ -90,10 +91,14 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println("확인"+flag);
                     if(flag == 200){
                         System.out.println(login.getJwt().toString());
-                        SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
+
+                        TokenManager token=new TokenManager(getBaseContext());
+                        token.createLoginSession(login.getJwt());
+
+                      /*  SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
                         SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
                         editor.putString("token",login.getJwt());
-                        editor.commit();
+                        editor.commit();*/
 
                         Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
                         startActivity(intent);

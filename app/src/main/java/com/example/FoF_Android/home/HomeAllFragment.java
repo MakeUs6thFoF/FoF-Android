@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.TokenManager;
 
 import java.util.List;
 
@@ -29,6 +30,7 @@ public class HomeAllFragment extends Fragment {
     MemeAdapter adapter;
     RetrofitApi api;
     List<Meme.Data> items;
+    TokenManager gettoken;
 
     public HomeAllFragment() {
 
@@ -45,7 +47,7 @@ public class HomeAllFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_all, container, false);
         recycle = view.findViewById((R.id.recycler));
-
+        gettoken=new TokenManager(getContext());
         initUI(view);
 
         return view;
@@ -53,7 +55,7 @@ public class HomeAllFragment extends Fragment {
 
 
     private void initUI(ViewGroup view) {
-        String token = getTOKEN();
+        String token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
 
         HttpClient client = new HttpClient();
@@ -88,16 +90,5 @@ public class HomeAllFragment extends Fragment {
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);
     }
-
-    public String getTOKEN() {
-        String token = "";
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
-        String value = prefs.getString("token", token);
-        return value;
-    }
-    public void showItemList(){
-        adapter = new MemeAdapter(getActivity(),items);
-        recycle.setAdapter(adapter);
-    }
-
+    
 }

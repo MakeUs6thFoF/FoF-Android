@@ -16,6 +16,7 @@ import com.bumptech.glide.Glide;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.TokenManager;
 
 import java.util.Date;
 import java.util.List;
@@ -28,6 +29,7 @@ public class BlankFragment extends Fragment {
     ImageView img;
     TextView nick;
 
+    TokenManager gettoken;
     Meme meme;
     RetrofitApi api;
 
@@ -47,10 +49,11 @@ public class BlankFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_item, container, false);
+        gettoken=new TokenManager(getContext());
 
         HttpClient client=new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        String token=getTOKEN();
+        String token = gettoken.checklogin(getContext());
         System.out.println("확인"+token);
         Call<MemeResponse> call = api.getdata(token,1,3);
         call.enqueue(new Callback<MemeResponse>() {
@@ -59,14 +62,14 @@ public class BlankFragment extends Fragment {
                 if(response.isSuccessful()){
                     List<Meme.Data> items = response.body().getItems();
 
-              //      Log.i("TAG", "onResponse: "+items.get(0).getImageUrl());
+                    Log.i("TAG", "onResponse: "+items.size());
 
                     img=view.findViewById(R.id.imageView);
                     nick=view.findViewById(R.id.textView);
 
-                    nick.setText(items.get(0).getNickname());
+                    nick.setText(items.get(2).getNickname());
                     Glide.with(getActivity())
-                            .load(items.get(0).getImageUrl())
+                            .load(items.get(2).getImageUrl())
                             .into(img);
                 }
                 else
