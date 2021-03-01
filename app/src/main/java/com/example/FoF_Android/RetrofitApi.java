@@ -32,10 +32,6 @@ public interface RetrofitApi {
     Call<SignUp> getLogin(@Path("userId") String userId);
 
     @GET("/meme/recommend?") //수정 예정
-    Call<MemeResponse> getdata(@Query("page") Integer page, @Query("size") Integer size);
-
-    @GET("/meme/recommend?")
-    Call<Meme.Data> getdatas(@Header("x-access-token") String token, @Query("page") Integer page, @Query("size")Integer size);
-
+    Call<MemeResponse> getdata(@Header("x-access-token") String token, @Query("page") Integer page, @Query("size") Integer size);
 
 }

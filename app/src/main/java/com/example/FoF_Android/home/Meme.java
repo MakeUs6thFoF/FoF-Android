@@ -7,7 +7,7 @@ import java.util.List;
 public class Meme {
 
     @SerializedName("data")
-    private List<Data> data;
+    private Data data;
 
     public class Data {
         @SerializedName("memeIdx") Integer memeIdx;
@@ -38,7 +38,7 @@ public class Meme {
 
     }
 
-    public List<Data> getdata() {
+    public Data getdata() {
         return data;
     }
 }
