@@ -20,12 +20,13 @@
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="?android:attr/windowBackground"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:itemTextColor="@color/black"
-            app:itemRippleColor="@color/black"
+            app:itemTextColor="@color/skyblue"
+            app:labelVisibilityMode="labeled"
+            app:itemIconTint="@drawable/nav_item_color"
+            app:itemBackground="@color/black"
             app:menu="@menu/navigation"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -30,9 +30,10 @@ public class HomeFragment extends Fragment {
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
-
         homeall=new HomeAllFragment();
         recmeme=new BlankFragment();
+
+        getChildFragmentManager().beginTransaction().replace(R.id.container, recmeme).commit();
 
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {

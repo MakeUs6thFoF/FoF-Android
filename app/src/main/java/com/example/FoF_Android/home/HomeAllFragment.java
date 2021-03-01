@@ -1,5 +1,7 @@
 package com.example.FoF_Android.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -81,5 +83,11 @@ public class HomeAllFragment extends Fragment {
         });
 
         recycle.setAdapter(adapter);
+    }
+    public String getTOKEN(){
+        String token="";
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+        String value = prefs.getString("token", token);
+        return value;
     }
 }

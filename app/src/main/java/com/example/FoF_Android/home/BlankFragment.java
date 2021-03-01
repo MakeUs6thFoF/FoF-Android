@@ -1,5 +1,7 @@
 package com.example.FoF_Android.home;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -45,7 +47,8 @@ public class BlankFragment extends Fragment {
 
         HttpClient client=new HttpClient();
         api = HttpClient.getRetrofit().create(RetrofitApi.class);
-        Call<Meme.Data> call = api.getdatas(1,1);
+        String token=getTOKEN();
+        Call<Meme.Data> call = api.getdatas(token,1,1);
         call.enqueue(new Callback<Meme.Data>() {
 
             @Override
@@ -71,5 +74,11 @@ public class BlankFragment extends Fragment {
         });
 
         return view;
+    }  public String getTOKEN(){
+        String token="";
+        SharedPreferences prefs = this.getActivity().getSharedPreferences("pref", Context.MODE_PRIVATE);
+        String value = prefs.getString("token", token);
+        System.out.println(value);
+        return value;
     }
 }

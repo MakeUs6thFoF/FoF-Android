@@ -3,6 +3,7 @@ package com.example.FoF_Android.login;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -88,6 +89,12 @@ public class LoginActivity extends AppCompatActivity {
                     int flag = login.getCode();
                     System.out.println("확인"+flag);
                     if(flag == 200){
+                        System.out.println(login.getJwt().toString());
+                        SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
+                        SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
+                        editor.putString("token",login.getJwt());
+                        editor.commit();
+
                         Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
                         startActivity(intent);
                         finish();

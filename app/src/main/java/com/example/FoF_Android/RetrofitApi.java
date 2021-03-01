@@ -12,6 +12,7 @@ import retrofit2.Call;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
+import retrofit2.http.Header;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -30,11 +31,11 @@ public interface RetrofitApi {
     @POST("/post/{userId}")
     Call<SignUp> getLogin(@Path("userId") String userId);
 
-    @GET("/meme/page?") //수정 예정
+    @GET("/meme/recommend?") //수정 예정
     Call<MemeResponse> getdata(@Query("page") Integer page, @Query("size") Integer size);
 
     @GET("/meme/recommend?")
-    Call<Meme.Data> getdatas(@Query("page") Integer page, @Query("size")Integer size);
+    Call<Meme.Data> getdatas(@Header("x-access-token") String token, @Query("page") Integer page, @Query("size")Integer size);
 
 
 }
