@@ -2,15 +2,20 @@ package com.example.FoF_Android.home;
 
 import android.content.Context;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.example.FoF_Android.MainActivity;
 import com.example.FoF_Android.R;
 
 import java.util.List;
@@ -54,14 +59,21 @@ public class MemerecAdapter extends RecyclerView.Adapter<MemerecAdapter.ViewHold
         private ImageView memeimg;
         private CircleImageView profileimg;
         private TextView nick;
-
+        HomeFragment fragment;
+        MemeDetailActivity detail;
+        HomeRecFragment recfragment;
 
         public ViewHolder(View view) {
             super(view);
             nick=(TextView)view.findViewById(R.id.textView);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
+            fragment=new HomeFragment();
+            detail=new MemeDetailActivity();
+            recfragment=new HomeRecFragment();
+
             //on item click
+            //TODO 아래->위 스와이프 이벤트+애니메이션
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
@@ -72,7 +84,10 @@ public class MemerecAdapter extends RecyclerView.Adapter<MemerecAdapter.ViewHold
                         intent.putExtra("login", items.get(pos).getLogin());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
-               */         Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
+               */
+                        
+                       // recfragment.getFragmentManager().beginTransaction().add(context,detail).commit();
+                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

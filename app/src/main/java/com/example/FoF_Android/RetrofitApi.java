@@ -1,6 +1,5 @@
 package com.example.FoF_Android;
 
-import com.example.FoF_Android.home.Meme;
 import com.example.FoF_Android.home.MemeResponse;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.signup.SignUp;
@@ -31,7 +30,14 @@ public interface RetrofitApi {
     @POST("/post/{userId}")
     Call<SignUp> getLogin(@Path("userId") String userId);
 
-    @GET("/meme/recommend?") //수정 예정
-    Call<MemeResponse> getdata(@Header("x-access-token") String token, @Query("page") Integer page, @Query("size") Integer size);
+    @GET("/meme?") //수정 예정
+    Call<MemeResponse> getdata(@Header("x-access-token") String token,
+                               @Query("filter") String filter,
+                               @Query("page") Integer page, @Query("size") Integer size);
+
+    @GET("/meme/{memeidx}/similar?")
+    Call<Similar> getsimilar(@Header("x-access-token") String token,
+                             @Path("memeidx") Integer memeidx,
+                          @Query("page") Integer page, @Query("size") Integer size);
 
 }

@@ -69,7 +69,7 @@ public class HomeRecFragment extends Fragment {
         api = client.getRetrofit().create(RetrofitApi.class);
         String token = gettoken.checklogin(getContext());
         System.out.println("확인"+token);
-        Call<MemeResponse> call = api.getdata(token,1,10);
+        Call<MemeResponse> call = api.getdata(token,"recommend",1,10);
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {

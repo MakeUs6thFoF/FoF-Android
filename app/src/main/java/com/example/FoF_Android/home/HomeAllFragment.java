@@ -60,15 +60,14 @@ public class HomeAllFragment extends Fragment {
 
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        Call<MemeResponse> call = api.getdata(token, 1, 10);
+        Call<MemeResponse> call = api.getdata(token, "all",1, 10);
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                 if (response.isSuccessful()) {
                     items = response.body().getItems();
                     setadapter(items);
-                    Log.i("TAG", "onResponse: " + items.get(0).getImageUrl());
-
+                    Log.i("TAG", "onResponse: " + response.code());
 
                 } else
                     Log.i("TAG", "onResponse: " + response.code());
