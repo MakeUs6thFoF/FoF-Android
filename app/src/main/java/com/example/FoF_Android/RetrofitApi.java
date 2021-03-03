@@ -1,10 +1,8 @@
 package com.example.FoF_Android;
 
-<<<<<<< HEAD
 import com.example.FoF_Android.Category.Category;
 import com.example.FoF_Android.home.Meme;
-=======
->>>>>>> bb42b798aad87939094ddd1c2d02ffb705ebe9a2
+
 import com.example.FoF_Android.home.MemeResponse;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.signup.SignUp;
