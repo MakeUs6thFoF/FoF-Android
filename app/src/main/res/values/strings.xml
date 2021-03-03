@@ -7,5 +7,6 @@
     <string name="pswd_check">비밀번호가 최소 요구사항을 충족하지 않습니다.</string>
     <string name="login_link"><u>로그인</u></string>
     <string name="signup_link"><u>가입해 주세요</u></string>
+    <string name="copyright"><u>copyrightⓒ</u></string>
 
 </resources>

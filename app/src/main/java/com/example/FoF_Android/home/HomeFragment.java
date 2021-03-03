@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.FoF_Android.R;
@@ -31,26 +32,21 @@ public class HomeFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         homeall=new HomeAllFragment();
-        recmeme=new BlankFragment();
+        recmeme=new HomeRecFragment();
 
-        getChildFragmentManager().beginTransaction().replace(R.id.container, recmeme).commit();
+        getChildFragmentManager().beginTransaction().add(R.id.container, recmeme).commit();
 
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 int position = tab.getPosition();
-                Fragment selected = null;
-                if(position == 0)
-                    selected = recmeme;
-                else if(position == 1)
-                    selected = homeall;
-                getChildFragmentManager().beginTransaction().replace(R.id.container, selected).commit();
+                setCurrentTabFragment(position);
             }
 
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {
-                getChildFragmentManager().beginTransaction().replace(R.id.container, recmeme).commit();
+              //  getChildFragmentManager().beginTransaction().replace(R.id.container, recmeme).commit();
             }
 
             @Override
@@ -60,4 +56,22 @@ public class HomeFragment extends Fragment {
         return view;
     }
 
+    public void setCurrentTabFragment(int position){
+
+        switch (position)
+        {
+            case 0 :
+                replaceFragment(recmeme);
+                break;
+            case 1 :
+                replaceFragment(homeall);
+                break;
+        }
+    }
+    public void replaceFragment(Fragment fragment) {
+        FragmentManager fm = getChildFragmentManager();
+        FragmentTransaction ft = fm.beginTransaction();
+        ft.replace(R.id.container, fragment);
+        ft.commit();
+    }
 }

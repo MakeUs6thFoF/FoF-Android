@@ -7,14 +7,19 @@ import java.util.List;
 public class Meme {
 
     @SerializedName("data")
-    private List<Data> data;
+    private Data data;
 
     public class Data {
         @SerializedName("memeIdx") Integer memeIdx;
         @SerializedName("userIdx") Integer userIdx;
         @SerializedName("nickname") String nickname;
         @SerializedName("imageUrl") String imageUrl;
+        @SerializedName("profileImage") String profileImage;
         @SerializedName("Tag") String Tag;
+
+        public String getProfileImage() {
+            return profileImage;
+        }
 
         public Integer getMemeIdx() {
             return memeIdx;
@@ -38,7 +43,7 @@ public class Meme {
 
     }
 
-    public List<Data> getdata() {
+    public Data getdata() {
         return data;
     }
 }

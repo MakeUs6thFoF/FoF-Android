@@ -4,7 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    style="@style/navigation">
 
         <FrameLayout
             android:id="@+id/container"
@@ -20,10 +21,12 @@
             android:id="@+id/navigationView"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:splitMotionEvents="false"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:itemTextColor="@color/skyblue"
+            app:itemIconSize="21dp"
             app:labelVisibilityMode="labeled"
             app:itemIconTint="@drawable/nav_item_color"
             app:itemBackground="@color/black"

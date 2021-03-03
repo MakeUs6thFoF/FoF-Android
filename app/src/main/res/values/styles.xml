@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <style name="navigation"><item name="android:navigationBarColor">@color/black</item></style>
     <style name="basic_12dp">
         <item name="android:fontFamily">@font/notosansregular</item>
         <item name="android:textSize">12dp</item>
