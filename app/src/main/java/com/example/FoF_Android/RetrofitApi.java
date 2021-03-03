@@ -47,7 +47,7 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST("/user/meme")
     Call<SignUp> postCategory(@Header("x-access-token") String token, @Field("categoryIdx") List<Integer> list);
-
+ 
     @GET("/meme/{memeidx}/similar?")
     Call<Similar> getsimilar(@Header("x-access-token") String token,
                              @Path("memeidx") Integer memeidx,
