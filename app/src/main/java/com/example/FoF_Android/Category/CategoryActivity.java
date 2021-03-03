@@ -14,9 +14,13 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.MainActivity;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.signup.SignUp;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -34,8 +38,11 @@ public class CategoryActivity extends AppCompatActivity {
     ToggleButton togBt6;
     ToggleButton togBt7;
     RetrofitApi api;
+    TokenManager gettoken;
 
     String titles[] = new String[7];
+    int titleIdx[] = new int[7];
+    HashMap<String, Integer> titleHash = new HashMap<String, Integer>();
     int maxSize = 3;
 
     @Override
@@ -45,6 +52,8 @@ public class CategoryActivity extends AppCompatActivity {
 
         api = HttpClient.getRetrofit().create(RetrofitApi.class);
         getCategory(api);
+        gettoken=new TokenManager(getApplicationContext());
+
         skip = findViewById(R.id.skip_btn);
         next = findViewById(R.id.next_btn);
         togBt1 = findViewById(R.id.button1);
@@ -104,8 +113,6 @@ public class CategoryActivity extends AppCompatActivity {
                     case R.id.next_btn:
                         //TODO 카테고리 선택 데이터 받아오기
                         postCategory(api, buttonList);
-                        startActivity(mainIntent);
-                        finish();
                         break;
                 }
             }
@@ -119,8 +126,11 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<Category> call, Response<Category> response) {
                 Category category =  response.body();
-                for(int i=0; i<category.getData().size(); i++)
+                for(int i=0; i<category.getData().size(); i++) {
                     titles[i] = category.getData().get(i).getTitle();
+                    titleIdx[i] = category.getData().get(i).getCategoryIdx();
+                    titleHash.put(titles[i], titleIdx[i]);
+                }
                 togBt1.setText(titles[0]); togBt1.setTextOff(titles[0]); togBt1.setTextOn(titles[0]);
                 togBt2.setText(titles[1]); togBt2.setTextOff(titles[1]); togBt2.setTextOn(titles[1]);
                 togBt3.setText(titles[2]); togBt3.setTextOff(titles[2]); togBt3.setTextOn(titles[2]);
@@ -139,7 +149,25 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     public void postCategory(RetrofitApi api, List<String> buttonList){
-        //api.postCategory()
+        List<Integer> tmpList = new ArrayList<Integer>();
+        for(String s : buttonList)
+            tmpList.add(titleHash.get(s));
+        String token = gettoken.checklogin(getApplicationContext());
+        api.postCategory(token,tmpList).enqueue(new Callback<SignUp>() {
+            @Override
+            public void onResponse(Call<SignUp> call, Response<SignUp> response) {
+                SignUp signUp = response.body();
+                System.out.println("포스트확인2"+signUp.getCode());
+                Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
+                startActivity(intent);
+                finish();
+            }
+
+            @Override
+            public void onFailure(Call<SignUp> call, Throwable t) {
+
+            }
+        });
     }
 
 }

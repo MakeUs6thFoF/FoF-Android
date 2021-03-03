@@ -44,6 +44,7 @@ public interface RetrofitApi {
     @GET("/category")
     Call<Category> getCategory();
 
+    @FormUrlEncoded
     @POST("/user/meme")
     Call<SignUp> postCategory(@Header("x-access-token") String token, @Field("categoryIdx") List<Integer> list);
 
