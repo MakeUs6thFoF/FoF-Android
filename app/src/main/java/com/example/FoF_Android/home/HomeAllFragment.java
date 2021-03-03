@@ -17,6 +17,7 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.home.model.MemeResponse;
 
 import java.util.List;
 
@@ -31,6 +32,7 @@ public class HomeAllFragment extends Fragment {
     RetrofitApi api;
     List<Meme.Data> items;
     TokenManager gettoken;
+    MemeDetailActivity recmeme;
 
     public HomeAllFragment() {
 
@@ -46,10 +48,11 @@ public class HomeAllFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_all, container, false);
+
         recycle = view.findViewById((R.id.recycler));
+
         gettoken=new TokenManager(getContext());
         initUI(view);
-
         return view;
     }
 
@@ -84,10 +87,16 @@ public class HomeAllFragment extends Fragment {
     }
 
     public void setadapter(List<Meme.Data> items) {
-        adapter = new MemeAdapter(getActivity(), items,MemeCase.LARGE);
+        adapter = new MemeAdapter(getActivity(), items,MemeCase.LARGE, new MemeAdapter.OnItemClickListener() {
+            @Override public void onItemClick(Meme.Data item) {
+                recmeme=new MemeDetailActivity(item.getMemeIdx());
+                getChildFragmentManager().beginTransaction().add(R.id.container1, recmeme).commit();
+            }
+        });
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);
     }
+
 
 }

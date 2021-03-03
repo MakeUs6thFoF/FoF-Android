@@ -2,7 +2,7 @@ package com.example.FoF_Android;
 
 import com.example.FoF_Android.Category.Category;
 
-import com.example.FoF_Android.home.MemeResponse;
+import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.home.model.Similar;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.signup.SignUp;
@@ -47,11 +47,10 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @POST("/user/meme")
     Call<SignUp> postCategory(@Header("x-access-token") String token, @Field("categoryIdx") List<Integer> list);
- 
-    @GET("/meme/{memeidx}/similar?")
+
+    @GET("/meme/{memeidx}")
     Call<Similar> getsimilar(@Header("x-access-token") String token,
-                             @Path("memeidx") Integer memeidx,
-                             @Query("page") Integer page, @Query("size") Integer size);
+                             @Path("memeidx") Integer memeidx);
 
 
 }

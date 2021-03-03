@@ -13,37 +13,34 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.home.model.Similar;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
-public class MemerecAdapter extends RecyclerView.Adapter<MemerecAdapter.ViewHolder> {
-    private List<Meme.Data> items;
+public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHolder> {
+    private List<Similar.Data> items;
     private Context context;
 
-    public MemerecAdapter(Context applicationContext, List<Meme.Data> itemArrayList) {
+    public SimilarAdapter(Context applicationContext, List<Similar.Data> itemArrayList) {
         this.context = applicationContext;
         this.items = itemArrayList;
     }
 
     @Override
-    public MemerecAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.meme_item, viewGroup, false);
+    public SimilarAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.meme_all_item, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(MemerecAdapter.ViewHolder viewHolder, int i) {
-        viewHolder.nick.setText(items.get(i).getNickname());
+    public void onBindViewHolder(SimilarAdapter.ViewHolder viewHolder, int i) {
+
         Glide.with(context)
                 .load(items.get(i).getImageUrl())
                 .placeholder(R.drawable.meme2)
                 .into(viewHolder.memeimg);
-        Glide.with(context)
-                .load(items.get(i).getProfileImage())
-                .placeholder(R.drawable.meme2)
-                .into(viewHolder.profileimg);
     }
 
     @Override
@@ -55,18 +52,13 @@ public class MemerecAdapter extends RecyclerView.Adapter<MemerecAdapter.ViewHold
         private ImageView memeimg;
         private CircleImageView profileimg;
         private TextView nick;
-        HomeFragment fragment;
-        MemeDetailActivity detail;
-        HomeRecFragment recfragment;
+
 
         public ViewHolder(View view) {
             super(view);
             nick=(TextView)view.findViewById(R.id.textView);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
-            fragment=new HomeFragment();
-            detail=new MemeDetailActivity();
-            recfragment=new HomeRecFragment();
 
             //on item click
             //TODO 아래->위 스와이프 이벤트+애니메이션
@@ -75,7 +67,7 @@ public class MemerecAdapter extends RecyclerView.Adapter<MemerecAdapter.ViewHold
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        Meme.Data clickedDataItem = items.get(pos);
+                        Similar.Data clickedDataItem = items.get(pos);
                       /*  Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("login", items.get(pos).getLogin());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -90,4 +82,5 @@ public class MemerecAdapter extends RecyclerView.Adapter<MemerecAdapter.ViewHold
             });
         }
     }
+
 }

@@ -9,9 +9,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.FoF_Android.HttpClient;
@@ -19,6 +20,7 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.home.model.MemeResponse;
 
 import java.util.List;
 
@@ -27,14 +29,12 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeRecFragment extends Fragment {
-    ImageView img;
-    TextView nick;
     MemeAdapter adapter;
     TokenManager gettoken;
-    Meme meme;
     RetrofitApi api;
     ViewPager2 myviewpager;
     LinearLayout indicatorlay;
+    RecyclerView similar;
 
     public HomeRecFragment() {
     }
@@ -75,7 +75,11 @@ public class HomeRecFragment extends Fragment {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                    adapter=new MemeAdapter(getContext(),items,MemeCase.SMALL);
+                    adapter=new MemeAdapter(getContext(),items,MemeCase.SMALL,new MemeAdapter.OnItemClickListener() {
+                        @Override public void onItemClick(Meme.Data item) {
+                            Toast.makeText(getContext(), "Item Clicked", Toast.LENGTH_LONG).show();
+                        }
+                    });
                     myviewpager.setAdapter(adapter);
                     setupIndicator();
                    // setupCurrentIndicator(0);
@@ -114,4 +118,6 @@ public class HomeRecFragment extends Fragment {
             indicatorlay.addView(indicator[i]);
 
 }}
+
+
 }

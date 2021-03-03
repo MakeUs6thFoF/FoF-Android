@@ -1,39 +1,61 @@
 package com.example.FoF_Android.home;
 
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
+import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.home.model.Similar;
+
+import org.w3c.dom.Text;
 
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+
+import static com.example.FoF_Android.home.MemeCase.SMALL;
+import static java.security.AccessController.getContext;
 
 public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
     private List<Meme.Data> items;
     private Context context;
     private MemeCase type;
+    private final OnItemClickListener listener;
     Integer style;
 
-    public MemeAdapter(Context applicationContext, List<Meme.Data> itemArrayList, MemeCase type) {
+    public interface OnItemClickListener {
+        void onItemClick(Meme.Data item);
+    }
+
+    public MemeAdapter(Context applicationContext, List<Meme.Data> itemArrayList, MemeCase type, OnItemClickListener listener) {
         this.context = applicationContext;
         this.items = itemArrayList;
+        this.listener = listener;
         this.type=type;
     }
 
     @Override
     public MemeAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if(type==MemeCase.SMALL) style=R.layout.meme_item;
+        if(type== SMALL) style=R.layout.meme_item;
         else style=R.layout.meme_all_item;
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(style, viewGroup, false);
         return new ViewHolder(view);
@@ -41,13 +63,15 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(MemeAdapter.ViewHolder viewHolder, int i) {
-        if(type==MemeCase.SMALL){
+        if(type== SMALL){
         viewHolder.nick.setText(items.get(i).getNickname());
         Glide.with(context)
                 .load(items.get(i).getProfileImage())
                 .placeholder(R.drawable.meme2)
                 .into(viewHolder.profileimg);
+
         }
+        viewHolder.bind(items.get(i), listener);
             Glide.with(context)
                     .load(items.get(i).getImageUrl())
                     .placeholder(R.drawable.meme2)
@@ -63,13 +87,21 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
         private ImageView memeimg;
         private CircleImageView profileimg;
         private TextView nick;
+        private TextView title;
+        private RecyclerView similar;
+        private LinearLayout wrap;
+        private LinearLayout wrap1;
 
         public ViewHolder(View view) {
             super(view);
 
-            nick=(TextView)view.findViewById(R.id.textView);
+            nick = (TextView) view.findViewById(R.id.textView);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
+            similar = (RecyclerView) view.findViewById(R.id.similar);
+            wrap = (LinearLayout) view.findViewById(R.id.wrap);
+            wrap1 = (LinearLayout) view.findViewById(R.id.wrap_1);
+            title = (TextView) view.findViewById(R.id.title);
 
             //on item click
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -82,11 +114,65 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
                         intent.putExtra("login", items.get(pos).getLogin());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
                         context.startActivity(intent);
-               */         Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
+               */
+                        if (type == SMALL) {
+                            similar.setVisibility(View.VISIBLE);
+                            wrap.setVisibility(View.VISIBLE);
+                            wrap1.setVisibility(View.GONE);
+
+                       //     similarUI(view, clickedDataItem.getMemeIdx());
+                        }
+
+                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
                     }
                 }
 
             });
+
         }
-    }
-}
+
+        public void bind(final Meme.Data item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    listener.onItemClick(item);
+                }
+            });
+
+        }
+
+   /*     public void similarUI(View view, int i) {
+            HttpClient client = new HttpClient();
+            RetrofitApi api = client.getRetrofit().create(RetrofitApi.class);
+            TokenManager gettoken = new TokenManager(context);
+            String token = gettoken.checklogin(context);
+            System.out.println("확인" + token);
+            Call<Similar> call = api.getsimilar(token, i, 1, 10);
+            call.enqueue(new Callback<Similar>() {
+                @Override
+                public void onResponse(Call<Similar> call, Response<Similar> response) {
+                    if (response.isSuccessful()) {
+                        RecyclerView similar = view.findViewById(R.id.similar);
+                        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                        similar.setLayoutManager(layoutManager);
+                        List<Similar.Data> items = response.body().getdata();
+
+                        Log.i("TAG", "onResponse: " + items.size());
+                        SimilarAdapter adaptersim;
+                        adaptersim = new SimilarAdapter(context, items);
+                        similar.setAdapter(adaptersim);
+
+                        // setupCurrentIndicator(0);
+                    } else
+                        Log.i("TAG", "onResponse: " + response.code());
+                }
+
+                @Override
+                public void onFailure(Call<Similar> call, Throwable t) {
+
+                    Log.d("MainActivity", t.toString());
+                }
+            });
+
+        }
+   */ }}

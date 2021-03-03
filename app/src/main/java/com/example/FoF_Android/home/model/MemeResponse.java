@@ -1,4 +1,4 @@
-package com.example.FoF_Android.home;
+package com.example.FoF_Android.home.model;
 
 import com.example.FoF_Android.home.model.Meme;
 import com.google.gson.annotations.Expose;

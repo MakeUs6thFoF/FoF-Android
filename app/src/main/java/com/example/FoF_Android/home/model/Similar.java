@@ -2,10 +2,12 @@ package com.example.FoF_Android.home.model;
 
 import com.google.gson.annotations.SerializedName;
 
+import java.util.List;
+
 public class Similar {
 
     @SerializedName("data")
-    private Data data;
+    private List<Similar.Data> items;
 
     public class Data {
         @SerializedName("memeIdx") Integer memeIdx;
@@ -22,8 +24,8 @@ public class Similar {
 
     }
 
-    public Data getdata() {
-        return data;
+    public List<Similar.Data> getdata() {
+        return items;
     }
 }
 
