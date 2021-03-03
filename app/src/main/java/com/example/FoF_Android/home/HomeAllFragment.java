@@ -1,7 +1,5 @@
 package com.example.FoF_Android.home;
 
-import android.content.Context;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -13,10 +11,12 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.home.model.Meme;
 
 import java.util.List;
 
@@ -84,7 +84,7 @@ public class HomeAllFragment extends Fragment {
     }
 
     public void setadapter(List<Meme.Data> items) {
-        adapter = new MemeAdapter(getActivity(), items);
+        adapter = new MemeAdapter(getActivity(), items,MemeCase.LARGE);
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);

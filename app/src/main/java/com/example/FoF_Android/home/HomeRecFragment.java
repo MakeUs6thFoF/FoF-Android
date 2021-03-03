@@ -11,18 +11,15 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
-import androidx.constraintlayout.widget.ConstraintLayout;
-import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager2.widget.ViewPager2;
 
-import com.bumptech.glide.Glide;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.home.model.Meme;
 
-import java.util.Date;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,7 +29,7 @@ import retrofit2.Response;
 public class HomeRecFragment extends Fragment {
     ImageView img;
     TextView nick;
-    MemerecAdapter adapter;
+    MemeAdapter adapter;
     TokenManager gettoken;
     Meme meme;
     RetrofitApi api;
@@ -78,7 +75,7 @@ public class HomeRecFragment extends Fragment {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                    adapter=new MemerecAdapter(getContext(),items);
+                    adapter=new MemeAdapter(getContext(),items,MemeCase.SMALL);
                     myviewpager.setAdapter(adapter);
                     setupIndicator();
                    // setupCurrentIndicator(0);

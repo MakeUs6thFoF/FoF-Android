@@ -1,4 +1,4 @@
-package com.example.FoF_Android.home;
+package com.example.FoF_Android.home.model;
 
 import com.google.gson.annotations.SerializedName;
 

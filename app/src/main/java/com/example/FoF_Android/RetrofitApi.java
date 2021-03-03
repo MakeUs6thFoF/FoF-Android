@@ -1,9 +1,9 @@
 package com.example.FoF_Android;
 
 import com.example.FoF_Android.Category.Category;
-import com.example.FoF_Android.home.Meme;
 
 import com.example.FoF_Android.home.MemeResponse;
+import com.example.FoF_Android.home.model.Similar;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.signup.SignUp;
 
@@ -51,7 +51,7 @@ public interface RetrofitApi {
     @GET("/meme/{memeidx}/similar?")
     Call<Similar> getsimilar(@Header("x-access-token") String token,
                              @Path("memeidx") Integer memeidx,
-                          @Query("page") Integer page, @Query("size") Integer size);
+                             @Query("page") Integer page, @Query("size") Integer size);
 
 
 }
