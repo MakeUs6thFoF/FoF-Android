@@ -17,7 +17,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import com.example.FoF_Android.CategoryActivity;
+import com.example.FoF_Android.Category.CategoryActivity;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.PasswordActivity;
 import com.example.FoF_Android.R;

@@ -14,7 +14,7 @@
         <activity android:name=".CongActivity"></activity>
 
         <activity android:name=".PasswordActivity" />
-        <activity android:name=".CategoryActivity" />
+        <activity android:name=".Category.CategoryActivity" />
         <activity android:name=".login.LoginActivity" />
         <activity android:name=".signup.SignUpActivity" />
         <activity android:name=".signup.StartActivity">

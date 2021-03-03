@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CategoryActivity"
+    tools:context=".Category.CategoryActivity"
     android:padding="20dp">
 
     <TextView
@@ -18,13 +18,11 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-
     <ToggleButton
         android:id="@+id/button1"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="연예인"
-        android:textOff="연예인"
+        android:freezesText="false"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -36,8 +34,7 @@
         android:id="@+id/button2"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="동물"
-        android:textOff="동물"
+
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintCircle="@+id/button1"
@@ -49,8 +46,7 @@
         android:id="@+id/button3"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="클립"
-        android:textOff="클립"
+
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircle="@+id/button1"
@@ -62,8 +58,7 @@
         android:id="@+id/button4"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="감정"
-        android:textOff="감정"
+
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircle="@+id/button1"
@@ -77,8 +72,7 @@
         android:id="@+id/button5"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="스티커"
-        android:textOff="스티커"
+
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircle="@+id/button1"
@@ -90,8 +84,7 @@
         android:id="@+id/button6"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="상황"
-        android:textOff="상황"
+
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintCircle="@+id/button1"
@@ -103,8 +96,7 @@
         android:id="@+id/button7"
         android:layout_width="90dp"
         android:layout_height="90dp"
-        android:textOn="텍스트"
-        android:textOff="텍스트"
+
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toTopOf="@+id/button1"
         app:layout_constraintCircle="@+id/button1"
