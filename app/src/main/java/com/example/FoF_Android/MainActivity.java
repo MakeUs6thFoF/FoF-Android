@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import com.example.FoF_Android.home.HomeFragment;
 import com.example.FoF_Android.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.ramotion.expandingcollection.ECPagerView;
 
 public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";

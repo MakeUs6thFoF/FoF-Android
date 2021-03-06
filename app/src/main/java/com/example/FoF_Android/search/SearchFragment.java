@@ -3,22 +3,30 @@ package com.example.FoF_Android.search;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.viewpager.widget.ViewPager;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.TableLayout;
 
 import com.example.FoF_Android.R;
 import com.google.android.material.tabs.TabLayout;
+import com.ramotion.expandingcollection.ECCardData;
+import com.ramotion.expandingcollection.ECPagerView;
+
+import java.util.List;
 
 public class SearchFragment extends Fragment {
     TabLayout tabLayout;
+    ViewPager viewPager;
     Fragment feeling;
     Fragment animal;
     Fragment situation;
     Fragment clip;
     Fragment text;
     Fragment emoticon;
+
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -56,13 +64,28 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-
         feeling = new FeelingFragment();
         animal = new AnimalFragment();
         situation = new SituationFragment();
         clip = new ClipFragment();
         text = new TextFragment();
         emoticon = new EmoticonFragment();
+
+        tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
+        viewPager = (ViewPager)view.findViewById(R.id.viewPager);
+        viewPager.setAdapter(new PagerAdapter(getFragmentManager()));
+        viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) { }
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) { }
+        });
+
 
         return view;
     }

@@ -70,6 +70,7 @@
         app:layout_constraintTop_toBottomOf="@id/topLayout">
 
         <com.google.android.material.tabs.TabItem
+            android:id="@+id/feelingItem"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="감정"/>
@@ -98,8 +99,17 @@
             android:layout_height="wrap_content"
             android:text="연예인"/>
 
-
     </com.google.android.material.tabs.TabLayout>
+
+    <androidx.viewpager.widget.ViewPager
+        android:id="@+id/viewPager"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toBottomOf="@+id/searchTabLayout"/>
+
+
+
+
 
 
 
