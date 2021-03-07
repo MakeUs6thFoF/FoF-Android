@@ -5,11 +5,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -19,32 +18,33 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
-import com.example.FoF_Android.home.model.Similar;
+import com.example.FoF_Android.home.model.Detail;
 
 import java.util.List;
 
+import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-import static com.example.FoF_Android.home.MemeCase.SMALL;
+public class DetailFragment extends Fragment {
 
-public class MemeDetailActivity extends Fragment {
-
-    LinearLayout wrap;
-    LinearLayout wrap2;
     RecyclerView similar;
     Integer i=0;
-    List<Similar.Data> items;
+    List<Detail.Data.Similar> items;
+    Detail.Data.memeDetail detail;
+    ImageView memeimg;
+    TextView title;
+    SimilarAdapter adaptersim;
 
-    public MemeDetailActivity(int i) {
+    public DetailFragment(int i) {
         this.i=i;
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_item, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_detail, container, false);
         initUI(view);
         similarUI(view, i);
         return view;
@@ -52,27 +52,23 @@ public class MemeDetailActivity extends Fragment {
 
 
     public void initUI(ViewGroup view){
-        wrap=view.findViewById(R.id.wrap);
-        wrap2=view.findViewById(R.id.wrap_1);
+        memeimg = (ImageView) view.findViewById(R.id.imageView);
+        title = (TextView) view.findViewById(R.id.title);
         similar=view.findViewById(R.id.similar);
-        wrap.setVisibility(View.VISIBLE);
-        wrap2.setVisibility(View.GONE);
-        similar.setVisibility(View.VISIBLE);
+
+
     }
 
     public void setUI(){
-/*
-        nick.setText(items.get(i).getNickname());
-        Glide.with(context)
-                .load(items.get(i).getProfileImage())
-                .placeholder(R.drawable.meme2)
-                .into(viewHolder.profileimg);
 
-        Glide.with(context)
-                .load(items.get(i).getImageUrl())
+       // nick.setText(detail.getNickname());
+
+        Glide.with(getContext())
+                .load(detail.getImageUrl())
                 .placeholder(R.drawable.meme2)
-                .into(viewHolder.memeimg);
- */   }
+                .into(memeimg);
+        title.setText(detail.getMemeTitle());
+    }
 
 
     public void similarUI(View view, int i) {
@@ -81,28 +77,28 @@ public class MemeDetailActivity extends Fragment {
         TokenManager gettoken = new TokenManager(getContext());
         String token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
-        Call<Similar> call = api.getsimilar(token, i);
-        call.enqueue(new Callback<Similar>() {
+        Call<Detail> call = api.getsimilar(token, i);
+        call.enqueue(new Callback<Detail>() {
             @Override
-            public void onResponse(Call<Similar> call, Response<Similar> response) {
+            public void onResponse(Call<Detail> call, Response<Detail> response) {
                 if (response.isSuccessful()) {
                     RecyclerView similar = view.findViewById(R.id.similar);
                     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                     similar.setLayoutManager(layoutManager);
-                    items = response.body().getdata();
+                    items = response.body().getdata().getData();
+                    detail = response.body().getdata().getDetail();
 
-                    Log.i("TAG", "onResponse: " + items.size());
-                    SimilarAdapter adaptersim;
+                    Log.i("TAG", "onResponse: " + detail.getMemeTitle());
                     adaptersim = new SimilarAdapter(getContext(), items);
                     similar.setAdapter(adaptersim);
-
+                    setUI();
                     // setupCurrentIndicator(0);
                 } else
                     Log.i("TAG", "onResponse: " + response.code());
             }
 
             @Override
-            public void onFailure(Call<Similar> call, Throwable t) {
+            public void onFailure(Call<Detail> call, Throwable t) {
 
                 Log.d("MainActivity", t.toString());
             }
