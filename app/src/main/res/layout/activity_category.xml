@@ -23,6 +23,7 @@
         android:layout_width="90dp"
         android:layout_height="90dp"
         android:freezesText="false"
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -34,7 +35,7 @@
         android:id="@+id/button2"
         android:layout_width="90dp"
         android:layout_height="90dp"
-
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toTopOf="@+id/button3"
         app:layout_constraintCircle="@+id/button1"
@@ -46,7 +47,7 @@
         android:id="@+id/button3"
         android:layout_width="90dp"
         android:layout_height="90dp"
-
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircle="@+id/button1"
@@ -58,7 +59,7 @@
         android:id="@+id/button4"
         android:layout_width="90dp"
         android:layout_height="90dp"
-
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircle="@+id/button1"
@@ -72,7 +73,7 @@
         android:id="@+id/button5"
         android:layout_width="90dp"
         android:layout_height="90dp"
-
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintCircle="@+id/button1"
@@ -84,7 +85,7 @@
         android:id="@+id/button6"
         android:layout_width="90dp"
         android:layout_height="90dp"
-
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toTopOf="@+id/button5"
         app:layout_constraintCircle="@+id/button1"
@@ -96,7 +97,7 @@
         android:id="@+id/button7"
         android:layout_width="90dp"
         android:layout_height="90dp"
-
+        style="@style/bold_16dp"
         android:background="@drawable/category_circle"
         app:layout_constraintBottom_toTopOf="@+id/button1"
         app:layout_constraintCircle="@+id/button1"
@@ -118,18 +119,18 @@
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/skip_btn"
-            style="@style/basic_16dp"
+            style="@style/bold_16dp"
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:layout_marginRight="2dp"
             android:layout_weight="1"
             android:background="@drawable/skip_btn_box"
             android:text="건너뛰기"
-            android:textColor="@color/black" />
+            android:textColor="@color/gray" />
 
         <androidx.appcompat.widget.AppCompatButton
             android:id="@+id/next_btn"
-            style="@style/basic_16dp"
+            style="@style/bold_16dp"
             android:layout_width="0dp"
             android:layout_height="61dp"
             android:layout_marginLeft="2dp"
