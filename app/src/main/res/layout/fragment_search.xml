@@ -69,35 +69,6 @@
         app:tabMode="auto"
         app:layout_constraintTop_toBottomOf="@id/topLayout">
 
-        <com.google.android.material.tabs.TabItem
-            android:id="@+id/feelingItem"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="감정"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="동물"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="상황"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="클립"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="텍스트"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="이모티콘"/>
-        <com.google.android.material.tabs.TabItem
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="연예인"/>
 
     </com.google.android.material.tabs.TabLayout>
 
@@ -105,13 +76,8 @@
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@+id/searchTabLayout"/>
+        app:layout_constraintTop_toBottomOf="@+id/searchTabLayout">
 
-
-
-
-
-
-
+    </androidx.viewpager.widget.ViewPager>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

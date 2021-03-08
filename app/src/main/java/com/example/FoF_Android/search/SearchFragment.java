@@ -20,12 +20,6 @@ import java.util.List;
 public class SearchFragment extends Fragment {
     TabLayout tabLayout;
     ViewPager viewPager;
-    Fragment feeling;
-    Fragment animal;
-    Fragment situation;
-    Fragment clip;
-    Fragment text;
-    Fragment emoticon;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -64,14 +58,16 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        feeling = new FeelingFragment();
-        animal = new AnimalFragment();
-        situation = new SituationFragment();
-        clip = new ClipFragment();
-        text = new TextFragment();
-        emoticon = new EmoticonFragment();
+
 
         tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
+        tabLayout.addTab(tabLayout.newTab().setText("감정"));
+        tabLayout.addTab(tabLayout.newTab().setText("동물"));
+        tabLayout.addTab(tabLayout.newTab().setText("상황"));
+        tabLayout.addTab(tabLayout.newTab().setText("클립"));
+        tabLayout.addTab(tabLayout.newTab().setText("텍스트"));
+        tabLayout.addTab(tabLayout.newTab().setText("이모티콘"));
+
         viewPager = (ViewPager)view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new PagerAdapter(getFragmentManager()));
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
