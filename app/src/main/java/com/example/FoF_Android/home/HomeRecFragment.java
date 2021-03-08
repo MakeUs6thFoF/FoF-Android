@@ -7,12 +7,14 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
 
+import com.example.FoF_Android.DetailFragment;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
@@ -75,15 +77,12 @@ public class HomeRecFragment extends Fragment {
                     Log.i("TAG", "onResponse: "+items.size());
 
                     adapter=new MemeAdapter(getContext(),items, MemeCase.SMALL,new MemeAdapter.OnItemClickListener() {
-                        @Override public void onItemClick(Meme.Data item) {
+                        @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                             recmeme=new DetailFragment(item.getMemeIdx());
-                            //  recmeme.setArguments(options.toBundle());
-                            getChildFragmentManager().beginTransaction().replace(R.id.container1, recmeme).addToBackStack(null).commit();
+                            getFragmentManager().beginTransaction().add(R.id.container, recmeme).addToBackStack(null).commit();
                         }
                     });
                     myviewpager.setAdapter(adapter);
-
-                   // setupCurrentIndicator(0);
                 }
                 else
                     Log.i("TAG", "onResponse: "+response.code());
@@ -98,15 +97,9 @@ public class HomeRecFragment extends Fragment {
 
     }
 
-    public String getTOKEN(){
-        String token="";
-        SharedPreferences prefs = this.getActivity().getSharedPreferences("test", Context.MODE_PRIVATE);
-        String value = prefs.getString("token", token);
-        return value;
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("ChildFragment", "onDestroy");
     }
-
-
-
-
-
 }

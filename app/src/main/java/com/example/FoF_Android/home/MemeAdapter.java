@@ -35,7 +35,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
     ActivityOptionsCompat options;
 
     public interface OnItemClickListener {
-        void onItemClick(Meme.Data item);
+        void onItemClick(Meme.Data item, ImageView memeimg);
     }
 
     public MemeAdapter(Context applicationContext, List<Meme.Data> itemArrayList, MemeCase type, OnItemClickListener listener) {
@@ -117,7 +117,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    listener.onItemClick(item);
+                    listener.onItemClick(item,memeimg);
                 }
             });
 

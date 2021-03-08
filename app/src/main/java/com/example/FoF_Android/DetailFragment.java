@@ -1,5 +1,6 @@
-package com.example.FoF_Android.home;
+package com.example.FoF_Android;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +19,7 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.home.SimilarAdapter;
 import com.example.FoF_Android.home.model.Detail;
 
 import java.util.List;
@@ -105,4 +107,6 @@ public class DetailFragment extends Fragment {
         });
 
     }
+
+
 }
