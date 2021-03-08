@@ -18,6 +18,10 @@ public class Detail {
         public class memeDetail {
             @SerializedName("memeIdx")
             Integer memeIdx;
+            @SerializedName("copyright")
+            String copyright;
+            @SerializedName("memeTitle")
+            String memeTitle;
             @SerializedName("userIdx")
             Integer userIdx;
             @SerializedName("nickname")
@@ -28,6 +32,21 @@ public class Detail {
             String profileImage;
             @SerializedName("Tag")
             String Tag;
+
+            @SerializedName("likeStatus")
+            String likeStatus;
+
+            public String getCopyright() {
+                return copyright;
+            }
+
+            public String getMemeTitle() {
+                return memeTitle;
+            }
+
+            public String getLikeStatus() {
+                return likeStatus;
+            }
 
             public String getProfileImage() {
                 return profileImage;

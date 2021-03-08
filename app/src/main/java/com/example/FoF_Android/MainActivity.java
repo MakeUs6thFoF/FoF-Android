@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.FoF_Android.home.HomeFragment;
+import com.example.FoF_Android.my.MyFragment;
 import com.example.FoF_Android.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ramotion.expandingcollection.ECPagerView;
@@ -18,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";
     Fragment homeFragment;
     Fragment searchFragment;
+    Fragment myFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,6 +28,7 @@ public class MainActivity extends AppCompatActivity {
 
         homeFragment=new HomeFragment();
         searchFragment=new SearchFragment();
+        myFragment=new MyFragment();
 
         setDefaultFragment();
 
@@ -43,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG,"search");
                         break;
                     case R.id.navigation_my:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,myFragment).commit();
                         Log.i(TAG,"my");
                         break;
                     case R.id.navigation_make:

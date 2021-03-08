@@ -2,6 +2,7 @@ package com.example.FoF_Android;
 
 import com.example.FoF_Android.Category.Category;
 
+import com.example.FoF_Android.home.model.Detail;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.home.model.Similar;
 import com.example.FoF_Android.login.Login;
@@ -50,8 +51,8 @@ public interface RetrofitApi {
     Call<SignUp> postCategory(@Header("x-access-token") String token, @Field("categoryIdx") List<Integer> list);
 
     @GET("/meme/{memeidx}")
-    Call<Similar> getsimilar(@Header("x-access-token") String token,
-                             @Path("memeidx") Integer memeidx);
+    Call<Detail> getsimilar(@Header("x-access-token") String token,
+                            @Path("memeidx") Integer memeidx);
 
     @GET("/meme/trend/category/{categoryIdx}")
     Call<CategoryMeme> getRank(@Header("x-access-token") String token, @Path("categoryIdx") Integer categoryIdx);

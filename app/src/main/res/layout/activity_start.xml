@@ -10,53 +10,31 @@
 
     <Button
         android:id="@+id/signup_btn"
-        style="@style/basic_16dp"
+        style="@style/bold_16dp"
         android:layout_width="0dp"
         android:layout_height="56dp"
         android:layout_marginBottom="8dp"
         android:background="@drawable/check_btn_box"
         android:text="가입하기"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toTopOf="@+id/linearLayout"
+        app:layout_constraintBottom_toTopOf="@+id/login_btn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.506"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <LinearLayout
-        android:id="@+id/linearLayout"
-        android:layout_width="match_parent"
-        android:layout_height="0dp"
-        android:layout_marginBottom="20dp"
-        android:weightSum="2"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
 
         <Button
             android:id="@+id/login_btn"
-            style="@style/basic_16dp"
+            style="@style/bold_16dp"
             android:layout_width="0dp"
             android:layout_height="56dp"
-            android:layout_marginRight="2dp"
-            android:layout_weight="1"
+            android:layout_marginBottom="70dp"
             android:background="@drawable/login_btn_box"
             android:text="로그인"
             android:textColor="@color/white"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
-
-        <Button
-            android:id="@+id/kakao_login_btn"
-            style="@style/basic_16dp"
-            android:layout_width="0dp"
-            android:layout_height="56dp"
-            android:layout_weight="1"
-            android:background="@drawable/login_btn_box"
-            android:text="@string/kakao"
-            android:textColor="@color/white"
-            android:layout_marginLeft="2dp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/button2"
-            app:layout_constraintTop_toBottomOf="@+id/button" />
-    </LinearLayout>
+            app:layout_constraintStart_toStartOf="parent"/>
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
+import com.example.FoF_Android.home.model.Detail;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.Similar;
 
@@ -20,10 +21,10 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHolder> {
-    private List<Similar.Data> items;
+    private List<Detail.Data.Similar> items;
     private Context context;
 
-    public SimilarAdapter(Context applicationContext, List<Similar.Data> itemArrayList) {
+    public SimilarAdapter(Context applicationContext, List<Detail.Data.Similar> itemArrayList) {
         this.context = applicationContext;
         this.items = itemArrayList;
     }
@@ -67,7 +68,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        Similar.Data clickedDataItem = items.get(pos);
+                        Detail.Data.Similar clickedDataItem = items.get(pos);
                       /*  Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("login", items.get(pos).getLogin());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
