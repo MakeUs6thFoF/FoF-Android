@@ -8,12 +8,14 @@
     tools:context=".search.FeelingFragment"
     android:orientation="vertical">
 
-    <androidx.viewpager.widget.ViewPager
-        android:id="@+id/topViewPager"
+
+
+    <com.tmall.ultraviewpager.UltraViewPager
+        android:id="@+id/ultra_viewpager"
         android:layout_width="match_parent"
-        android:layout_height="300dp" >
+        android:layout_height="wrap_content"
 
-    </androidx.viewpager.widget.ViewPager>
+        >
 
-
+    </com.tmall.ultraviewpager.UltraViewPager>
 </LinearLayout>

@@ -19,7 +19,7 @@ import java.util.List;
 
 public class SearchFragment extends Fragment {
     TabLayout tabLayout;
-    ViewPager viewPager;
+    NonSwipeViewPager viewPager;
 
 
     // TODO: Rename parameter arguments, choose names that match
@@ -68,8 +68,9 @@ public class SearchFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("텍스트"));
         tabLayout.addTab(tabLayout.newTab().setText("이모티콘"));
 
-        viewPager = (ViewPager)view.findViewById(R.id.viewPager);
+        viewPager = (NonSwipeViewPager)view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new PagerAdapter(getFragmentManager()));
+        viewPager.setPagingEnabled(false);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override

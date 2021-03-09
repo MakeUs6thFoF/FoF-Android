@@ -20,6 +20,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         fragments.add(new FeelingFragment(3));
         fragments.add(new FeelingFragment(3));
         fragments.add(new FeelingFragment(3));
+
     }
     @NonNull
     @Override
