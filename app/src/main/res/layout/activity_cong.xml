@@ -7,10 +7,7 @@
     tools:context=".CongActivity"
 
 >
-
-
-
-    <TextView
+        <TextView
         android:id="@+id/information"
         style="@style/point_40dp"
         android:layout_width="wrap_content"
