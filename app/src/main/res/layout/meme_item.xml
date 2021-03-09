@@ -88,9 +88,11 @@
 
                 <ImageButton
                     android:id="@+id/report"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:background="@drawable/report"
+                    android:layout_width="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="4dp"/>
 
                     />
             </LinearLayout>
