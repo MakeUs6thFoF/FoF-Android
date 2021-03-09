@@ -32,6 +32,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
     @Override
     public SimilarAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.meme_all_item, viewGroup, false);
+
         return new ViewHolder(view);
     }
 

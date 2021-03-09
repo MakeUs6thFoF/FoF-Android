@@ -13,25 +13,30 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.viewpager.widget.PagerAdapter;
 
 import com.example.FoF_Android.R;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MagnifyAnimPageAdapter extends PagerAdapter{
+public class MagnifyAnimPageAdapter extends PagerAdapter {
 
     List<String> datas = new ArrayList<String>();
     Context context;
+    private LayoutInflater inflater;
 
-    public MagnifyAnimPageAdapter(FragmentManager fm, Context context, List<String> datas) {
-        super(fm);
+    public MagnifyAnimPageAdapter(Context context, List<String> datas) {
         this.context = context;
         this.datas = datas;
+        notifyDataSetChanged();
     }
 
     @Override
     public Object instantiateItem(ViewGroup container, int position){
+        /*inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+        View view = inflater.inflate(R.layout.)*/
+
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LinearLayout.LayoutParams.MATCH_PARENT, container.getLayoutParams().height);
         params.gravity = Gravity.CENTER_VERTICAL;
