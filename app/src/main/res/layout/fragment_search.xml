@@ -44,7 +44,7 @@
             android:id="@+id/searchIb"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:src="@drawable/ic_ellipse153"
+            android:src="@drawable/magnifier"
             android:backgroundTint="#BEDCFF"
 
             android:layout_marginTop="85dp"
