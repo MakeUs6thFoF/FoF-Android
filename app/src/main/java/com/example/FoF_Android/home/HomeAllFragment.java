@@ -1,18 +1,22 @@
 package com.example.FoF_Android.home;
 
+import android.media.Image;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 
 import androidx.annotation.Nullable;
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
+import com.example.FoF_Android.DetailFragment;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
@@ -98,10 +102,12 @@ public class HomeAllFragment extends Fragment {
 
     public void setadapter(List<Meme.Data> items) {
         adapter = new MemeAdapter(getActivity(), items, MemeCase.LARGE, new MemeAdapter.OnItemClickListener() {
-            @Override public void onItemClick(Meme.Data item) {
+            @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                 recmeme=new DetailFragment(item.getMemeIdx());
               //  recmeme.setArguments(options.toBundle());
-                getChildFragmentManager().beginTransaction().setReorderingAllowed(true).replace(R.id.container1, recmeme).addToBackStack(null).commit();
+                getFragmentManager().beginTransaction().addSharedElement(memeimg, ViewCompat.getTransitionName(memeimg))
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null).add(R.id.container, recmeme).commit();
             }
             
         });
@@ -110,5 +116,9 @@ public class HomeAllFragment extends Fragment {
         recycle.setAdapter(adapter);
     }
 
-
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        Log.d("ChildFragment", "onDestroy");
+    }
 }

@@ -16,7 +16,20 @@ public class HomeFragment extends Fragment {
     TabLayout tabLayout;
     Fragment homeall;
     Fragment recmeme;
-
+    private int mNumber = 0;
+    private FragmentManager.OnBackStackChangedListener mListener = new FragmentManager.OnBackStackChangedListener() {
+        @Override
+        public void onBackStackChanged() {
+            FragmentManager fragmentManager = getChildFragmentManager();
+            int count = 0;
+            for (Fragment f : fragmentManager.getFragments()) {
+                if (f != null) {
+                    count++;
+                }
+            }
+            mNumber = count;
+        }
+    };
     public HomeFragment() {
 
     }
@@ -71,7 +84,9 @@ public class HomeFragment extends Fragment {
     public void replaceFragment(Fragment fragment) {
         FragmentManager fm = getChildFragmentManager();
         FragmentTransaction ft = fm.beginTransaction();
-        ft.replace(R.id.container, fragment);
+        ft.replace(R.id.container, fragment).addToBackStack(null);
         ft.commit();
+        getChildFragmentManager().popBackStack();
     }
+
 }

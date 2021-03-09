@@ -24,6 +24,8 @@ public class StartActivity extends AppCompatActivity {
         signup_btn = findViewById(R.id.signup_btn);
         login_btn = findViewById(R.id.login_btn);
 
+        //kakao_login_btn = findViewById(R.id.kakao_login_btn);
+
 
         Button.OnClickListener onClickListener = new Button.OnClickListener() {
             @Override
@@ -38,11 +40,17 @@ public class StartActivity extends AppCompatActivity {
                         startActivity(loginintent);
                         break;
 
+                   // case R.id.kakao_login_btn:
+                        //TODO 카카오 로그인
+                    //    break;
+
                 }
             }
         };
         signup_btn.setOnClickListener(onClickListener);
         login_btn.setOnClickListener(onClickListener);
+
+     //   kakao_login_btn.setOnClickListener(onClickListener);
 
     }
 
