@@ -6,13 +6,20 @@
     android:layout_height="match_parent"
     tools:context=".login.LoginActivity"
     android:padding="20dp">
-
+    <ImageView
+        android:layout_width="60dp"
+        android:layout_height="36dp"
+        android:src="@drawable/main_logo"
+        android:layout_marginLeft="4dp"
+        android:layout_marginTop="85dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/information"
         style="@style/point_32dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="130dp"
+        android:layout_marginTop="133dp"
         android:text="어디 들어가 볼까나"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"

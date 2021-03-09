@@ -16,6 +16,8 @@ import com.example.FoF_Android.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.ramotion.expandingcollection.ECPagerView;
 
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";
     Fragment homeFragment;
@@ -66,16 +68,17 @@ public class MainActivity extends AppCompatActivity {
     }
     @Override
     public void onBackPressed() {
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        Fragment parentFragment = fragmentManager.findFragmentByTag("homeFragment");
-        if (parentFragment != null && parentFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
-            parentFragment.getChildFragmentManager().popBackStack();
-        } else {
-            super.onBackPressed();
-        }
+        tellFragments();
+        super.onBackPressed();
     }
 
+    private void tellFragments(){
+        List<Fragment> fragments = getSupportFragmentManager().getFragments();
+        for(Fragment f : fragments){
+            if(f != null && f instanceof HomeFragment)
+                ((HomeFragment)f).onBackPressed();
+        }
+    }
     @Override
     protected void onDestroy() {
         super.onDestroy();

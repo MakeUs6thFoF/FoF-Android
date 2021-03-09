@@ -19,6 +19,7 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.home.SimilarAdapter;
 import com.example.FoF_Android.home.model.Detail;
 
@@ -29,7 +30,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class DetailFragment extends Fragment {
+public class DetailFragment extends Fragment implements OnBackPressed {
 
     RecyclerView similar;
     Integer i=0;
@@ -49,6 +50,7 @@ public class DetailFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_detail, container, false);
         initUI(view);
         similarUI(view, i);
+        getChildFragmentManager().popBackStack();
         return view;
     }
 
@@ -106,6 +108,15 @@ public class DetailFragment extends Fragment {
             }
         });
 
+    }@Override
+    public void onBackPressed(){
+        getActivity().getSupportFragmentManager().popBackStack();
+    }
+    @Override
+    public void onDestroy() {
+      super.onDestroy();
+
+        Log.d("ChildFragment", "onDestroy");
     }
 
 

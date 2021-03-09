@@ -107,7 +107,7 @@ public class HomeAllFragment extends Fragment {
               //  recmeme.setArguments(options.toBundle());
                 getFragmentManager().beginTransaction().addSharedElement(memeimg, ViewCompat.getTransitionName(memeimg))
                         .setReorderingAllowed(true)
-                        .addToBackStack(null).add(R.id.container, recmeme).commit();
+                        .addToBackStack(null).replace(R.id.container, recmeme).commit();
             }
             
         });

@@ -12,7 +12,7 @@ import androidx.fragment.app.FragmentTransaction;
 import com.example.FoF_Android.R;
 import com.google.android.material.tabs.TabLayout;
 
-public class HomeFragment extends Fragment {
+public class HomeFragment extends Fragment implements OnBackPressed{
     TabLayout tabLayout;
     Fragment homeall;
     Fragment recmeme;
@@ -68,7 +68,7 @@ public class HomeFragment extends Fragment {
         });
         return view;
     }
-
+    public void onBackPressed() {}
     public void setCurrentTabFragment(int position){
 
         switch (position)
@@ -86,7 +86,6 @@ public class HomeFragment extends Fragment {
         FragmentTransaction ft = fm.beginTransaction();
         ft.replace(R.id.container, fragment).addToBackStack(null);
         ft.commit();
-        getChildFragmentManager().popBackStack();
     }
 
 }
