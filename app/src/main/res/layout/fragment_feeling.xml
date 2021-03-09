@@ -9,13 +9,32 @@
     android:orientation="vertical">
 
 
-
-    <com.tmall.ultraviewpager.UltraViewPager
-        android:id="@+id/ultra_viewpager"
+    <LinearLayout
+        android:id="@+id/innerLinear"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:backgroundTint="@color/skyblue">
 
-        >
+        <com.tmall.ultraviewpager.UltraViewPager
+            android:id="@+id/ultra_viewpager"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" >
+            <ImageView
+                android:id="@+id/innerImage"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
 
-    </com.tmall.ultraviewpager.UltraViewPager>
+                tools:src="@tools:sample/avatars" />
+        </com.tmall.ultraviewpager.UltraViewPager>
+    </LinearLayout>
+
+
+
+
+    <TextView
+        android:id="@+id/textView3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="확인용" />
+
 </LinearLayout>
