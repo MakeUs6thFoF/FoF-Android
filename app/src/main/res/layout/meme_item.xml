@@ -136,25 +136,24 @@
                     />
                 <ToggleButton
                     android:id="@+id/like"
-                    android:layout_width="22dp"
+                    android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:textOn=""
                     android:textOff=""
                     android:background="@drawable/like_custom"
-                    android:layout_marginLeft="40dp"
                     android:layout_marginRight="10dp"
 
                     />
                 <ImageButton
                     android:id="@+id/copy"
-                    android:layout_width="22dp"
+                    android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/copy_111"
                     android:layout_marginRight="10dp"
                     />
                 <ImageButton
                     android:id="@+id/send"
-                    android:layout_width="22dp"
+                    android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/send_btn"
                     android:layout_marginRight="20dp"

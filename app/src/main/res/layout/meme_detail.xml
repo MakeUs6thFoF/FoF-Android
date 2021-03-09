@@ -21,8 +21,10 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageButton
-                android:id="@+id/back_btn"
+                android:id="@+id/back"
+                android:background="@drawable/back_btn"
                 android:layout_width="wrap_content"
+                android:layout_gravity="center"
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="20dp"/>
             <View
@@ -45,8 +47,11 @@
                 />
             <ImageButton
                 android:id="@+id/report"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"/>
+                android:background="@drawable/report"
+                android:layout_width="20dp"
+                android:layout_gravity="center"
+                android:layout_marginHorizontal="20dp"
+                android:layout_height="4dp"/>
 
         </LinearLayout>
 
@@ -89,7 +94,7 @@
                     />
                 <ToggleButton
                     android:id="@+id/like"
-                    android:layout_width="22dp"
+                    android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/like_custom"
                     android:textOn=""
@@ -100,14 +105,14 @@
                     />
                 <ImageButton
                     android:id="@+id/copy"
-                    android:layout_width="22dp"
+                    android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/copy_111"
                     android:layout_marginRight="10dp"
                     />
                 <ImageButton
                     android:id="@+id/send"
-                    android:layout_width="22dp"
+                    android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/send_btn"
                     android:layout_marginRight="20dp"

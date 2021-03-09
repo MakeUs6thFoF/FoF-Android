@@ -10,6 +10,7 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager2.widget.ViewPager2;
@@ -56,6 +57,7 @@ public class HomeRecFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_rec, container, false);
         gettoken=new TokenManager(getContext());
         myviewpager=view.findViewById(R.id.myviewpager);
+    //    myviewpager.setPageTransformer( new ViewPagerStack());
         indicatorlay=view.findViewById(R.id.card);
         initUI(view);
 
@@ -83,6 +85,7 @@ public class HomeRecFragment extends Fragment {
                             getFragmentManager().beginTransaction().replace(R.id.container, recmeme).addToBackStack(null).commit();
                         }
                     });
+                    myviewpager.setOffscreenPageLimit(3);
                     myviewpager.setAdapter(adapter);
 
                    // setupCurrentIndicator(0);
@@ -98,9 +101,21 @@ public class HomeRecFragment extends Fragment {
             }
         });
 
+
     }
 
-
+private class ViewPagerStack implements ViewPager2.PageTransformer{
+    @Override
+    public void transformPage(@NonNull View page, float position) {
+        if(position>=0){
+            page.setScaleX(1-0.05f*position);
+       //     page.setScaleY(0.7f);
+            page.setAutofillHints();
+            page.setTranslationX(-100*position);
+           // page.setTranslationY(30*position);
+        }
+    }
+}
 
 
 
