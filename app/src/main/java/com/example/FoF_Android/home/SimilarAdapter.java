@@ -70,6 +70,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
                         Detail.Data.Similar clickedDataItem = items.get(pos);
+
                       /*  Intent intent = new Intent(context, DetailActivity.class);
                         intent.putExtra("login", items.get(pos).getLogin());
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);

@@ -7,8 +7,7 @@
     tools:context=".CongActivity"
 
 >
-
-    <TextView
+        <TextView
         android:id="@+id/information"
         style="@style/point_40dp"
         android:layout_width="wrap_content"
@@ -39,7 +38,14 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
- />
+ />  <ImageView
+    android:layout_width="132dp"
+    android:layout_height="80dp"
+    android:layout_marginTop="102dp"
+    android:src="@drawable/main_logo"
+    app:layout_constraintEnd_toEndOf="parent"
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toTopOf="parent" />
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_btn"

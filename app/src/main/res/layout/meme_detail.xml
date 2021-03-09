@@ -87,25 +87,30 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     />
-                <ImageButton
+                <ToggleButton
                     android:id="@+id/like"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
+                    android:background="@drawable/like_custom"
+                    android:textOn=""
+                    android:textOff=""
                     android:layout_marginLeft="40dp"
-                    android:layout_marginRight="5dp"
+                    android:layout_marginRight="10dp"
 
                     />
                 <ImageButton
                     android:id="@+id/copy"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginRight="5dp"
+                    android:background="@drawable/copy_111"
+                    android:layout_marginRight="10dp"
                     />
                 <ImageButton
                     android:id="@+id/send"
                     android:layout_width="22dp"
                     android:layout_height="22dp"
-                    android:layout_marginRight="15dp"
+                    android:background="@drawable/send_btn"
+                    android:layout_marginRight="20dp"
 
                     /></LinearLayout>
         </LinearLayout>

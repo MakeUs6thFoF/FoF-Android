@@ -88,9 +88,11 @@
 
                 <ImageButton
                     android:id="@+id/report"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="5dp"
+                    android:background="@drawable/report"
+                    android:layout_width="20dp"
+                    android:layout_gravity="center"
+                    android:layout_marginHorizontal="20dp"
+                    android:layout_height="4dp"/>
 
                     />
             </LinearLayout>
@@ -107,51 +109,57 @@
             app:layout_constraintStart_toStartOf="parent"
 
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
-    <LinearLayout
-        android:id="@+id/wrap_2"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_margin="12dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/imageView">
         <LinearLayout
+            android:id="@+id/wrap_2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content">
-        <TextView
-            android:id="@+id/copyright"
-            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@string/copyright"
-            style="@style/basic_12dp"
-            android:textColor="@color/deepgray2"
-            android:layout_marginLeft="8dp"
-            />
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1"
-            />
-        <ImageButton
-            android:id="@+id/like"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginRight="5dp"
+            android:orientation="vertical"
+            android:layout_margin="12dp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/imageView">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
+                <TextView
+                    android:id="@+id/copyright"
+                    android:layout_width="190dp"
+                    android:layout_height="wrap_content"
+                    android:text="@string/copyright"
+                    style="@style/basic_12dp"
+                    android:textColor="@color/deepgray2"
+                    android:layout_marginLeft="8dp"
+                    />
+                <View
+                    android:layout_width="0dp"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    />
+                <ToggleButton
+                    android:id="@+id/like"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:textOn=""
+                    android:textOff=""
+                    android:background="@drawable/like_custom"
+                    android:layout_marginLeft="40dp"
+                    android:layout_marginRight="10dp"
 
-            />
-        <ImageButton
-            android:id="@+id/copy"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginRight="5dp"
-            />
-        <ImageButton
-            android:id="@+id/send"
-            android:layout_width="22dp"
-            android:layout_height="22dp"
-            android:layout_marginRight="15dp"
+                    />
+                <ImageButton
+                    android:id="@+id/copy"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:background="@drawable/copy_111"
+                    android:layout_marginRight="10dp"
+                    />
+                <ImageButton
+                    android:id="@+id/send"
+                    android:layout_width="22dp"
+                    android:layout_height="22dp"
+                    android:background="@drawable/send_btn"
+                    android:layout_marginRight="20dp"
 
-            /></LinearLayout>
+                    /></LinearLayout>
     </LinearLayout>
 
             <LinearLayout

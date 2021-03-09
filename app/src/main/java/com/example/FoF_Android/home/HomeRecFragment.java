@@ -79,10 +79,13 @@ public class HomeRecFragment extends Fragment {
                     adapter=new MemeAdapter(getContext(),items, MemeCase.SMALL,new MemeAdapter.OnItemClickListener() {
                         @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                             recmeme=new DetailFragment(item.getMemeIdx());
-                            getFragmentManager().beginTransaction().add(R.id.container, recmeme).addToBackStack(null).commit();
+                            //  recmeme.setArguments(options.toBundle());
+                            getFragmentManager().beginTransaction().replace(R.id.container, recmeme).addToBackStack(null).commit();
                         }
                     });
                     myviewpager.setAdapter(adapter);
+
+                   // setupCurrentIndicator(0);
                 }
                 else
                     Log.i("TAG", "onResponse: "+response.code());
@@ -97,9 +100,10 @@ public class HomeRecFragment extends Fragment {
 
     }
 
-    @Override
-    public void onDestroy() {
-        super.onDestroy();
-        Log.d("ChildFragment", "onDestroy");
-    }
+
+
+
+
+
+
 }
