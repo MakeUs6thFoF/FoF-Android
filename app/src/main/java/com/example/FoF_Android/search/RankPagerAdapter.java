@@ -4,11 +4,13 @@ import android.graphics.Color;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
 
 import java.util.ArrayList;
@@ -28,24 +30,25 @@ public class RankPagerAdapter extends PagerAdapter {
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LinearLayout linearLayout = (LinearLayout) LayoutInflater.from(container.getContext()).inflate(R.layout.fragment_feeling, null);
+        ImageView imageView = linearLayout.findViewById(R.id.innerImage);
         //new LinearLayout(container.getContext());
         //linearLayout.setId(R.id.item_id);
 
         switch (position) {
             case 0:
-                linearLayout.setBackgroundColor(Color.parseColor("#2196F3"));
+                Glide.with(container.getContext()).load(datas.get(0)).into(imageView);
                 break;
             case 1:
-                linearLayout.setBackgroundColor(Color.parseColor("#673AB7"));
+                Glide.with(container.getContext()).load(datas.get(1)).into(imageView);
                 break;
             case 2:
-                linearLayout.setBackgroundColor(Color.parseColor("#009688"));
+                Glide.with(container.getContext()).load(datas.get(2)).into(imageView);
                 break;
             case 3:
-                linearLayout.setBackgroundColor(Color.parseColor("#607D8B"));
+                Glide.with(container.getContext()).load(datas.get(3)).into(imageView);
                 break;
             case 4:
-                linearLayout.setBackgroundColor(Color.parseColor("#F44336"));
+                Glide.with(container.getContext()).load(datas.get(4)).into(imageView);
                 break;
         }
         container.addView(linearLayout);

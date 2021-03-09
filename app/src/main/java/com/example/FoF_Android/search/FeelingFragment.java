@@ -56,7 +56,6 @@ public class FeelingFragment extends Fragment {
         super.onCreate(savedInstanceState);
         api = HttpClient.getRetrofit().create(RetrofitApi.class);
         gettoken = new TokenManager(getContext());
-        getRank(api);
     }
 
     @Override
@@ -64,37 +63,14 @@ public class FeelingFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_feeling, container, false);
-
-        UltraViewPager ultraViewPager = (UltraViewPager)view.findViewById(R.id.ultra_viewpager);
-        ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-        List<String>tmpList = new ArrayList<>();
-        tmpList.add("https://image.onstove.com/850x0/d3kxs6kpbh59hp.cloudfront.net/community/COMMUNITY/4825283c0edc42229c3ab3706ccfd913/dfdffe9994d44302a9c1727db9aaaef4_1572945740.png");
-        tmpList.add("https://i.pinimg.com/originals/fd/3c/cd/fd3ccd7b49e366b4206f5ac7f8fa8dac.gif");
-        PagerAdapter adapter = new RankPagerAdapter(true, tmpList);
-        ultraViewPager.setAdapter(adapter);
-        ultraViewPager.setMultiScreen(0.6f);
-        ultraViewPager.setItemRatio(1.0f);
-        ultraViewPager.setRatio(2.0f);
-        ultraViewPager.setMaxHeight(800);
-        ultraViewPager.setPageTransformer(false, new UltraDepthScaleTransformer());
-        ultraViewPager.setAutoMeasureHeight(true);
-        ultraViewPager.initIndicator();
-        ultraViewPager.getIndicator()
-                .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
-                .setFocusColor(Color.RED)
-                .setNormalColor(Color.WHITE)
-                .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
-        ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
-        ultraViewPager.getIndicator().build();
-
-        ultraViewPager.setInfiniteLoop(true);
-        ultraViewPager.setAutoScroll(2000);
+        getRank(api, view);
 
         return view;
     }
 
-    public void getRank(RetrofitApi api){
+    public void getRank(RetrofitApi api, View innerview){
         String token = gettoken.checklogin(getContext());
+        imageUrl.clear();
         api.getRank(token, CategoryIdx).enqueue(new Callback<CategoryMeme>() {
             @Override
             public void onResponse(Call<CategoryMeme> call, Response<CategoryMeme> response) {
@@ -103,9 +79,27 @@ public class FeelingFragment extends Fragment {
                     memeIdx[i] = ctm.getData().getMemeList().get(i).getMemeIdx();
                     imageUrl.add(ctm.getData().getMemeList().get(i).getImageUrl());
                     view[i] = ctm.getData().getMemeList().get(i).getView();
-                    System.out.println(i+"번째 이미지 "+imageUrl.get(i));
-
-                    //Glide.with(getActivity()).load(imageUrl.get(0)).into(imageView3);
+                    UltraViewPager ultraViewPager = (UltraViewPager)innerview.findViewById(R.id.ultra_viewpager);
+                    ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
+                    PagerAdapter adapter = new RankPagerAdapter(true, imageUrl);
+                    ultraViewPager.setBackgroundResource(R.drawable.backgroundgra);
+                    ultraViewPager.setAdapter(adapter);
+                    ultraViewPager.setMultiScreen(0.6f);
+                    ultraViewPager.setItemRatio(1.0f);
+                    ultraViewPager.setRatio(2.0f);
+                    ultraViewPager.setMaxHeight(800);
+                    ultraViewPager.setPageTransformer(false, new UltraDepthScaleTransformer());
+                    ultraViewPager.setAutoMeasureHeight(true);
+                    ultraViewPager.initIndicator();
+                    ultraViewPager.getIndicator()
+                            .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
+                            .setFocusColor(Color.RED)
+                            .setNormalColor(Color.WHITE)
+                            .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
+                    ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
+                    ultraViewPager.getIndicator().build();
+                    ultraViewPager.setInfiniteLoop(false);
+                    adapter.notifyDataSetChanged();
                 }
 
             }
