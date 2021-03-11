@@ -56,6 +56,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(MemeAdapter.ViewHolder viewHolder, int i) {
         if(type== SMALL){
+        viewHolder.copyright.setText(items.get(i).getCopyright());
         viewHolder.nick.setText(items.get(i).getNickname());
         Glide.with(context)
                 .load(items.get(i).getProfileImage())
@@ -80,20 +81,19 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
         private CircleImageView profileimg;
         private TextView nick;
         private TextView title;
+        private TextView copyright;
         private RecyclerView similar;
-        private LinearLayout wrap;
-        private LinearLayout wrap1;
+
 
         public ViewHolder(View view) {
             super(view);
 
-            nick = (TextView) view.findViewById(R.id.textView);
+            nick = (TextView) view.findViewById(R.id.nick);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
             similar = (RecyclerView) view.findViewById(R.id.similar);
-            wrap = (LinearLayout) view.findViewById(R.id.wrap);
-            wrap1 = (LinearLayout) view.findViewById(R.id.wrap_1);
             title = (TextView) view.findViewById(R.id.title);
+            copyright=(TextView) view.findViewById(R.id.copyright);
 
             //on item click
             itemView.setOnClickListener(new View.OnClickListener() {
@@ -122,39 +122,4 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
             });
 
         }
-
-   /*     public void similarUI(View view, int i) {
-            HttpClient client = new HttpClient();
-            RetrofitApi api = client.getRetrofit().create(RetrofitApi.class);
-            TokenManager gettoken = new TokenManager(context);
-            String token = gettoken.checklogin(context);
-            System.out.println("확인" + token);
-            Call<Similar> call = api.getsimilar(token, i, 1, 10);
-            call.enqueue(new Callback<Similar>() {
-                @Override
-                public void onResponse(Call<Similar> call, Response<Similar> response) {
-                    if (response.isSuccessful()) {
-                        RecyclerView similar = view.findViewById(R.id.similar);
-                        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                        similar.setLayoutManager(layoutManager);
-                        List<Similar.Data> items = response.body().getdata();
-
-                        Log.i("TAG", "onResponse: " + items.size());
-                        SimilarAdapter adaptersim;
-                        adaptersim = new SimilarAdapter(context, items);
-                        similar.setAdapter(adaptersim);
-
-                        // setupCurrentIndicator(0);
-                    } else
-                        Log.i("TAG", "onResponse: " + response.code());
-                }
-
-                @Override
-                public void onFailure(Call<Similar> call, Throwable t) {
-
-                    Log.d("MainActivity", t.toString());
-                }
-            });
-
-        }
-   */ }}
+    }}

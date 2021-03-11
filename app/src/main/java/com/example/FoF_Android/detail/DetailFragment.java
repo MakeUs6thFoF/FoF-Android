@@ -1,14 +1,15 @@
-package com.example.FoF_Android;
+package com.example.FoF_Android.detail;
 
-import android.content.Context;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
@@ -20,26 +21,25 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.OnBackPressed;
-import com.example.FoF_Android.home.SimilarAdapter;
-import com.example.FoF_Android.home.model.Detail;
 
 import java.util.List;
 
-import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
 public class DetailFragment extends Fragment implements OnBackPressed {
-
+    RetrofitApi api;
     RecyclerView similar;
     Integer i=0;
     List<Detail.Data.Similar> items;
     Detail.Data.memeDetail detail;
     ImageView memeimg;
-    TextView title;
+    TextView title, copyright;
     SimilarAdapter adaptersim;
-
+    String token;
+    ImageButton report,copy,send;
+    ToggleButton like;
     public DetailFragment(int i) {
         this.i=i;
     }
@@ -49,6 +49,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                              Bundle savedInstanceState) {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_detail, container, false);
         initUI(view);
+        onclick();
         similarUI(view, i);
         getChildFragmentManager().popBackStack();
         return view;
@@ -58,11 +59,50 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     public void initUI(ViewGroup view){
         memeimg = (ImageView) view.findViewById(R.id.imageView);
         title = (TextView) view.findViewById(R.id.title);
+        copyright=(TextView)view.findViewById(R.id.copyright);
         similar=view.findViewById(R.id.similar);
-
-
+        report=(ImageButton)view.findViewById(R.id.report);
+        like=(ToggleButton) view.findViewById(R.id.like);
+        copy=(ImageButton)view.findViewById(R.id.copy);
+        send=(ImageButton)view.findViewById(R.id.send);
     }
+    public void onclick(){
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
 
+
+            }
+        });
+        like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                if(isChecked)
+                {
+
+                    /*api.postLike(token,items.get(i).getMemeIdx()).enqueue(new Callback<Like>() {
+                        @Override
+                        public void onResponse(Call<Like> call, Response<Like> response) {
+                            if(response.isSuccessful()) {
+                                Like like = response.body();
+
+                                System.out.println("포스트확인2" + like.getCode());
+                                System.out.println("포스트확인2" + like.getMessage());
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<Like> call, Throwable t) {
+
+                        }
+                    });*/
+                }
+                else
+                {
+                }
+            }
+        });
+    }
     public void setUI(){
 
        // nick.setText(detail.getNickname());
@@ -72,14 +112,15 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 .placeholder(R.drawable.meme2)
                 .into(memeimg);
         title.setText(detail.getMemeTitle());
+        copyright.setText(detail.getCopyright());
     }
 
 
     public void similarUI(View view, int i) {
         HttpClient client = new HttpClient();
-        RetrofitApi api = client.getRetrofit().create(RetrofitApi.class);
+         api = client.getRetrofit().create(RetrofitApi.class);
         TokenManager gettoken = new TokenManager(getContext());
-        String token = gettoken.checklogin(getContext());
+        token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
         Call<Detail> call = api.getsimilar(token, i);
         call.enqueue(new Callback<Detail>() {
@@ -118,6 +159,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         Log.d("ChildFragment", "onDestroy");
     }
+
 
 
 }

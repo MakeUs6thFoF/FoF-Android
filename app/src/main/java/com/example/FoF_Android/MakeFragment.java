@@ -1,26 +1,22 @@
-package com.example.FoF_Android.my;
+package com.example.FoF_Android;
 
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.TextView;
 
-import com.example.FoF_Android.R;
 
-public class MyFragment extends Fragment {
+public class MakeFragment extends Fragment {
 
-    TextView like;
-    TextView profile;
-    RecyclerView recycler;
 
-    public MyFragment() {
+
+    public MakeFragment() {
         // Required empty public constructor
     }
+
 
 
     @Override
@@ -32,6 +28,7 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_my, container, false);
+        // Inflate the layout for this fragment
+        return inflater.inflate(R.layout.fragment_make, container, false);
     }
 }

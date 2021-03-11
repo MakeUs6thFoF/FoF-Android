@@ -1,4 +1,4 @@
-package com.example.FoF_Android.home;
+package com.example.FoF_Android.detail;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -12,9 +12,6 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
-import com.example.FoF_Android.home.model.Detail;
-import com.example.FoF_Android.home.model.Meme;
-import com.example.FoF_Android.home.model.Similar;
 
 import java.util.List;
 
@@ -58,7 +55,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
 
         public ViewHolder(View view) {
             super(view);
-            nick=(TextView)view.findViewById(R.id.textView);
+            nick=(TextView)view.findViewById(R.id.nick);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
 

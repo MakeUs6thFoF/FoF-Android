@@ -1,6 +1,5 @@
 package com.example.FoF_Android.home;
 
-import android.media.Image;
 import android.os.Bundle;
 import android.transition.Fade;
 import android.util.Log;
@@ -16,7 +15,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 
-import com.example.FoF_Android.DetailFragment;
+import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;

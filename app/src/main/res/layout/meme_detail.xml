@@ -6,7 +6,9 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
   >
-
+<androidx.core.widget.NestedScrollView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
@@ -15,17 +17,17 @@
         <LinearLayout
             android:id="@+id/wrap"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_height="76dp"
+            android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
             <ImageButton
                 android:id="@+id/back"
-                android:background="@drawable/back_btn"
-                android:layout_width="wrap_content"
-                android:layout_gravity="center"
-                android:layout_height="wrap_content"
+                android:background="@drawable/back"
+                android:layout_width="10dp"
+                android:layout_gravity="bottom"
+                android:layout_height="17dp"
                 android:layout_marginLeft="20dp"/>
             <View
                 android:layout_width="0dp"
@@ -38,7 +40,7 @@
                 android:layout_height="wrap_content"
                 android:text="제목"
                 style="@style/point_16dp"
-                android:gravity="center"
+                android:layout_gravity="bottom"
              />
             <View
                 android:layout_width="0dp"
@@ -49,7 +51,7 @@
                 android:id="@+id/report"
                 android:background="@drawable/report"
                 android:layout_width="20dp"
-                android:layout_gravity="center"
+                android:layout_gravity="bottom"
                 android:layout_marginHorizontal="20dp"
                 android:layout_height="4dp"/>
 
@@ -115,7 +117,7 @@
                     android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/send_btn"
-                    android:layout_marginRight="20dp"
+                    android:layout_marginRight="8dp"
 
                     /></LinearLayout>
         </LinearLayout>
@@ -149,4 +151,5 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/Tag" />
-    </androidx.constraintlayout.widget.ConstraintLayout></androidx.cardview.widget.CardView>
+    </androidx.constraintlayout.widget.ConstraintLayout></androidx.core.widget.NestedScrollView>
+</androidx.cardview.widget.CardView>
