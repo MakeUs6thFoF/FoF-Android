@@ -75,6 +75,7 @@
                 <TextView
                     android:id="@+id/nick"
                     style="@style/basic_14dp"
+                    android:textColor="@color/black"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="center"
@@ -121,6 +122,8 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content">
                 <TextView
+                    android:maxLines="1"
+                    android:ellipsize="end"
                     android:id="@+id/copyright"
                     android:layout_width="190dp"
                     android:layout_height="wrap_content"
@@ -161,34 +164,43 @@
     </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/linearLayout3"
+                android:id="@+id/Tag"
                 android:layout_width="match_parent"
-                android:layout_height="26dp"
+                android:layout_height="wrap_content"
                 android:layout_marginHorizontal="20dp"
                 android:layout_marginTop="24dp"
-                app:layout_constraintTop_toBottomOf="@+id/wrap_2">
-            <TextView
-                style="@style/basic_12dp"
-                android:background="@color/white"
-                android:layout_width="66dp"
-                android:layout_height="26dp"
-                android:text="#클립"
-                android:gravity="center"
-                android:textAlignment="center"/>
+                android:textAlignment="center"
+                app:layout_constraintTop_toBottomOf="@+id/wrap_2"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:visibility="gone"
+                    style="@style/basic_12dp"
+                    android:id="@+id/hashtag_default"
+                    android:background="@color/white"
+                    android:layout_width="66dp"
+                    android:layout_height="26dp"
+                    android:text="#클립"
+                    android:textColor="@color/black"
+                    android:layout_marginRight="4dp"
+                    android:gravity="center"
+                    android:textAlignment="center"/>
+
             </LinearLayout>
 
 
-        <androidx.recyclerview.widget.RecyclerView
-            android:id="@+id/similar"
+        <LinearLayout
+            android:id="@+id/Tag2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
-            android:visibility="gone"
-            android:overScrollMode="never"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/linearLayout3" />
+            android:layout_height="26dp"
+            android:layout_marginHorizontal="20dp"
+            android:layout_marginTop="4dp"
+            app:layout_constraintTop_toBottomOf="@+id/Tag"
+            android:orientation="horizontal">
 
+
+
+        </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
 </androidx.cardview.widget.CardView>
