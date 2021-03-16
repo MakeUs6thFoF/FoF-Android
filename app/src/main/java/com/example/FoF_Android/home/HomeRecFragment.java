@@ -15,6 +15,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.FoF_Android.detail.DetailFragment;
@@ -25,6 +26,8 @@ import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
 import com.example.FoF_Android.home.model.MemeResponse;
+import com.ocnyang.pagetransformerhelp.cardtransformer.AlphaPageTransformer;
+import com.ocnyang.pagetransformerhelp.cardtransformer.CascadingPageTransformer;
 
 import java.util.List;
 
@@ -33,13 +36,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeRecFragment extends Fragment {
-    MemeAdapter adapter;
+    MemeRecAdapter adapter;
     TokenManager gettoken;
     RetrofitApi api;
-    ViewPager2 myviewpager;
+    ViewPager myviewpager;
     DetailFragment recmeme;
     ImageButton report,copy,send;
     ToggleButton like;
+    public static final int LEFT = 3 ;
     private ReportDialog reportDialog;
 
     public HomeRecFragment() {
@@ -60,9 +64,24 @@ public class HomeRecFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_rec, container, false);
         gettoken=new TokenManager(getContext());
         myviewpager=view.findViewById(R.id.myviewpager);
-    //    myviewpager.setPageTransformer( new ViewPagerStack());
-
+        myviewpager.setPageTransformer(true, new StackPageTransformer(getContext()));
+       // myviewpager.setPageTransformer(true, new CascadingPageTransformer());
         initUI(view);
+
+      /*  myviewpager.setPageTransformer(RecPageTransform.getBuild()//建造者模式
+                .addAnimationType(PageTransformerConfig.ROTATION)//默认动画 default animation rotation  旋转  当然 也可以一次性添加两个  后续会增加更多动画
+                .setRotation(-45)//旋转角度
+                .addAnimationType(PageTransformerConfig.ALPHA)//默认动画 透明度 暂时还有问题
+                .setViewType(PageTransformerConfig.LEFT)//view的类型
+                .setOnPageTransformerListener(new OnPageTransformerListener() {
+                    @Override
+                    public void onPageTransformerListener(View page, float position) {
+
+                    }
+                })
+                .setTranslationOffset(40)
+                .setScaleOffset(80)
+                .create());*/
 
         return view;
     }
@@ -81,14 +100,15 @@ public class HomeRecFragment extends Fragment {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                    adapter=new MemeAdapter(getContext(),items, MemeCase.SMALL,new MemeAdapter.OnItemClickListener() {
+                 /*   adapter=new MemeAdapter(getContext(),items, MemeCase.SMALL,new MemeAdapter.OnItemClickListener() {
                         @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                             recmeme=new DetailFragment(item.getMemeIdx());
 
                             //  recmeme.setArguments(options.toBundle());
                             getFragmentManager().beginTransaction().replace(R.id.container, recmeme).addToBackStack(null).commit();
                         }
-                    });
+                    });*/
+                    adapter=new MemeRecAdapter(getContext(),items);
                     myviewpager.setOffscreenPageLimit(3);
                     myviewpager.setAdapter(adapter);
 
@@ -162,21 +182,5 @@ public class HomeRecFragment extends Fragment {
             reportDialog.dismiss();
         }
     };
-private class ViewPagerStack implements ViewPager2.PageTransformer{
-    @Override
-    public void transformPage(@NonNull View page, float position) {
-        if(position>=0){
-            page.setScaleX(1-0.05f*position);
-       //     page.setScaleY(0.7f);
-            page.setAutofillHints();
-            page.setTranslationX(-100*position);
-           // page.setTranslationY(30*position);
-        }
-    }
-}
-
-
-
-
 
 }

@@ -22,6 +22,8 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         fragments.add(new FeelingFragment(1));
 
     }
+
+
     @NonNull
     @Override
     public Fragment getItem(int position) {

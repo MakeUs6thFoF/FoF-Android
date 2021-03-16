@@ -30,6 +30,8 @@ android {
 }
 
 dependencies {
+    compile 'com.github.aohanyao:ViewPagerCardTransformer:1.2'
+    compile 'com.github.OCNYang:PageTransformerHelp:v1.0.1'
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
 

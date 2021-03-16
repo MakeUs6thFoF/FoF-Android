@@ -2,12 +2,14 @@ package com.example.FoF_Android.detail;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
@@ -28,6 +30,8 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.TEXT_ALIGNMENT_CENTER;
+
 public class DetailFragment extends Fragment implements OnBackPressed {
     RetrofitApi api;
     RecyclerView similar;
@@ -38,6 +42,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     TextView title, copyright;
     SimilarAdapter adaptersim;
     String token;
+    LinearLayout Tag,Tag2;
     ImageButton report,copy,send;
     ToggleButton like;
     public DetailFragment(int i) {
@@ -65,6 +70,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         like=(ToggleButton) view.findViewById(R.id.like);
         copy=(ImageButton)view.findViewById(R.id.copy);
         send=(ImageButton)view.findViewById(R.id.send);
+
+        Tag= (LinearLayout)view.findViewById(R.id.Tag);
+        Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
     }
     public void onclick(){
         report.setOnClickListener(new View.OnClickListener() {
@@ -113,6 +121,42 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 .into(memeimg);
         title.setText(detail.getMemeTitle());
         copyright.setText(detail.getCopyright());
+
+        TextView btn[] = new TextView[30];
+        String hashtag=detail.getTag();
+
+        String[] array = hashtag.split(",");
+
+        float factor = getContext().getResources().getDisplayMetrics().density;
+
+        int pixelw = (int) (66 * factor + 0.5f);
+        int pixelh = (int) (26 * factor + 0.5f);
+
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, ViewGroup.LayoutParams.MATCH_PARENT);
+        params.width=pixelw;
+        params.height=pixelh;
+        params.rightMargin=4;
+        params.gravity= Gravity.CENTER;
+
+        for (int i = 0; i < array.length; i++) {
+            btn[i] = new TextView(getContext());
+            btn[i].setLayoutParams(params);
+            btn[i].setText(array[i]);
+            btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
+            btn[i].setBackgroundResource(R.color.white);
+            btn[i].setIncludeFontPadding(false);
+            btn[i].setPadding(0,4,0,0);
+            btn[i].setTextAppearance(R.style.basic_12dp_black);
+            btn[i].setId(i);
+            if (i < 4) {
+                Tag.addView(btn[i]);
+            }else Tag2.addView(btn[i]);
+            btn[i].setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+
+                }
+            });}
     }
 
 

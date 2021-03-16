@@ -15,10 +15,9 @@ public class Meme {
         @SerializedName("nickname") String nickname;
         @SerializedName("imageUrl") String imageUrl;
         @SerializedName("profileImage") String profileImage;
-
-
         @SerializedName("copyright") String copyright;
         @SerializedName("Tag") String Tag;
+
         public String getCopyright() {
             return copyright;
         }
