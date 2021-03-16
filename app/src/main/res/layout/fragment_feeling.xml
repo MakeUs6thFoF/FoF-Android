@@ -8,7 +8,6 @@
     tools:context=".search.FeelingFragment"
     android:orientation="vertical">
 
-
     <LinearLayout
         android:id="@+id/innerLinear"
         android:layout_width="match_parent"
@@ -27,14 +26,5 @@
                 tools:src="@tools:sample/avatars" />
         </com.tmall.ultraviewpager.UltraViewPager>
     </LinearLayout>
-
-
-
-
-    <TextView
-        android:id="@+id/textView3"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="확인용" />
 
 </LinearLayout>

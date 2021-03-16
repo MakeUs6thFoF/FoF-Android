@@ -8,6 +8,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.LinearLayout;
 import android.widget.TableLayout;
 
 import com.example.FoF_Android.R;
@@ -83,6 +84,8 @@ public class SearchFragment extends Fragment {
             public void onTabReselected(TabLayout.Tab tab) { }
         });
 
+        LinearLayout linearLayout = (LinearLayout)view.findViewById(R.id.bottomLayout);
+        
 
         return view;
     }
