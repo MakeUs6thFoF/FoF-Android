@@ -23,6 +23,7 @@ public class MainActivity extends AppCompatActivity {
     Fragment homeFragment;
     Fragment searchFragment;
     Fragment myFragment;
+    Fragment makeFragment;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +33,7 @@ public class MainActivity extends AppCompatActivity {
         homeFragment=new HomeFragment();
         searchFragment=new SearchFragment();
         myFragment=new MyFragment();
+        makeFragment=new MakeFragment();
 
         setDefaultFragment();
 
@@ -53,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG,"my");
                         break;
                     case R.id.navigation_make:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,homeFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,makeFragment).commit();
                         Log.i(TAG,"make");
                         break;
                 }

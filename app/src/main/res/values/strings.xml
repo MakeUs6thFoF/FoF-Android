@@ -8,5 +8,6 @@
     <string name="login_link"><u>로그인</u></string>
     <string name="signup_link"><u>가입해 주세요</u></string>
     <string name="copyright"><u>copyrightⓒ</u></string>
+    <string name="profile_edit"><u>프로필사진 변경</u></string>
 
 </resources>

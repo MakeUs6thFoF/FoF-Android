@@ -73,7 +73,7 @@
                     app:layout_constraintTop_toTopOf="parent" />
 
                 <TextView
-                    android:id="@+id/textView"
+                    android:id="@+id/nick"
                     style="@style/basic_14dp"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -94,7 +94,7 @@
                     android:layout_marginHorizontal="20dp"
                     android:layout_height="4dp"/>
 
-                    />
+
             </LinearLayout>
         </LinearLayout>
 
@@ -156,8 +156,7 @@
                     android:layout_width="24dp"
                     android:layout_height="22dp"
                     android:background="@drawable/send_btn"
-                    android:layout_marginRight="20dp"
-
+                    android:layout_marginRight="8dp"
                     /></LinearLayout>
     </LinearLayout>
 
