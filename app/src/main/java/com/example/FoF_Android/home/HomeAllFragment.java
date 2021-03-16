@@ -33,7 +33,7 @@ import retrofit2.Response;
 public class HomeAllFragment extends Fragment {
 
     private RecyclerView recycle;
-    MemeAdapter adapter;
+    MemeAllAdapter adapter;
     RetrofitApi api;
     List<Meme.Data> items;
     TokenManager gettoken;
@@ -100,7 +100,7 @@ public class HomeAllFragment extends Fragment {
     }
 
     public void setadapter(List<Meme.Data> items) {
-        adapter = new MemeAdapter(getActivity(), items, MemeCase.LARGE, new MemeAdapter.OnItemClickListener() {
+        adapter = new MemeAllAdapter(getActivity(), items, MemeCase.LARGE, new MemeAllAdapter.OnItemClickListener() {
             @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                 recmeme=new DetailFragment(item.getMemeIdx());
               //  recmeme.setArguments(options.toBundle());

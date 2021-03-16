@@ -6,7 +6,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,7 +25,7 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static com.example.FoF_Android.home.model.MemeCase.SMALL;
 
-public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
+public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHolder> {
     private List<Meme.Data> items;
     private Context context;
     private MemeCase type;
@@ -38,7 +37,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
         void onItemClick(Meme.Data item, ImageView memeimg);
     }
 
-    public MemeAdapter(Context applicationContext, List<Meme.Data> itemArrayList, MemeCase type, OnItemClickListener listener) {
+    public MemeAllAdapter(Context applicationContext, List<Meme.Data> itemArrayList, MemeCase type, OnItemClickListener listener) {
         this.context = applicationContext;
         this.items = itemArrayList;
         this.listener = listener;
@@ -46,7 +45,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
     }
 
     @Override
-    public MemeAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
+    public MemeAllAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if(type== SMALL) style=R.layout.meme_item;
         else style=R.layout.meme_all_item;
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(style, viewGroup, false);
@@ -54,7 +53,7 @@ public class MemeAdapter extends RecyclerView.Adapter<MemeAdapter.ViewHolder> {
     }
 
     @Override
-    public void onBindViewHolder(MemeAdapter.ViewHolder viewHolder, int i) {
+    public void onBindViewHolder(MemeAllAdapter.ViewHolder viewHolder, int i) {
         if(type== SMALL){
         viewHolder.copyright.setText(items.get(i).getCopyright());
         viewHolder.nick.setText(items.get(i).getNickname());

@@ -7,16 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
-import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.HttpClient;
@@ -24,10 +18,7 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
-import com.example.FoF_Android.home.model.MemeCase;
 import com.example.FoF_Android.home.model.MemeResponse;
-import com.ocnyang.pagetransformerhelp.cardtransformer.AlphaPageTransformer;
-import com.ocnyang.pagetransformerhelp.cardtransformer.CascadingPageTransformer;
 
 import java.util.List;
 
@@ -36,15 +27,14 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeRecFragment extends Fragment {
-    MemeRecAdapter adapter;
+    MemePagerAdapter adapter;
     TokenManager gettoken;
     RetrofitApi api;
     ViewPager myviewpager;
     DetailFragment recmeme;
     ImageButton report,copy,send;
     ToggleButton like;
-    public static final int LEFT = 3 ;
-    private ReportDialog reportDialog;
+
 
     public HomeRecFragment() {
     }
@@ -65,6 +55,7 @@ public class HomeRecFragment extends Fragment {
         gettoken=new TokenManager(getContext());
         myviewpager=view.findViewById(R.id.myviewpager);
         myviewpager.setPageTransformer(true, new StackPageTransformer(getContext()));
+
        // myviewpager.setPageTransformer(true, new CascadingPageTransformer());
         initUI(view);
 
@@ -108,7 +99,7 @@ public class HomeRecFragment extends Fragment {
                             getFragmentManager().beginTransaction().replace(R.id.container, recmeme).addToBackStack(null).commit();
                         }
                     });*/
-                    adapter=new MemeRecAdapter(getContext(),items);
+                    adapter=new MemePagerAdapter(getContext(),items);
                     myviewpager.setOffscreenPageLimit(3);
                     myviewpager.setAdapter(adapter);
 
@@ -127,17 +118,7 @@ public class HomeRecFragment extends Fragment {
 
 
     }
-    public void onclick(){
-        report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                reportDialog = new ReportDialog(getActivity(),positiveListener,negativeListener);
-                reportDialog.show();
-
-
-            }
-        });
+    public void onclickbutton(ViewGroup view){
 
 
         like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
@@ -169,18 +150,5 @@ public class HomeRecFragment extends Fragment {
             }
         });
     }
-    private View.OnClickListener positiveListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "확인버튼이 눌렸습니다.",Toast.LENGTH_SHORT).show();
-            reportDialog.dismiss();
-        }
-    };
-
-    private View.OnClickListener negativeListener = new View.OnClickListener() {
-        public void onClick(View v) {
-            Toast.makeText(getContext(), "취소버튼이 눌렸습니다.",Toast.LENGTH_SHORT).show();
-            reportDialog.dismiss();
-        }
-    };
 
 }

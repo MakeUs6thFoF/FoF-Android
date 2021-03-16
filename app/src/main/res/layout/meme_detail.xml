@@ -12,10 +12,12 @@
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:background="@color/lightgray"
      >
 
         <LinearLayout
             android:id="@+id/wrap"
+            android:background="@color/white"
             android:layout_width="match_parent"
             android:layout_height="76dp"
             android:paddingBottom="12dp"

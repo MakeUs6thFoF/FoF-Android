@@ -1,28 +1,26 @@
 package com.example.FoF_Android.home;
 
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.content.Context;
-import android.graphics.drawable.Drawable;
-import android.text.Layout;
-import android.util.Log;
-import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
-import android.widget.Button;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
+import com.example.FoF_Android.home.dialog.DeleteDialog;
+import com.example.FoF_Android.home.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
 
 import java.util.List;
@@ -31,11 +29,13 @@ import de.hdodenhof.circleimageview.CircleImageView;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
-public class MemeRecAdapter extends PagerAdapter {
+public class MemePagerAdapter extends PagerAdapter {
     private Context context;
     private List<Meme.Data> items;
+    private SelectDialog reportDialog;
+    private DeleteDialog deleteDialog;
 
-    public MemeRecAdapter(Context context, List<Meme.Data> items)
+    public MemePagerAdapter(Context context, List<Meme.Data> items)
     {
         this.context = context;
         this.items = items;
@@ -110,11 +110,28 @@ public class MemeRecAdapter extends PagerAdapter {
             .placeholder(R.drawable.meme2)
                     .into(memeimg);
 
+
+
+        ImageButton report=(ImageButton)view.findViewById(R.id.report);
+        report.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                reportDialog = new SelectDialog(context,leftListener,cancellistener); // 왼쪽 버튼 이벤트
+                calldialog(reportDialog);
+            }
+        });
         container.addView(view);
 
         return view;
     }
+    public void calldialog(Dialog reportDialog){
+        // 오른쪽 버튼 이벤트
 
+        //요청 이 다이어로그를 종료할 수 있게 지정함
+        reportDialog.setCancelable(true);
+        reportDialog.getWindow().setGravity(Gravity.CENTER);
+        reportDialog.show();
+    }
     @Override
     public int getCount() {
         return items.size();
@@ -129,4 +146,21 @@ public class MemeRecAdapter extends PagerAdapter {
     public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
         return (view == (View)o);
     }
+
+
+
+    private View.OnClickListener leftListener = new View.OnClickListener() {
+        public void onClick(View v) {
+
+            reportDialog.dismiss();
+            deleteDialog= new DeleteDialog(context,cancellistener);
+            calldialog(deleteDialog);
+        }
+    };
+    private View.OnClickListener cancellistener = new View.OnClickListener() {
+        public void onClick(View v) {
+            reportDialog.dismiss();
+            deleteDialog.dismiss();
+        }
+    };
 }

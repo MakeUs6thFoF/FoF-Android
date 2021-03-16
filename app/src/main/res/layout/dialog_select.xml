@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <Button
+            android:id="@+id/delete"
+            style="@style/bold_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="삭제"
+            android:textColor="@color/pink"
+            android:textSize="14dp"
+            app:layout_constraintBottom_toTopOf="@+id/modify" />
+
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="0.1px"
+            android:background="@color/lightgray"
+            app:layout_constraintBottom_toTopOf="@+id/modify" />
+
+        <Button
+            android:id="@+id/modify"
+            style="@style/bold_16dp"
+            android:layout_width="match_parent"
+            android:layout_height="44dp"
+            android:background="@color/white"
+            android:gravity="center"
+            android:text="수정"
+            android:textSize="14dp"
+            android:layout_marginBottom="12dp"
+            app:layout_constraintBottom_toTopOf="@id/cancel" />
+        <Button
+            android:id="@+id/cancel"
+            android:layout_width="match_parent"
+            android:layout_height="53dp"
+            android:text="취소"
+            android:background="@color/lightgray"
+            android:textColor="@color/deepgray"
+            android:layout_marginBottom="44dp"
+            app:layout_constraintBottom_toBottomOf="parent" />
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.constraintlayout.widget.ConstraintLayout>
