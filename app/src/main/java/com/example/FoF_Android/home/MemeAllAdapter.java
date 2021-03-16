@@ -61,8 +61,8 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
                 .load(items.get(i).getProfileImage())
                 .placeholder(R.drawable.meme2)
                 .into(viewHolder.profileimg);
-
         }
+
         viewHolder.bind(items.get(i), listener);
             Glide.with(context)
                     .load(items.get(i).getImageUrl())

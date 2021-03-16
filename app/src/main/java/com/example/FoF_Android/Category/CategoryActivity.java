@@ -105,13 +105,11 @@ public class CategoryActivity extends AppCompatActivity {
         Button.OnClickListener onClickListener = new Button.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 switch (v.getId()){
                     case R.id.skip_btn:
                         startActivity(mainIntent);
                         break;
                     case R.id.next_btn:
-                        //TODO 카테고리 선택 데이터 받아오기
                         postCategory(api, buttonList);
                         break;
                 }

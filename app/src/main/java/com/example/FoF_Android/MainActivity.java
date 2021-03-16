@@ -3,7 +3,6 @@ package com.example.FoF_Android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
@@ -11,10 +10,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.FoF_Android.home.HomeFragment;
+import com.example.FoF_Android.make.MakeFragment;
 import com.example.FoF_Android.my.MyFragment;
 import com.example.FoF_Android.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.ramotion.expandingcollection.ECPagerView;
 
 import java.util.List;
 

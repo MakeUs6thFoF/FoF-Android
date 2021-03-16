@@ -103,14 +103,10 @@ public class MemePagerAdapter extends PagerAdapter {
                 .placeholder(R.drawable.meme2)
                 .into(profileimg);
 
-
-
-            Glide.with(context)
-            .load(items.get(position).getImageUrl())
-            .placeholder(R.drawable.meme2)
-                    .into(memeimg);
-
-
+        Glide.with(context)
+        .load(items.get(position).getImageUrl())
+        .placeholder(R.drawable.meme2)
+                .into(memeimg);
 
         ImageButton report=(ImageButton)view.findViewById(R.id.report);
         report.setOnClickListener(new View.OnClickListener() {
@@ -160,7 +156,7 @@ public class MemePagerAdapter extends PagerAdapter {
     private View.OnClickListener cancellistener = new View.OnClickListener() {
         public void onClick(View v) {
             reportDialog.dismiss();
-            deleteDialog.dismiss();
+         if(deleteDialog!=null)deleteDialog.dismiss();
         }
     };
 }

@@ -1,5 +1,6 @@
 package com.example.FoF_Android.detail;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -23,6 +24,8 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.OnBackPressed;
+import com.example.FoF_Android.home.dialog.DeleteDialog;
+import com.example.FoF_Android.home.dialog.SelectDialog;
 
 import java.util.List;
 
@@ -35,16 +38,20 @@ import static android.view.View.TEXT_ALIGNMENT_CENTER;
 public class DetailFragment extends Fragment implements OnBackPressed {
     RetrofitApi api;
     RecyclerView similar;
-    Integer i=0;
+
     List<Detail.Data.Similar> items;
     Detail.Data.memeDetail detail;
     ImageView memeimg;
     TextView title, copyright;
-    SimilarAdapter adaptersim;
-    String token;
+
     LinearLayout Tag,Tag2;
     ImageButton report,copy,send;
     ToggleButton like;
+
+    private SelectDialog reportDialog;
+    private DeleteDialog deleteDialog;
+    private Integer i=0;
+
     public DetailFragment(int i) {
         this.i=i;
     }
@@ -70,18 +77,27 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         like=(ToggleButton) view.findViewById(R.id.like);
         copy=(ImageButton)view.findViewById(R.id.copy);
         send=(ImageButton)view.findViewById(R.id.send);
-
         Tag= (LinearLayout)view.findViewById(R.id.Tag);
         Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
     }
+
+    public void calldialog(Dialog reportDialog){
+        // 오른쪽 버튼 이벤트
+
+        //요청 이 다이어로그를 종료할 수 있게 지정함
+        reportDialog.setCancelable(true);
+        reportDialog.getWindow().setGravity(Gravity.CENTER);
+        reportDialog.show();
+    }
+
     public void onclick(){
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                reportDialog = new SelectDialog(getContext(),leftListener,cancellistener); // 왼쪽 버튼 이벤트
+                calldialog(reportDialog);
+            }});
 
-
-            }
-        });
         like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
@@ -164,7 +180,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         HttpClient client = new HttpClient();
          api = client.getRetrofit().create(RetrofitApi.class);
         TokenManager gettoken = new TokenManager(getContext());
-        token = gettoken.checklogin(getContext());
+        String token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
         Call<Detail> call = api.getsimilar(token, i);
         call.enqueue(new Callback<Detail>() {
@@ -178,7 +194,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                     detail = response.body().getdata().getDetail();
 
                     Log.i("TAG", "onResponse: " + detail.getMemeTitle());
-                    adaptersim = new SimilarAdapter(getContext(), items);
+                    SimilarAdapter adaptersim = new SimilarAdapter(getContext(), items);
                     similar.setAdapter(adaptersim);
                     setUI();
                     // setupCurrentIndicator(0);
@@ -204,6 +220,19 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         Log.d("ChildFragment", "onDestroy");
     }
 
+    private View.OnClickListener leftListener = new View.OnClickListener() {
+        public void onClick(View v) {
 
+            reportDialog.dismiss();
+            deleteDialog= new DeleteDialog(getContext(),cancellistener);
+            calldialog(deleteDialog);
+        }
+    };
+    private View.OnClickListener cancellistener = new View.OnClickListener() {
+        public void onClick(View v) {
+            reportDialog.dismiss();
+            if(deleteDialog!=null)deleteDialog.dismiss();
+        }
+    };
 
 }
