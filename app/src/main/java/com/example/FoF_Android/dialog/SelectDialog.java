@@ -1,4 +1,4 @@
-package com.example.FoF_Android.home.dialog;
+package com.example.FoF_Android.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -9,12 +9,12 @@ import android.widget.Button;
 
 import com.example.FoF_Android.R;
 
-public class DeleteDialog extends Dialog {
+public class SelectDialog extends Dialog {
 
-    private Button mPositiveButton;
+    private Button mModifyButton;
     private Button mNegativeButton;
 
-    private View.OnClickListener mPositiveListener;
+    private View.OnClickListener mModifyListener;
     private View.OnClickListener mNegativeListener;
 
 
@@ -28,21 +28,24 @@ public class DeleteDialog extends Dialog {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
 
-        setContentView(R.layout.dialog_delete);
+        setContentView(R.layout.dialog_select);
 
         //셋팅
-
+        mModifyButton=(Button)findViewById(R.id.delete);
         mNegativeButton=(Button)findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
+
+        mModifyButton.setOnClickListener(mModifyListener);
         mNegativeButton.setOnClickListener(mNegativeListener);
     }
 
     //생성자 생성
-    public DeleteDialog(Context context,
+    public SelectDialog(Context context, View.OnClickListener modifylistener,
                         View.OnClickListener cancelistener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        this.mModifyListener=modifylistener;
         this.mNegativeListener = cancelistener;
     }
 }
-

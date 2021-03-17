@@ -149,7 +149,7 @@
             android:layout_height="53dp"
             android:layout_marginLeft="2dp"
             android:layout_weight="1"
-            android:background="@drawable/check_btn_box"
+            android:background="@drawable/btn_check_box"
             android:text="다음"
             android:textColor="@color/white" />
     </LinearLayout>

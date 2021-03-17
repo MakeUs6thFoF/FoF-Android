@@ -75,7 +75,7 @@
         style="@style/bold_16dp"
         android:layout_width="0dp"
         android:layout_height="53dp"
-        android:background="@drawable/check_btn_box"
+        android:background="@drawable/btn_check_box"
         android:text="로그인"
         android:layout_marginHorizontal="20dp"
         android:layout_marginTop="400dp"

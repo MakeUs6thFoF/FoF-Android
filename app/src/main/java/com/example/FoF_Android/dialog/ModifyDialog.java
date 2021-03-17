@@ -1,4 +1,4 @@
-package com.example.FoF_Android.home.dialog;
+package com.example.FoF_Android.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
@@ -6,15 +6,15 @@ import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.ImageButton;
 
 import com.example.FoF_Android.R;
 
-public class SelectDialog extends Dialog {
+public class ModifyDialog extends Dialog {
+    private Button mPositiveButton;
+    private ImageButton mNegativeButton;
 
-    private Button mModifyButton;
-    private Button mNegativeButton;
-
-    private View.OnClickListener mModifyListener;
+    private View.OnClickListener mPositiveListener;
     private View.OnClickListener mNegativeListener;
 
 
@@ -28,24 +28,20 @@ public class SelectDialog extends Dialog {
         layoutParams.dimAmount = 0.8f;
         getWindow().setAttributes(layoutParams);
 
-        setContentView(R.layout.dialog_select);
+        setContentView(R.layout.dialog_copyright);
 
         //셋팅
-        mModifyButton=(Button)findViewById(R.id.delete);
-        mNegativeButton=(Button)findViewById(R.id.cancel);
+
+        mNegativeButton=(ImageButton)findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
-
-        mModifyButton.setOnClickListener(mModifyListener);
         mNegativeButton.setOnClickListener(mNegativeListener);
     }
 
     //생성자 생성
-    public SelectDialog(Context context, View.OnClickListener modifylistener,
+    public ModifyDialog(Context context,
                         View.OnClickListener cancelistener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-
-        this.mModifyListener=modifylistener;
         this.mNegativeListener = cancelistener;
     }
 }
