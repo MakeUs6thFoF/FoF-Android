@@ -3,6 +3,7 @@ package com.example.FoF_Android.search;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.viewpager.widget.ViewPager;
 
@@ -21,6 +22,7 @@ import com.google.android.material.tabs.TabLayout;
 import com.ramotion.expandingcollection.ECCardData;
 import com.ramotion.expandingcollection.ECPagerView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import retrofit2.Call;
@@ -32,12 +34,13 @@ public class SearchFragment extends Fragment {
     NonSwipeViewPager viewPager;
     RetrofitApi api;
     TokenManager gettoken;
-    TextView hash1;
+
 
     int tagIdx[] = new int[5];
     String tagName[] = new String[5];
     int searchCnt[] = new int[5];
-
+    List<HashTag.Data.TagList> taglist = new ArrayList<>();
+    HashTagAdapter mAdapter;
 
 
     public SearchFragment() {
@@ -63,8 +66,7 @@ public class SearchFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
-        hash1 = view.findViewById(R.id.hash1);
-        getHashTag(api);
+        getHashTag(api, view);
 
         tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("감정"));
@@ -90,13 +92,10 @@ public class SearchFragment extends Fragment {
         });
 
 
-        RecyclerView mRecyclerView = view.findViewById(R.id.hashtag_recycler);
-
-
         return view;
     }
 
-    public void getHashTag(RetrofitApi api){
+    public void getHashTag(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
         api.getTag(token).enqueue(new Callback<HashTag>() {
             @Override
@@ -106,8 +105,24 @@ public class SearchFragment extends Fragment {
                     tagIdx[i] = tag.getData().getTagList().get(i).getTagIdx();
                     tagName[i] = tag.getData().getTagList().get(i).getTagName();
                     searchCnt[i] = tag.getData().getTagList().get(i).getSearchCnt();
+
                 }
-                hash1.setText(tagName[0]);
+                taglist = tag.getData().getTagList();
+
+                RecyclerView mRecyclerView = view.findViewById(R.id.hashtag_recycler);
+                LinearLayoutManager mLinearLayoutmanager = new LinearLayoutManager(getActivity());
+                mRecyclerView.setLayoutManager(mLinearLayoutmanager);
+                mAdapter = new HashTagAdapter(taglist, getContext());
+                mRecyclerView.setAdapter(mAdapter);
+
+                mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
+                    @Override
+                    public void onItemClick(View v, int position) {
+                        HashTag.Data.TagList item = mAdapter.getItem(position);
+                        System.out.println("태그확인"+item.getTagName());
+                    }
+                });
+
             }
 
             @Override
