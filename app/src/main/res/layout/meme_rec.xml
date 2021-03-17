@@ -13,16 +13,16 @@
         app:layout_constraintBottom_toBottomOf="@+id/myviewpager"
         app:layout_constraintStart_toStartOf="parent" />
     <ImageView
-        android:layout_width="349dp"
+        android:layout_width="350dp"
         android:layout_height="match_parent"
         android:layout_marginTop="8dp"
         android:background="@color/gray"
         app:layout_constraintBottom_toBottomOf="@+id/myviewpager"
         app:layout_constraintStart_toStartOf="parent" />
 
-    <androidx.viewpager.widget.ViewPager
+    <com.yuyakaido.android.cardstackview.CardStackView
         android:id="@+id/myviewpager"
-        android:layout_width="341dp"
+        android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_marginEnd="20dp"
         android:clipChildren="false"
@@ -32,7 +32,7 @@
         app:layout_constraintStart_toStartOf="parent"
  >
 
-    </androidx.viewpager.widget.ViewPager>
+    </com.yuyakaido.android.cardstackview.CardStackView>
 
     <LinearLayout
         android:id="@+id/card"

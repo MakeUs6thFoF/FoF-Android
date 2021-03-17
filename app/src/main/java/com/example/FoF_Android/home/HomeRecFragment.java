@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
+import android.widget.ImageView;
 import android.widget.ToggleButton;
 
 import androidx.fragment.app.Fragment;
@@ -18,7 +19,11 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.home.model.MemeCase;
 import com.example.FoF_Android.home.model.MemeResponse;
+import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
+import com.yuyakaido.android.cardstackview.CardStackView;
+import com.yuyakaido.android.cardstackview.internal.CardStackSetting;
 
 import java.util.List;
 
@@ -27,13 +32,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeRecFragment extends Fragment {
-    MemePagerAdapter adapter;
+   // MemePagerAdapter adapter;
+   MemeAllAdapter adapter;
     TokenManager gettoken;
     RetrofitApi api;
-    ViewPager myviewpager;
+   // ViewPager myviewpager;
     DetailFragment recmeme;
-    ImageButton report,copy,send;
-    ToggleButton like;
+    CardStackView myviewpager;
 
 
     public HomeRecFragment() {
@@ -55,24 +60,8 @@ public class HomeRecFragment extends Fragment {
         gettoken=new TokenManager(getContext());
         myviewpager=view.findViewById(R.id.myviewpager);
 
-       // myviewpager.setPageTransformer(true, new CascadingPageTransformer());
         initUI(view);
-        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
-
-      /*  myviewpager.setPageTransformer(RecPageTransform.getBuild()//建造者模式
-                .addAnimationType(PageTransformerConfig.ROTATION)//默认动画 default animation rotation  旋转  当然 也可以一次性添加两个  后续会增加更多动画
-                .setRotation(-45)//旋转角度
-                .addAnimationType(PageTransformerConfig.ALPHA)//默认动画 透明度 暂时还有问题
-                .setViewType(PageTransformerConfig.LEFT)//view的类型
-                .setOnPageTransformerListener(new OnPageTransformerListener() {
-                    @Override
-                    public void onPageTransformerListener(View page, float position) {
-
-                    }
-                })
-                .setTranslationOffset(40)
-                .setScaleOffset(80)
-                .create());*/
+      //  myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
 
         return view;
     }
@@ -91,16 +80,16 @@ public class HomeRecFragment extends Fragment {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                 /*   adapter=new MemeAdapter(getContext(),items, MemeCase.SMALL,new MemeAdapter.OnItemClickListener() {
+                    adapter=new MemeAllAdapter(getContext(),items, MemeCase.SMALL,new MemeAllAdapter.OnItemClickListener() {
                         @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                             recmeme=new DetailFragment(item.getMemeIdx());
 
                             //  recmeme.setArguments(options.toBundle());
-                            getFragmentManager().beginTransaction().replace(R.id.container, recmeme).addToBackStack(null).commit();
+                            getFragmentManager().beginTransaction().add(R.id.container, recmeme).addToBackStack(null).commit();
                         }
-                    });*/
-                    adapter=new MemePagerAdapter(getContext(),items);
-                    myviewpager.setOffscreenPageLimit(3);
+                    });
+                 //   adapter=new MemePagerAdapter(getContext(),items);
+                  //  myviewpager.setOffscreenPageLimit(3);
                     myviewpager.setAdapter(adapter);
 
                    // setupCurrentIndicator(0);
@@ -118,37 +107,6 @@ public class HomeRecFragment extends Fragment {
 
 
     }
-    public void onclickbutton(ViewGroup view){
 
-
-        like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
-
-                    /*api.postLike(token,items.get(i).getMemeIdx()).enqueue(new Callback<Like>() {
-                        @Override
-                        public void onResponse(Call<Like> call, Response<Like> response) {
-                            if(response.isSuccessful()) {
-                                Like like = response.body();
-
-                                System.out.println("포스트확인2" + like.getCode());
-                                System.out.println("포스트확인2" + like.getMessage());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Like> call, Throwable t) {
-
-                        }
-                    });*/
-                }
-                else
-                {
-                }
-            }
-        });
-    }
 
 }

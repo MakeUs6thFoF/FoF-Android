@@ -47,7 +47,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
 
     @Override
     public MemeAllAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        if(type== SMALL) style=R.layout.meme_item;
+        if(type== SMALL) style=R.layout.meme_rec_item;
         else style=R.layout.meme_all_item;
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(style, viewGroup, false);
         return new ViewHolder(view);

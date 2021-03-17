@@ -8,13 +8,8 @@ import android.view.WindowManager;
 import android.widget.Button;
 
 import com.example.FoF_Android.R;
-import com.example.FoF_Android.home.MemeAllAdapter;
-import com.example.FoF_Android.home.model.Meme;
-import com.example.FoF_Android.home.model.MemeCase;
 
-import java.util.List;
-
-public class SelectDialog extends Dialog {
+public class ReportDialog extends Dialog {
 
     private Button mModifyButton;
     private Button mNegativeButton;
@@ -46,7 +41,7 @@ public class SelectDialog extends Dialog {
     }
 
     //생성자 생성
-    public SelectDialog(Context context, View.OnClickListener modifylistener,
+    public ReportDialog(Context context, View.OnClickListener modifylistener,
                         View.OnClickListener cancelistener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
 
