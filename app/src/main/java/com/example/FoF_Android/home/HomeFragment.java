@@ -68,7 +68,20 @@ public class HomeFragment extends Fragment implements OnBackPressed{
         });
         return view;
     }
-    public void onBackPressed() {}
+    @Override
+    public void onBackPressed() {
+
+        // If the fragment exists and has some back-stack entry
+        if (recmeme != null && recmeme.getChildFragmentManager().getBackStackEntryCount() > 0){
+            // Get the fragment fragment manager - and pop the backstack
+            recmeme.getChildFragmentManager().popBackStack();
+        }
+        // Else, nothing in the direct fragment back stack
+        else{
+            // Let super handle the back press
+         //   super.onBackPressed();
+        }
+    }
     public void setCurrentTabFragment(int position){
 
         switch (position)

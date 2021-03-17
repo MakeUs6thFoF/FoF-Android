@@ -54,10 +54,10 @@ public class HomeRecFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_rec, container, false);
         gettoken=new TokenManager(getContext());
         myviewpager=view.findViewById(R.id.myviewpager);
-        myviewpager.setPageTransformer(true, new StackPageTransformer(getContext()));
 
        // myviewpager.setPageTransformer(true, new CascadingPageTransformer());
         initUI(view);
+        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
 
       /*  myviewpager.setPageTransformer(RecPageTransform.getBuild()//建造者模式
                 .addAnimationType(PageTransformerConfig.ROTATION)//默认动画 default animation rotation  旋转  当然 也可以一次性添加两个  后续会增加更多动画

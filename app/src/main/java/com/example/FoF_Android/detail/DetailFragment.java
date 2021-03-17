@@ -24,8 +24,8 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.OnBackPressed;
-import com.example.FoF_Android.home.dialog.DeleteDialog;
-import com.example.FoF_Android.home.dialog.SelectDialog;
+import com.example.FoF_Android.dialog.DeleteDialog;
+import com.example.FoF_Android.dialog.SelectDialog;
 
 import java.util.List;
 
@@ -133,7 +133,6 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         Glide.with(getContext())
                 .load(detail.getImageUrl())
-                .placeholder(R.drawable.meme2)
                 .into(memeimg);
         title.setText(detail.getMemeTitle());
         copyright.setText(detail.getCopyright());
@@ -161,7 +160,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(0,4,0,0);
+            btn[i].setPadding(0,8,0,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
             if (i < 4) {

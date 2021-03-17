@@ -46,8 +46,13 @@
             android:layout_height="4dp"
             android:layout_gravity="bottom"
             android:layout_marginHorizontal="20dp"
-            android:background="@drawable/report" />
+            android:background="@color/white" />
 
     </LinearLayout>
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/lightgray"
+        app:layout_constraintBottom_toTopOf="@+id/modify" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

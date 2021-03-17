@@ -12,15 +12,16 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.FoF_Android.R;
-import com.example.FoF_Android.home.dialog.DeleteDialog;
-import com.example.FoF_Android.home.dialog.SelectDialog;
+import com.example.FoF_Android.dialog.DeleteDialog;
+import com.example.FoF_Android.dialog.ModifyDialog;
+import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
 
 import java.util.List;
@@ -34,6 +35,7 @@ public class MemePagerAdapter extends PagerAdapter {
     private List<Meme.Data> items;
     private SelectDialog reportDialog;
     private DeleteDialog deleteDialog;
+    private ModifyDialog modifyDialog;
 
     public MemePagerAdapter(Context context, List<Meme.Data> items)
     {
@@ -75,7 +77,7 @@ public class MemePagerAdapter extends PagerAdapter {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(0,4,0,0);
+            btn[i].setPadding(0,8,0,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
             if (i < 4) {
@@ -93,10 +95,16 @@ public class MemePagerAdapter extends PagerAdapter {
         TextView nick = (TextView) view.findViewById(R.id.nick);
         ImageView memeimg = (ImageView) view.findViewById(R.id.imageView);
         CircleImageView  profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
-        TextView title = (TextView) view.findViewById(R.id.title);
         TextView copyright=(TextView) view.findViewById(R.id.copyright);
 
         copyright.setText(items.get(position).getCopyright());
+        copyright.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                modifyDialog = new ModifyDialog(context,cancellistener); // 왼쪽 버튼 이벤트
+                calldialog(modifyDialog);
+            }
+        });
         nick.setText(items.get(position).getNickname());
         Glide.with(context)
                 .load(items.get(position).getProfileImage())
@@ -105,7 +113,8 @@ public class MemePagerAdapter extends PagerAdapter {
 
         Glide.with(context)
         .load(items.get(position).getImageUrl())
-        .placeholder(R.drawable.meme2)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .placeholder(R.drawable.meme2)
                 .into(memeimg);
 
         ImageButton report=(ImageButton)view.findViewById(R.id.report);
@@ -155,7 +164,8 @@ public class MemePagerAdapter extends PagerAdapter {
     };
     private View.OnClickListener cancellistener = new View.OnClickListener() {
         public void onClick(View v) {
-            reportDialog.dismiss();
+            if(modifyDialog!=null)  modifyDialog.dismiss();
+            if(reportDialog!=null)  reportDialog.dismiss();
          if(deleteDialog!=null)deleteDialog.dismiss();
         }
     };

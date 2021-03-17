@@ -9,111 +9,56 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
 
 import com.example.FoF_Android.R;
 
 public class StackPageTransformer implements ViewPager.PageTransformer {
 
-    private static final float DEFAULT_SCALE = 0.8f;
-    private int dimen;
-    private float cardElevationDefault = 10;
-    private boolean leftToRight = true;
-    private float offsetXDps = 27;
-    private float offsetXPxs;
-    /**
-     * Default angle of rotation during swipe
-     */
-    public static final float DEFAULT_SWIPE_ROTATION = 30f;
-    /**
-     * Angle of rotation of page during swipe
-     */
-    private float mRotateDegrees = -DEFAULT_SWIPE_ROTATION;
+    private static final float CENTER_PAGE_SCALE = 0.8f;
+    private int offscreenPageLimit;
+    private ViewPager boundViewPager;
 
-    public StackPageTransformer(Context context){
-        /**
-         * Convert DP into pixel. This converted offset value ensures that cards are displaced
-         * by a value that that would occupy equal amount of pixels in any devices
-         * irrespective of the screen density.
-         */
-        offsetXPxs = offsetXDps * context.getResources().getDisplayMetrics().density;
+    public StackPageTransformer ( ViewPager boundViewPager) {
+        this.boundViewPager = boundViewPager;
+        this.offscreenPageLimit = boundViewPager.getOffscreenPageLimit();
     }
 
-    public void transformPage(View view, float position) {
-        dimen = view.getWidth();
-        view.setFocusable(false);
+    @Override
+    public void transformPage( View view, float position) {
+        int pagerWidth = boundViewPager.getWidth();
+        float horizontalOffsetBase = (pagerWidth - pagerWidth * CENTER_PAGE_SCALE) / 2 / offscreenPageLimit + 15;
 
-        if(leftToRight)
-        {
-            float transX = (-dimen * position) + (offsetXPxs * position);
-            if (position < 0 && position >= -1) //-1일때
-            {
-                if (mRotateDegrees < 0) {
-                    float rotation = mRotateDegrees * position;
-                    view.setRotation(rotation);
-                }
-                if(position <= -1)
-                {
-                    /**
-                     * Hide the page that is to the left. This media card is single direction.
-                     */
-                    view.setAlpha(0f);
-
-
-                }
-            }
-            else if (position == 0)
-            {
-                view.setFocusable(true);
-                view.setAlpha(1.0f);
-              //  ((CardView) view).setCardElevation(cardElevationDefault);
-             //   view.setTranslationX(transX);
-           //     view.setScaleX(0.9f);
-               // view.setScaleY(0.9f);
-                view.setRotation(0);
-            }
-            else if (position > 0)
-            {
-                float ceil = (float) round((float) Math.ceil(Math.abs(position)), 1);
-                float floor = (float) round((float) Math.floor(Math.abs(position)), 1);
-                float scaleCeil = 0, newFloor = 0, scale = 0;
-
-                if (position == ceil && position == floor)
-                {
-                    // This means the position is whole number eg: 1,2,3
-                    float floorTemp = (float) (floor - 1);
-                    newFloor = (float) round((float) (floorTemp + 0.1), 1);
-                } else
-                    newFloor = (float) round((float) (floor + 0.1), 1);
-
-                float scaleTolerance = (float) round(ceil / 10, 1);
-                float higher = (float) round(DEFAULT_SCALE - scaleTolerance ,1);
-                float lower = (float) round(higher - 0.1f ,1);
-
-                /**
-                 *  NewValue = (((OldValue - OldMin) * (NewMax - NewMin)) / (OldMax - OldMin)) + NewMin
-                 *  Here, when the page moves from right to left, the scale range is inverted. Hence (lower - higher).
-                 */
-                scale = (((Math.abs(position) - Math.abs(newFloor)) * (lower - higher)) / (Math.abs(ceil) - Math.abs(newFloor))) + higher;
-             //   ((CardView) view).setCardElevation(cardElevationDefault - ceil);
-                float adjustedScale = (scale <= higher) ? scale : higher;
-              //  view.setScaleX(adjustedScale);
-            //    view.setScaleY((scale <= higher) ? scale : higher);
-                view.setTranslationX(transX);
-                if(position <  5)
-                    view.setAlpha(1.0f);
-                else
-                    view.setAlpha(0f);
-            }else{
-                view.setAlpha(0f);
-            }
-        }else{
-            // Reverse logic of the above can be implemented for RTL support
+        if (position >= offscreenPageLimit || position <= -1) {
+            //view.setVisibility(View.GONE);
+        } else {
+            view.setVisibility(View.VISIBLE);
         }
+
+        if (position >= 0) {
+            float translationX = (horizontalOffsetBase - view.getWidth()) * position;
+            view.setTranslationX(translationX);
+        }
+        if (position > -1 && position < 0) {
+            float rotation = -position * 30;
+            view.setRotation(rotation);
+            view.setAlpha((position * position * position + 1));
+        } else if (position > offscreenPageLimit - 1) {
+         //   view.setAlpha((float) (1 - position + Math.floor(position)));
+        } else {
+            view.setRotation(0);
+         //   view.setAlpha(1);
+        }
+        if (position == 0) {
+       //     view.setScaleX(CENTER_PAGE_SCALE);
+        //    view.setScaleY(CENTER_PAGE_SCALE);
+        } else {
+            float scaleFactor = Math.min(CENTER_PAGE_SCALE - position * 0.1f, CENTER_PAGE_SCALE);
+          //  view.setScaleX(scaleFactor);
+          //  view.setScaleY(scaleFactor);
+        }
+        ViewCompat.setElevation(view, (offscreenPageLimit - position) * 5);
     }
 
-    private static double round (float value, int precision) {
-        int scale = (int) Math.pow(10, precision);
-        return (float) Math.round(value * scale) / scale;
-    }
 }
