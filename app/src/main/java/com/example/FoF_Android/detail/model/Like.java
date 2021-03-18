@@ -1,4 +1,4 @@
-package com.example.FoF_Android.detail;
+package com.example.FoF_Android.detail.model;
 
 
 public class Like {

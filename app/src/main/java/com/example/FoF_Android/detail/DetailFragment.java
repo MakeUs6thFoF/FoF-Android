@@ -20,11 +20,11 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.HttpClient;
-import com.example.FoF_Android.MainActivity;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
-import com.example.FoF_Android.home.HomeRecFragment;
+import com.example.FoF_Android.detail.model.Detail;
+import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.SelectDialog;

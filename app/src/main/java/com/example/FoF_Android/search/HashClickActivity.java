@@ -4,6 +4,8 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.os.Bundle;
 
+import com.example.FoF_Android.R;
+
 public class HashClickActivity extends AppCompatActivity {
 
     @Override

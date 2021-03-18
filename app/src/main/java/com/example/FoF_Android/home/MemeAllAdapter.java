@@ -1,13 +1,17 @@
 package com.example.FoF_Android.home;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.content.Context;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
+import android.widget.ToggleButton;
 
 
 import androidx.core.app.ActivityOptionsCompat;
@@ -16,6 +20,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
+import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
@@ -30,8 +35,10 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
     private List<Meme.Data> items;
     private Context context;
     private MemeCase type;
+
     private final OnItemClickListener listener;
     Integer style;
+
     ActivityOptionsCompat options;
 
     public interface OnItemClickListener {
@@ -83,11 +90,12 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
         private TextView title;
         private TextView copyright;
         private RecyclerView similar;
-
-
+        private LinearLayout Tag;
+        private LinearLayout Tag2;
         public ViewHolder(View view) {
             super(view);
-
+            Tag= (LinearLayout)view.findViewById(R.id.Tag);
+            Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
             nick = (TextView) view.findViewById(R.id.nick);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
@@ -122,4 +130,6 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
             });
 
         }
-    }}
+    }
+
+}

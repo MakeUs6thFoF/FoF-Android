@@ -26,20 +26,25 @@ public class StackPageTransformer implements ViewPager.PageTransformer {
         this.offscreenPageLimit = boundViewPager.getOffscreenPageLimit();
     }
 
-    @SuppressLint("ResourceAsColor")
+
     @Override
     public void transformPage( View view, float position) {
+        View leftOverlay = view.findViewById(R.id.left_overlay);
+        View rightOverlay = view.findViewById(R.id.right_overlay);
         int pagerWidth = boundViewPager.getWidth();
         int pagerHeight = boundViewPager.getHeight();//
         float horizontalOffsetBase = (pagerWidth - pagerWidth * CENTER_PAGE_SCALE) / 2 / offscreenPageLimit + 10;
         float verticalOffsetBase = (pagerHeight - pagerHeight * CENTER_PAGE_SCALE) / 2 / offscreenPageLimit + 8;//
+        leftOverlay.setAlpha(0);
         if (position >= offscreenPageLimit || position <= -1) {
             view.setAlpha(position * position * position + 1);//
             view.setVisibility(View.GONE);
-
-
+            rightOverlay.setAlpha(1);
+            leftOverlay.setAlpha(0);
         } else {
             view.setVisibility(View.VISIBLE);
+
+            leftOverlay.setAlpha(0);
         }
 
         if (position >= 0) {
@@ -47,9 +52,11 @@ public class StackPageTransformer implements ViewPager.PageTransformer {
             float translationY = (verticalOffsetBase) * position;
             view.setTranslationX(translationX);
             view.setTranslationY(translationY);
-
+          leftOverlay.setAlpha(0);
+          rightOverlay.setAlpha(0);
         }
         if (position > -1 && position < 0) {
+            leftOverlay.setAlpha(1);
             float rotation = -position * 30;
             view.setRotation(rotation);
             view.setAlpha((position * position * position + 1));

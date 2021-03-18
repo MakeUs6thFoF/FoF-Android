@@ -3,7 +3,7 @@ package com.example.FoF_Android.home;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.text.Layout;
+import android.content.Intent;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -25,8 +25,9 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
-import com.example.FoF_Android.detail.Like;
+import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.dialog.DeleteDialog;
+import com.example.FoF_Android.dialog.ModifyCopyrightActivity;
 import com.example.FoF_Android.dialog.ModifyDialog;
 import com.example.FoF_Android.dialog.ReportDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
@@ -62,7 +63,6 @@ public class MemePagerAdapter extends PagerAdapter {
     }
 
 
-    @SuppressLint("ResourceAsColor")
     @NonNull
     @Override
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
@@ -120,7 +120,7 @@ public class MemePagerAdapter extends PagerAdapter {
         copyright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifyDialog = new ModifyDialog(context,cancellistener); // 왼쪽 버튼 이벤트
+                modifyDialog = new ModifyDialog(context,items.get(position).getCopyright(),items.get(position).getMemeIdx(),cancellistener); // 왼쪽 버튼 이벤트
                 calldialog(modifyDialog);
             }
         });
@@ -184,6 +184,8 @@ public class MemePagerAdapter extends PagerAdapter {
          if(deleteDialog!=null)deleteDialog.dismiss();
         }
     };
+
+
 
     public void reportbtnclick(int position){
         report.setOnClickListener(new View.OnClickListener() {

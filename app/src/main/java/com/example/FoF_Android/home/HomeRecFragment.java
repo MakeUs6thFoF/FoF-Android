@@ -1,10 +1,16 @@
 package com.example.FoF_Android.home;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AccelerateInterpolator;
+import android.view.animation.BounceInterpolator;
+import android.view.animation.DecelerateInterpolator;
+import android.view.animation.LinearInterpolator;
+import android.view.animation.OvershootInterpolator;
 import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -18,28 +24,26 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.dialog.ModifyCopyrightActivity;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
 import com.example.FoF_Android.home.model.MemeResponse;
-import com.yuyakaido.android.cardstackview.CardStackLayoutManager;
-import com.yuyakaido.android.cardstackview.CardStackView;
-import com.yuyakaido.android.cardstackview.internal.CardStackSetting;
-
 import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeRecFragment extends Fragment {
-   // MemePagerAdapter adapter;
-   MemeAllAdapter adapter;
+public class HomeRecFragment extends Fragment  {
+    MemePagerAdapter adapter;
+   //MemeAllAdapter adapter;
     TokenManager gettoken;
     RetrofitApi api;
-   // ViewPager myviewpager;
+    ViewPager myviewpager;
     DetailFragment recmeme;
-    CardStackView myviewpager;
-
+   // CardStackView myviewpager;
+   // CardStackLayoutManager layoutManager;
+    Integer idx;
 
     public HomeRecFragment() {
     }
@@ -59,12 +63,34 @@ public class HomeRecFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_rec, container, false);
         gettoken=new TokenManager(getContext());
         myviewpager=view.findViewById(R.id.myviewpager);
+       // layoutManager = new CardStackLayoutManager(requireContext(), this);
+     //   layoutManager.setScaleInterval(0.95f);
 
         initUI(view);
-      //  myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
+        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
 
+      /*  back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                RewindAnimationSetting setting = new RewindAnimationSetting.Builder()
+                        .setDirection(Direction.Left)
+                        .setDuration(Duration.Slow.duration)
+                        .setInterpolator(new OvershootInterpolator())
+                        .build();
+                layoutManager.setOverlayInterpolator(new OvershootInterpolator());
+
+                layoutManager.setRewindAnimationSetting(setting);
+                myviewpager.rewind();
+            }
+        });
+        layoutManager.setCanScrollVertical(false);
+        layoutManager.setDirections(List.of(Direction.Left));
+
+        myviewpager.setLayoutManager(layoutManager);*/
         return view;
     }
+
+
 
     private void initUI(ViewGroup view) {
         HttpClient client=new HttpClient();
@@ -80,16 +106,16 @@ public class HomeRecFragment extends Fragment {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                    adapter=new MemeAllAdapter(getContext(),items, MemeCase.SMALL,new MemeAllAdapter.OnItemClickListener() {
+               /*     adapter=new MemeAllAdapter(getContext(),items, MemeCase.SMALL,new MemeAllAdapter.OnItemClickListener() {
                         @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
                             recmeme=new DetailFragment(item.getMemeIdx());
 
                             //  recmeme.setArguments(options.toBundle());
-                            getFragmentManager().beginTransaction().add(R.id.container, recmeme).addToBackStack(null).commit();
+                         getFragmentManager().beginTransaction().add(R.id.container, recmeme).addToBackStack(null).commit();
                         }
-                    });
-                 //   adapter=new MemePagerAdapter(getContext(),items);
-                  //  myviewpager.setOffscreenPageLimit(3);
+                    });*/
+                    adapter=new MemePagerAdapter(getContext(),items);
+                    myviewpager.setOffscreenPageLimit(3);
                     myviewpager.setAdapter(adapter);
 
                    // setupCurrentIndicator(0);
