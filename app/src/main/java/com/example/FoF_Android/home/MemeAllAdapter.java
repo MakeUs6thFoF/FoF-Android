@@ -106,6 +106,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
                          options = ActivityOptionsCompat.makeSceneTransitionAnimation(
                                 (Activity) context, memeimg, ViewCompat.getTransitionName(memeimg));
                         Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
+
                     }
                 }
 
