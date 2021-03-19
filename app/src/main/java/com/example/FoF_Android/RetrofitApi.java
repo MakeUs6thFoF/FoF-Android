@@ -2,9 +2,10 @@ package com.example.FoF_Android;
 
 import com.example.FoF_Android.Category.Category;
 
-import com.example.FoF_Android.detail.model.Copyright;
+import com.example.FoF_Android.dialog.model.Copyright;
 import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
+import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.search.CategoryMeme;
@@ -48,6 +49,10 @@ public interface RetrofitApi {
 
     @GET("/category")
     Call<Category> getCategory();
+
+    @GET("/report-tag")
+    Call<Report> getReportTag();
+
 
     @FormUrlEncoded
     @POST("/user/meme")

@@ -14,7 +14,7 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
-import com.example.FoF_Android.detail.model.Copyright;
+import com.example.FoF_Android.dialog.model.Copyright;
 
 import retrofit2.Call;
 import retrofit2.Callback;
