@@ -51,11 +51,13 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     ToggleButton like_btn;
     TokenManager gettoken;
     String token;
+    ImageButton back;
 
     private SelectDialog reportDialog;
     private DeleteDialog deleteDialog;
     private Integer i=0;
 
+    String[] array;
     public DetailFragment(int i) {
         this.i=i;
     }
@@ -120,7 +122,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         TextView btn[] = new TextView[30];
         String hashtag=detail.getTag();
 
-        String[] array = hashtag.split(",");
+        if(hashtag!=null) {array = hashtag.split(",");
+
 
         float factor = getContext().getResources().getDisplayMetrics().density;
 
@@ -151,7 +154,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 public void onClick(View v) {
 
                 }
-            });}
+            });}}
     }
 
 
