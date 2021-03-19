@@ -34,7 +34,7 @@ public class SearchFragment extends Fragment {
     NonSwipeViewPager viewPager;
     RetrofitApi api;
     TokenManager gettoken;
-
+    Fragment hashFragment;
 
     int tagIdx[] = new int[5];
     String tagName[] = new String[5];
@@ -50,6 +50,7 @@ public class SearchFragment extends Fragment {
     public static SearchFragment newInstance(String param1, String param2) {
         SearchFragment fragment = new SearchFragment();
         Bundle args = new Bundle();
+
         fragment.setArguments(args);
         return fragment;
     }
@@ -119,7 +120,7 @@ public class SearchFragment extends Fragment {
                     @Override
                     public void onItemClick(View v, int position) {
                         HashTag.Data.TagList item = mAdapter.getItem(position);
-                        System.out.println("태그확인"+item.getTagName());
+                        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(item.getTagIdx(), item.getTagName())).addToBackStack(null).commit();
                     }
                 });
 
