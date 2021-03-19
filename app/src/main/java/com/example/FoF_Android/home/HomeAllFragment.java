@@ -65,7 +65,6 @@ public class HomeAllFragment extends Fragment {
         getActivity().getWindow().setExitTransition(fade);
 
         recycle = view.findViewById((R.id.recycler));
-
         gettoken=new TokenManager(getContext());
         initUI(view);
         return view;
@@ -109,6 +108,7 @@ public class HomeAllFragment extends Fragment {
                 getFragmentManager().beginTransaction().addSharedElement(memeimg, ViewCompat.getTransitionName(memeimg))
                         .setReorderingAllowed(true)
                         .addToBackStack(null).replace(R.id.container, recmeme).commit();
+
             }
             
         });
