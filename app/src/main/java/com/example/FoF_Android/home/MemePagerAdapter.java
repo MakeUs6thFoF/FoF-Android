@@ -69,12 +69,6 @@ public class MemePagerAdapter extends PagerAdapter {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.meme_rec_item, null);
 
-        String hashtag=items.get(position).getTag();
-
-        String[] array = hashtag.split(",");
-   //     next= (View)view.findViewById(R.id.next);
-     //   prev= (View)view.findViewById(R.id.prev);
-
         float factor = context.getResources().getDisplayMetrics().density;
 
         int pixelw = (int) (66 * factor + 0.5f);
@@ -83,6 +77,12 @@ public class MemePagerAdapter extends PagerAdapter {
         LinearLayout Tag= (LinearLayout)view.findViewById(R.id.Tag);
         LinearLayout Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
         TextView btn[] = new TextView[30];
+
+            String hashtag=items.get(position).getTag();
+            if(hashtag!=null){
+        String[] array = hashtag.split(",");
+        //     next= (View)view.findViewById(R.id.next);
+        //   prev= (View)view.findViewById(R.id.prev);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, LayoutParams.MATCH_PARENT);
         params.width=pixelw;
@@ -107,7 +107,7 @@ public class MemePagerAdapter extends PagerAdapter {
                 public void onClick(View v) {
 
                 }
-            });}
+            });}}
 
         report=(ImageButton)view.findViewById(R.id.report);
         like_btn=(ToggleButton) view.findViewById(R.id.like);
