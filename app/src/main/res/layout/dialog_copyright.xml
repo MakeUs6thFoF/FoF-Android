@@ -79,7 +79,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <TextView
-            android:id="@+id/textView3"
+            android:id="@+id/copyright"
             style="@style/basic_16dp"
             android:layout_width="match_parent"
             android:layout_height="127dp"
@@ -87,6 +87,8 @@
             android:background="@color/lightgray"
             android:gravity="center"
             android:layout_marginTop="25dp"
+            android:ems="5"
+            android:padding="20dp"
             android:text="미리보기"
             android:textAlignment="center"
             app:layout_constraintTop_toBottomOf="@+id/info"
@@ -98,7 +100,7 @@
             android:gravity="center"
             android:orientation="vertical"
             app:layout_constraintBottom_toTopOf="@+id/signup_btn"
-            app:layout_constraintTop_toBottomOf="@+id/textView3">
+            app:layout_constraintTop_toBottomOf="@+id/copyright">
 
             <ImageView
                 android:layout_width="50dp"
@@ -116,7 +118,7 @@
                 android:text="정확한 출처가 맞는지\n확인해주세요!"/>
 
         </LinearLayout>        <Button
-            android:id="@+id/signup_btn"
+            android:id="@+id/modify"
             style="@style/bold_16dp"
             android:layout_width="0dp"
             android:layout_height="53dp"

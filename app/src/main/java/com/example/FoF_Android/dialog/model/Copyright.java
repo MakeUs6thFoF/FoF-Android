@@ -1,7 +1,6 @@
-package com.example.FoF_Android.detail;
+package com.example.FoF_Android.dialog.model;
 
-
-public class Like {
+public class Copyright {
     private final boolean isSuccess;
     private final int code;
     private final String message;
@@ -17,7 +16,7 @@ public class Like {
     }
 
 
-    public Like(Boolean isSuccess, int code, String message) {
+    public Copyright(Boolean isSuccess, int code, String message) {
         this.isSuccess = isSuccess;
         this.code = code;
         this.message = message;

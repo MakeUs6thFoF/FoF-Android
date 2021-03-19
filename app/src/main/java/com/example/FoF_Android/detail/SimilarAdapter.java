@@ -12,6 +12,7 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
+import com.example.FoF_Android.detail.model.Detail;
 
 import java.util.List;
 

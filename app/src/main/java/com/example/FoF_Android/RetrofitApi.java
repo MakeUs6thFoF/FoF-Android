@@ -2,7 +2,10 @@ package com.example.FoF_Android;
 
 import com.example.FoF_Android.Category.Category;
 
-import com.example.FoF_Android.detail.Detail;
+import com.example.FoF_Android.dialog.model.Copyright;
+import com.example.FoF_Android.detail.model.Detail;
+import com.example.FoF_Android.detail.model.Like;
+import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.search.CategoryMeme;
@@ -20,6 +23,7 @@ import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
+import retrofit2.http.PATCH;
 import retrofit2.http.POST;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
@@ -47,12 +51,21 @@ public interface RetrofitApi {
     @GET("/category")
     Call<Category> getCategory();
 
+    @GET("/report-tag")
+    Call<Report> getReportTag();
+
+
     @FormUrlEncoded
     @POST("/user/meme")
     Call<SignUp> postCategory(@Header("x-access-token") String token, @Field("categoryIdx") List<Integer> list);
 
+
     @POST("/meme/{memeidx}/good")
-    Call<Detail> postLike(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx);
+    Call<Like> postLike(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx);
+
+    @PATCH("/meme/{memeidx}/copyright")
+    Call<Copyright> modifycopy(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx);
+
 
     @GET("/meme/{memeidx}")
     Call<Detail> getsimilar(@Header("x-access-token") String token,

@@ -203,4 +203,20 @@
         </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>
 
+    <FrameLayout
+        android:id="@+id/left_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/viewpager_next"/>
+
+    </FrameLayout>
+
+    <FrameLayout
+        android:id="@+id/right_overlay"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <include layout="@layout/viewpager_previous"/>
+    </FrameLayout>
+
+
 </androidx.cardview.widget.CardView>

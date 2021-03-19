@@ -23,6 +23,8 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.detail.model.Detail;
+import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
@@ -46,7 +48,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
     LinearLayout Tag,Tag2;
     ImageButton report,copy,send;
-    ToggleButton like;
+    ToggleButton like_btn;
+    TokenManager gettoken;
+    String token;
 
     private SelectDialog reportDialog;
     private DeleteDialog deleteDialog;
@@ -63,7 +67,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         initUI(view);
         onclick();
         similarUI(view, i);
-        getChildFragmentManager().popBackStack();
+        btnclick(i);
+
         return view;
     }
 
@@ -74,7 +79,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         copyright=(TextView)view.findViewById(R.id.copyright);
         similar=view.findViewById(R.id.similar);
         report=(ImageButton)view.findViewById(R.id.report);
-        like=(ToggleButton) view.findViewById(R.id.like);
+        like_btn=(ToggleButton) view.findViewById(R.id.like);
         copy=(ImageButton)view.findViewById(R.id.copy);
         send=(ImageButton)view.findViewById(R.id.send);
         Tag= (LinearLayout)view.findViewById(R.id.Tag);
@@ -98,35 +103,10 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 calldialog(reportDialog);
             }});
 
-        like.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
-            @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                if(isChecked)
-                {
 
-                    /*api.postLike(token,items.get(i).getMemeIdx()).enqueue(new Callback<Like>() {
-                        @Override
-                        public void onResponse(Call<Like> call, Response<Like> response) {
-                            if(response.isSuccessful()) {
-                                Like like = response.body();
-
-                                System.out.println("포스트확인2" + like.getCode());
-                                System.out.println("포스트확인2" + like.getMessage());
-                            }
-                        }
-
-                        @Override
-                        public void onFailure(Call<Like> call, Throwable t) {
-
-                        }
-                    });*/
-                }
-                else
-                {
-                }
-            }
-        });
     }
+
+
     public void setUI(){
 
        // nick.setText(detail.getNickname());
@@ -136,7 +116,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 .into(memeimg);
         title.setText(detail.getMemeTitle());
         copyright.setText(detail.getCopyright());
-
+        if(detail.getLikeStatus()==1)like_btn.setChecked(true);
         TextView btn[] = new TextView[30];
         String hashtag=detail.getTag();
 
@@ -214,9 +194,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     }
     @Override
     public void onDestroy() {
-      super.onDestroy();
 
-        Log.d("ChildFragment", "onDestroy");
+        Log.d("ChildFragment", "onDestroy");     super.onDestroy();
     }
 
     private View.OnClickListener leftListener = new View.OnClickListener() {
@@ -234,4 +213,33 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         }
     };
 
+    public void btnclick( int position){
+        gettoken=new TokenManager(getContext());
+        HttpClient client=new HttpClient();
+        api = client.getRetrofit().create(RetrofitApi.class);
+        token = gettoken.checklogin(getContext());
+
+        like_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+            @Override
+            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
+                api.postLike(token,position).enqueue(new Callback<Like>() {
+                    @Override
+                    public void onResponse(Call<Like> call, Response<Like> response) {
+                        if(response.isSuccessful()) {
+                            Like like = response.body();
+
+                            System.out.println("포스트확인2" + like.getCode());
+                            System.out.println("포스트확인2" + like.getMessage());
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Like> call, Throwable t) {
+
+                    }
+                });
+            }
+
+        });
+    }
 }

@@ -1,4 +1,4 @@
-package com.example.FoF_Android.detail;
+package com.example.FoF_Android.detail.model;
 
 import com.google.gson.annotations.SerializedName;
 
@@ -34,7 +34,7 @@ public class Detail {
             String Tag;
 
             @SerializedName("likeStatus")
-            String likeStatus;
+            Integer likeStatus;
 
             public String getCopyright() {
                 return copyright;
@@ -44,7 +44,7 @@ public class Detail {
                 return memeTitle;
             }
 
-            public String getLikeStatus() {
+            public Integer getLikeStatus() {
                 return likeStatus;
             }
 
