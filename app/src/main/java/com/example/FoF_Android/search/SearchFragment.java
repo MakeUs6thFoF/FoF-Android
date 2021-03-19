@@ -10,6 +10,7 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -34,6 +35,7 @@ public class SearchFragment extends Fragment {
     NonSwipeViewPager viewPager;
     RetrofitApi api;
     TokenManager gettoken;
+    EditText searchEdit;
     Fragment hashFragment;
 
     int tagIdx[] = new int[5];
@@ -68,6 +70,13 @@ public class SearchFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         getHashTag(api, view);
+        searchEdit = view.findViewById(R.id.searchEdit);
+        searchEdit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container, new Search2Fragment()).commit();
+            }
+        });
 
         tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("감정"));
