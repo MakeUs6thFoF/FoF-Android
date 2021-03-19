@@ -3,6 +3,7 @@ package com.example.FoF_Android;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
@@ -67,19 +68,22 @@ public class MainActivity extends AppCompatActivity {
         transaction.replace(R.id.container, homeFragment);
         transaction.commit();
     }
+
+
+
+
     @Override
     public void onBackPressed() {
-        tellFragments();
-        super.onBackPressed();
-    }
 
-    private void tellFragments(){
-        List<Fragment> fragments = getSupportFragmentManager().getFragments();
-        for(Fragment f : fragments){
-            if(f != null && f instanceof HomeFragment)
-                ((HomeFragment)f).onBackPressed();
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        Fragment parentFragment = fragmentManager.findFragmentByTag("TAG_PARENT");
+        if (parentFragment != null && parentFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
+            parentFragment.getChildFragmentManager().popBackStack();
+        } else {
+            super.onBackPressed();
         }
     }
+
     @Override
     protected void onDestroy() {
         super.onDestroy();

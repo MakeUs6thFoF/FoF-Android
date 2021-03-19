@@ -24,6 +24,9 @@ import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
 import com.example.FoF_Android.home.model.MemeResponse;
+import com.example.FoF_Android.search.HashClickFragment;
+import com.example.FoF_Android.search.HashSearch;
+import com.example.FoF_Android.search.HashTagAdapter;
 
 import java.util.List;
 
@@ -49,6 +52,12 @@ public class HomeAllFragment extends Fragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
     //    showItemList();
+    }
+
+
+    public static HomeAllFragment newInstance() {
+        HomeAllFragment fragment = new HomeAllFragment();
+        return fragment;
     }
 
     @Override
@@ -96,25 +105,26 @@ public class HomeAllFragment extends Fragment {
 
             }
         });
-        recycle.setAdapter(adapter);
 
     }
 
     public void setadapter(List<Meme.Data> items) {
-        adapter = new MemeAllAdapter(getActivity(), items, MemeCase.LARGE, new MemeAllAdapter.OnItemClickListener() {
-            @Override public void onItemClick(Meme.Data item, ImageView memeimg) {
-                recmeme=new DetailFragment(item.getMemeIdx());
-              //  recmeme.setArguments(options.toBundle());
-                getFragmentManager().beginTransaction().addSharedElement(memeimg, ViewCompat.getTransitionName(memeimg))
-                        .setReorderingAllowed(true)
-                        .addToBackStack(null).replace(R.id.container, recmeme).commit();
-
-            }
-            
-        });
+        adapter = new MemeAllAdapter(items,getContext());
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);
+        adapter.setOnItemClickListener(new MemeAllAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                Meme.Data item = adapter.getItem(position);
+                DetailFragment detail = new DetailFragment(item.getMemeIdx());
+                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null).replace(R.id.container, detail).commit();
+            }
+        });
+
+
     }
 
     @Override

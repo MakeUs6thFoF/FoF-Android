@@ -1,6 +1,7 @@
 package com.example.FoF_Android.detail;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.ToggleButton;
 
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -25,9 +27,9 @@ import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
-import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
+import com.example.FoF_Android.home.OnBackPressed;
 
 import java.util.List;
 
@@ -37,7 +39,7 @@ import retrofit2.Response;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
-public class DetailFragment extends Fragment implements OnBackPressed {
+public class DetailActivity extends AppCompatActivity  {
     RetrofitApi api;
     RecyclerView similar;
 
@@ -57,35 +59,31 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     private DeleteDialog deleteDialog;
     private Integer i=0;
 
-    String[] array;
-    public DetailFragment(int i) {
-        this.i=i;
-    }
+   @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+       Intent detailintent = getIntent();
+       i = detailintent.getIntExtra("memeIdx",0);
 
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_detail, container, false);
-        initUI(view);
+       setContentView(R.layout.meme_detail);
+        initUI();
         onclick();
-        similarUI(view, i);
+        similarUI(i);
         btnclick(i);
-
-        return view;
     }
 
 
-    public void initUI(ViewGroup view){
-        memeimg = (ImageView) view.findViewById(R.id.imageView);
-        title = (TextView) view.findViewById(R.id.title);
-        copyright=(TextView)view.findViewById(R.id.copyright);
-        similar=view.findViewById(R.id.similar);
-        report=(ImageButton)view.findViewById(R.id.report);
-        like_btn=(ToggleButton) view.findViewById(R.id.like);
-        copy=(ImageButton)view.findViewById(R.id.copy);
-        send=(ImageButton)view.findViewById(R.id.send);
-        Tag= (LinearLayout)view.findViewById(R.id.Tag);
-        Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
+    public void initUI(){
+        memeimg = (ImageView) findViewById(R.id.imageView);
+        title = (TextView) findViewById(R.id.title);
+        copyright=(TextView)findViewById(R.id.copyright);
+        similar=findViewById(R.id.similar);
+        report=(ImageButton)findViewById(R.id.report);
+        like_btn=(ToggleButton) findViewById(R.id.like);
+        copy=(ImageButton)findViewById(R.id.copy);
+        send=(ImageButton)findViewById(R.id.send);
+        Tag= (LinearLayout)findViewById(R.id.Tag);
+        Tag2= (LinearLayout)findViewById(R.id.Tag2);
     }
 
     public void calldialog(Dialog reportDialog){
@@ -101,7 +99,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reportDialog = new SelectDialog(getContext(),leftListener,cancellistener); // 왼쪽 버튼 이벤트
+                reportDialog = new SelectDialog(DetailActivity.this,leftListener,cancellistener); // 왼쪽 버튼 이벤트
                 calldialog(reportDialog);
             }});
 
@@ -113,7 +111,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
        // nick.setText(detail.getNickname());
 
-        Glide.with(getContext())
+        Glide.with(DetailActivity.this)
                 .load(detail.getImageUrl())
                 .into(memeimg);
         title.setText(detail.getMemeTitle());
@@ -122,10 +120,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         TextView btn[] = new TextView[30];
         String hashtag=detail.getTag();
 
-        if(hashtag!=null) {array = hashtag.split(",");
+        String[] array = hashtag.split(",");
 
-
-        float factor = getContext().getResources().getDisplayMetrics().density;
+        float factor = getResources().getDisplayMetrics().density;
 
         int pixelw = (int) (66 * factor + 0.5f);
         int pixelh = (int) (26 * factor + 0.5f);
@@ -137,7 +134,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         params.gravity= Gravity.CENTER;
 
         for (int i = 0; i < array.length; i++) {
-            btn[i] = new TextView(getContext());
+            btn[i] = new TextView(DetailActivity.this);
             btn[i].setLayoutParams(params);
             btn[i].setText(array[i]);
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
@@ -154,29 +151,29 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 public void onClick(View v) {
 
                 }
-            });}}
+            });}
     }
 
 
-    public void similarUI(View view, int i) {
+    public void similarUI( int i) {
         HttpClient client = new HttpClient();
          api = client.getRetrofit().create(RetrofitApi.class);
-        TokenManager gettoken = new TokenManager(getContext());
-        String token = gettoken.checklogin(getContext());
+        TokenManager gettoken = new TokenManager(DetailActivity.this);
+        String token = gettoken.checklogin(DetailActivity.this);
         System.out.println("확인" + token);
         Call<Detail> call = api.getsimilar(token, i);
         call.enqueue(new Callback<Detail>() {
             @Override
             public void onResponse(Call<Detail> call, Response<Detail> response) {
                 if (response.isSuccessful()) {
-                    RecyclerView similar = view.findViewById(R.id.similar);
+                    RecyclerView similar =findViewById(R.id.similar);
                     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                     similar.setLayoutManager(layoutManager);
                     items = response.body().getdata().getData();
                     detail = response.body().getdata().getDetail();
 
                     Log.i("TAG", "onResponse: " + detail.getMemeTitle());
-                    SimilarAdapter adaptersim = new SimilarAdapter(getContext(), items);
+                    SimilarAdapter adaptersim = new SimilarAdapter(DetailActivity.this, items);
                     similar.setAdapter(adaptersim);
                     setUI();
                     // setupCurrentIndicator(0);
@@ -191,21 +188,13 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             }
         });
 
-    }@Override
-    public void onBackPressed(){
-        getActivity().getSupportFragmentManager().popBackStack();
-    }
-    @Override
-    public void onDestroy() {
-
-        Log.d("ChildFragment", "onDestroy");     super.onDestroy();
     }
 
     private View.OnClickListener leftListener = new View.OnClickListener() {
         public void onClick(View v) {
 
             reportDialog.dismiss();
-            deleteDialog= new DeleteDialog(getContext(),cancellistener);
+            deleteDialog= new DeleteDialog(DetailActivity.this,cancellistener);
             calldialog(deleteDialog);
         }
     };
@@ -217,10 +206,10 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     };
 
     public void btnclick( int position){
-        gettoken=new TokenManager(getContext());
+        gettoken=new TokenManager(DetailActivity.this);
         HttpClient client=new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        token = gettoken.checklogin(getContext());
+        token = gettoken.checklogin(DetailActivity.this);
 
         like_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override

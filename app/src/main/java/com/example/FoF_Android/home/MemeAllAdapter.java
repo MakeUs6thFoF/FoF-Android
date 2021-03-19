@@ -7,6 +7,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
@@ -24,6 +25,9 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
+import com.example.FoF_Android.search.HashSearch;
+import com.example.FoF_Android.search.HashTag;
+import com.example.FoF_Android.search.HashTagAdapter;
 
 import java.util.List;
 
@@ -35,22 +39,20 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
     private List<Meme.Data> items;
     private Context context;
     private MemeCase type;
-
-    private final OnItemClickListener listener;
+    private MemeAllAdapter.OnItemClickListener mListener = null;
     Integer style;
 
     ActivityOptionsCompat options;
 
-    public interface OnItemClickListener {
-        void onItemClick(Meme.Data item, ImageView memeimg);
+    public interface OnItemClickListener{
+        void onItemClick(View v, int position);
+    }
+    public MemeAllAdapter(List<Meme.Data> items, Context context) {
+        this.items = items;
+        this.context = context;
     }
 
-    public MemeAllAdapter(Context applicationContext, List<Meme.Data> itemArrayList, MemeCase type, OnItemClickListener listener) {
-        this.context = applicationContext;
-        this.items = itemArrayList;
-        this.listener = listener;
-        this.type=type;
-    }
+    public void setOnItemClickListener(MemeAllAdapter.OnItemClickListener listener) {this.mListener = listener;}
 
     @Override
     public MemeAllAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -71,7 +73,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
                 .into(viewHolder.profileimg);
         }
 
-        viewHolder.bind(items.get(i), listener);
+      //  viewHolder.bind(items.get(i), listener);
             Glide.with(context)
                     .load(items.get(i).getImageUrl())
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
@@ -92,45 +94,36 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
         private RecyclerView similar;
         private LinearLayout Tag;
         private LinearLayout Tag2;
+
         public ViewHolder(View view) {
             super(view);
-            Tag= (LinearLayout)view.findViewById(R.id.Tag);
-            Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
+            Tag = (LinearLayout) view.findViewById(R.id.Tag);
+            Tag2 = (LinearLayout) view.findViewById(R.id.Tag2);
             nick = (TextView) view.findViewById(R.id.nick);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
             similar = (RecyclerView) view.findViewById(R.id.similar);
             title = (TextView) view.findViewById(R.id.title);
-            copyright=(TextView) view.findViewById(R.id.copyright);
+            copyright = (TextView) view.findViewById(R.id.copyright);
 
             //on item click
             itemView.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    int pos = getAdapterPosition();
-                    if (pos != RecyclerView.NO_POSITION) {
-                        Meme.Data clickedDataItem = items.get(pos);
-
-                         options = ActivityOptionsCompat.makeSceneTransitionAnimation(
-                                (Activity) context, memeimg, ViewCompat.getTransitionName(memeimg));
-                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
-
+                    int position = getAdapterPosition();
+                    if (position != RecyclerView.NO_POSITION) {
+                        if (mListener != null)
+                            mListener.onItemClick(v, position);
                     }
                 }
-
             });
-
-        }
-
-        public void bind(final Meme.Data item, final OnItemClickListener listener) {
-            itemView.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    listener.onItemClick(item,memeimg);
-                }
-            });
-
         }
     }
 
+    public Meme.Data getItem(int position){
+        return items.get(position);
+    }
+
 }
+
+

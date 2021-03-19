@@ -18,6 +18,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import retrofit2.Call;
+import retrofit2.http.DELETE;
 import retrofit2.http.Field;
 import retrofit2.http.FieldMap;
 import retrofit2.http.FormUrlEncoded;
@@ -69,6 +70,9 @@ public interface RetrofitApi {
 
     @GET("/meme/{memeidx}")
     Call<Detail> getsimilar(@Header("x-access-token") String token,
+                            @Path("memeidx") Integer memeidx);
+    @DELETE("/meme/{memeidx}")
+    Call<Detail> deleteMeme(@Header("x-access-token") String token,
                             @Path("memeidx") Integer memeidx);
 
     @GET("/meme/trend/category/{categoryIdx}")

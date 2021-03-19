@@ -28,6 +28,7 @@ import com.example.FoF_Android.dialog.ModifyCopyrightActivity;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
 import com.example.FoF_Android.home.model.MemeResponse;
+
 import java.util.List;
 
 import retrofit2.Call;
@@ -50,6 +51,11 @@ public class HomeRecFragment extends Fragment  {
 
 
 
+    public static HomeRecFragment newInstance() {
+        HomeRecFragment fragment = new HomeRecFragment();
+
+        return fragment;
+    }
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
