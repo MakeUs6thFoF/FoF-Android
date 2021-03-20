@@ -15,8 +15,8 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:visibility="visible"
-            android:id="@+id/my"
+            android:visibility="gone"
+            android:id="@+id/my_modify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             app:layout_constraintBottom_toTopOf="@id/cancel"
@@ -53,14 +53,14 @@
                 android:textSize="14dp" />
         </LinearLayout>
         <Button
-            android:visibility="gone"
+            android:visibility="visible"
             android:id="@+id/report"
             style="@style/bold_16dp"
             android:layout_width="match_parent"
             android:layout_height="44dp"
             android:background="@color/white"
             android:gravity="center"
-            android:text="삭제"
+            android:text="신고"
             android:layout_marginBottom="12dp"
             app:layout_constraintBottom_toTopOf="@id/cancel"
             android:textColor="@color/pink"

@@ -36,12 +36,13 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class HomeRecFragment extends Fragment  {
-    MemePagerAdapter adapter;
+    MemePagerAdapter padapter;
    //MemeAllAdapter adapter;
     TokenManager gettoken;
     RetrofitApi api;
     ViewPager myviewpager;
     DetailFragment recmeme;
+    private MemeAllAdapter.OnItemClickListener mListener = null;
    // CardStackView myviewpager;
    // CardStackLayoutManager layoutManager;
     Integer idx;
@@ -120,9 +121,9 @@ public class HomeRecFragment extends Fragment  {
                          getFragmentManager().beginTransaction().add(R.id.container, recmeme).addToBackStack(null).commit();
                         }
                     });*/
-                    adapter=new MemePagerAdapter(getContext(),items);
+                 //   padapter=new MemePagerAdapter(getContext(),items);
                     myviewpager.setOffscreenPageLimit(3);
-                    myviewpager.setAdapter(adapter);
+                    myviewpager.setAdapter(padapter);
 
                    // setupCurrentIndicator(0);
                 }

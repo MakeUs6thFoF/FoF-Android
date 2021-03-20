@@ -31,12 +31,12 @@ public class Login {
     }
 
     public class UserInfo {
-        @SerializedName("idx") String idx;
+        @SerializedName("idx") Integer idx;
         @SerializedName("email") String email;
         @SerializedName("password") String password;
         @SerializedName("status") String status;
 
-        public String getIdx() {
+        public Integer getIdx() {
             return idx;
         }
 

@@ -2,7 +2,6 @@ package com.example.FoF_Android.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -12,10 +11,7 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.FoF_Android.Category.Category;
-import com.example.FoF_Android.Category.CategoryActivity;
 import com.example.FoF_Android.HttpClient;
-import com.example.FoF_Android.MainActivity;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
@@ -30,7 +26,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ReportDialog extends Dialog {
+public class ReportNextDialog extends Dialog {
 
     private Button reportbutton;
     private ImageButton mNegativeButton;
@@ -49,8 +45,8 @@ public class ReportDialog extends Dialog {
     RetrofitApi api;
     TokenManager gettoken;
 
-    String titles[] = new String[8];
-    int titleIdx[] = new int[8];
+    String titles[] = new String[7];
+    int titleIdx[] = new int[7];
     HashMap<String, Integer> titleHash = new HashMap<String, Integer>();
     int maxSize = 1;
 
@@ -193,7 +189,7 @@ public class ReportDialog extends Dialog {
 
 
     //생성자 생성
-    public ReportDialog(Context context) {
+    public ReportNextDialog(Context context) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
 
 

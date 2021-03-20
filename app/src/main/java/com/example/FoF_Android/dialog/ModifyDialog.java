@@ -39,7 +39,12 @@ public class ModifyDialog extends Dialog {
         mNegativeButton=(ImageButton)findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
-        mNegativeButton.setOnClickListener(mNegativeListener);
+        mNegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
         mPositiveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -60,10 +65,9 @@ public class ModifyDialog extends Dialog {
     }
 
     //생성자 생성
-    public ModifyDialog(Context context, String copy, Integer memeIdx,
-                        View.OnClickListener cancelistener) {
+    public ModifyDialog(Context context, String copy, Integer memeIdx
+                 ) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-        this.mNegativeListener = cancelistener;
         this.memeIdx=memeIdx;
         this.copy=copy;
     }

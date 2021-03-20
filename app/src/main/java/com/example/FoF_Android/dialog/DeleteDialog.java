@@ -35,14 +35,18 @@ public class DeleteDialog extends Dialog {
         mNegativeButton=(Button)findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
-        mNegativeButton.setOnClickListener(mNegativeListener);
+        mNegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
     }
 
     //생성자 생성
-    public DeleteDialog(Context context,
-                        View.OnClickListener cancelistener) {
+    public DeleteDialog(Context context) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-        this.mNegativeListener = cancelistener;
+
     }
 }
 

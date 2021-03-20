@@ -83,4 +83,9 @@ public interface RetrofitApi {
 
     @GET("/meme/tag/{tagIdx}")
     Call<HashSearch> getHashSearch(@Header("x-access-token") String token, @Path("tagIdx") Integer tagIdx);
+
+    @GET("/search/meme/word/{tagName}")
+    Call<HashSearch> getHashSearch1(@Header("x-access-token") String token, @Path("tagName") String tagName);
+
+
 }
