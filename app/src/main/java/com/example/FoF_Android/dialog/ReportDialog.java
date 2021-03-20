@@ -3,6 +3,8 @@ package com.example.FoF_Android.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.view.View;
 import android.view.WindowManager;
@@ -37,7 +39,7 @@ public class ReportDialog extends Dialog {
 
     private View.OnClickListener mModifyListener;
     private View.OnClickListener mNegativeListener;
-
+    private Integer memeidx;
     ToggleButton togBt1;
     ToggleButton togBt2;
     ToggleButton togBt3;
@@ -99,8 +101,9 @@ public class ReportDialog extends Dialog {
                             System.out.println(buttonView.getText().toString());
                         }
                         else { // 3개 이상 체크하면
-                            Toast.makeText(getContext(), "1개만 선택이 가능합니다", Toast.LENGTH_SHORT).show(); // 체크못하도록
-                            buttonView.setChecked(false);
+                            clearbtn();
+                            buttonList.remove(buttonList.get(0));
+                            buttonList.add(buttonView.getText().toString()); //추가해주고
                         }
                     }
                 }
@@ -135,12 +138,12 @@ public class ReportDialog extends Dialog {
             }
         });
 
-
-
-
-
     }
 
+
+    public void clearbtn(){
+        togBt1.setChecked(false);togBt2.setChecked(false);togBt3.setChecked(false);togBt4.setChecked(false);togBt5.setChecked(false);togBt6.setChecked(false);togBt7.setChecked(false);togBt8.setChecked(false);
+    }
     public void getCategory(RetrofitApi api){
         api.getReportTag().enqueue(new Callback<Report>() {
             @Override
@@ -193,9 +196,9 @@ public class ReportDialog extends Dialog {
 
 
     //생성자 생성
-    public ReportDialog(Context context) {
+    public ReportDialog(Context context, Integer memeIdx) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-
+        this.memeidx=memeidx;
 
     }
 

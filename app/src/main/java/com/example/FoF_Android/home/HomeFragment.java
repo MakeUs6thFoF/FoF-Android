@@ -26,6 +26,7 @@ import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.search.HashTag;
+import com.example.FoF_Android.search.HashTagAdapter;
 import com.example.FoF_Android.search.SearchFragment;
 import com.google.android.material.tabs.TabLayout;
 
@@ -176,8 +177,14 @@ public class HomeFragment extends Fragment implements OnItemClick{
 
                     padapter=new MemePagerAdapter(getContext(),idx,items,HomeFragment.this::onClick);
                   //  myviewpager.setOnDragListener();
+                    padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
+                        @Override
+                        public void onItemClick(View v, String position) {
+                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,HashClickFragment.newInstance(position)).addToBackStack(null).commit();
+                        }
+                    });
 
-                    myviewpager.setOffscreenPageLimit(3);
+                    myviewpager.setOffscreenPageLimit(5);
                     myviewpager.setAdapter(padapter);
 
                     // setupCurrentIndicator(0);
@@ -198,7 +205,7 @@ public class HomeFragment extends Fragment implements OnItemClick{
 
     @Override
     public void onClick(String value) {
-       // getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(value)).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(value)).addToBackStack(null).commit();
 
     }
 }

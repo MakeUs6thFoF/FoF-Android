@@ -7,6 +7,7 @@ import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.home.model.MemeResponse;
+import com.example.FoF_Android.make.MemeUpload;
 import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.search.CategoryMeme;
 import com.example.FoF_Android.search.HashSearch;
@@ -57,8 +58,14 @@ public interface RetrofitApi {
 
 
     @FormUrlEncoded
+    @POST("/meme")
+    Call<SignUp> postMeme(@Header("x-access-token") String token, @Field("title") String title,
+                          @Field("imageUrl") String ImageUrl,@Field("copyright") String copyright, @Field("tag")List<String> tag, @Field("categoryIdx")Integer categoryIdx);
+
+    @FormUrlEncoded
     @POST("/user/meme")
     Call<SignUp> postCategory(@Header("x-access-token") String token, @Field("categoryIdx") List<Integer> list);
+
 
 
     @POST("/meme/{memeidx}/good")
@@ -72,7 +79,7 @@ public interface RetrofitApi {
     Call<Detail> getsimilar(@Header("x-access-token") String token,
                             @Path("memeidx") Integer memeidx);
     @DELETE("/meme/{memeidx}")
-    Call<Detail> deleteMeme(@Header("x-access-token") String token,
+    Call<SignUp> deleteMeme(@Header("x-access-token") String token,
                             @Path("memeidx") Integer memeidx);
 
     @GET("/meme/trend/category/{categoryIdx}")

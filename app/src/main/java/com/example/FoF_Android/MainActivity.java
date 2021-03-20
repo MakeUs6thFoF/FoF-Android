@@ -11,12 +11,10 @@ import android.util.Log;
 import android.view.MenuItem;
 
 import com.example.FoF_Android.home.HomeFragment;
-import com.example.FoF_Android.make.MakeFragment;
+import com.example.FoF_Android.make.UploadFragment;
 import com.example.FoF_Android.my.MyFragment;
 import com.example.FoF_Android.search.SearchFragment;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-
-import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     String TAG="MainActivity";
@@ -33,7 +31,7 @@ public class MainActivity extends AppCompatActivity {
         homeFragment=new HomeFragment();
         searchFragment=new SearchFragment();
         myFragment=new MyFragment();
-        makeFragment=new MakeFragment();
+        makeFragment=new UploadFragment();
 
         setDefaultFragment();
 
@@ -74,11 +72,11 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-
+        //TODO 가끔 에러 발생 하단 바 fragment에서 다른 fragment전환 후 뒤로가지 않고 다른 하단바 fragment를 누르면 꼬이는것같음
         FragmentManager fragmentManager = getSupportFragmentManager();
         Fragment parentFragment = fragmentManager.findFragmentByTag("TAG_PARENT");
         if (parentFragment != null && parentFragment.getChildFragmentManager().getBackStackEntryCount() > 0) {
-            parentFragment.getChildFragmentManager().popBackStack();
+             parentFragment.getChildFragmentManager().popBackStack(); //
         } else {
             super.onBackPressed();
         }

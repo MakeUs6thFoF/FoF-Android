@@ -12,6 +12,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -20,26 +21,32 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.detail.DetailFragment;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.InputStream;
 
 
-public class MakeFragment extends Fragment {
+public class UploadFragment extends Fragment {
     RetrofitApi api;
     Button image;
     String imagePath;
     ImageView imageview;
     Uri imageUri;
+    TextView next;
+    InputStream in;
     File f;
+    ByteArrayOutputStream stream;
     private int SELECT_FILE = 3;
     private String userChoosenTask;
-    public MakeFragment() {
+    public UploadFragment() {
         // Required empty public constructor
     }
 
@@ -55,8 +62,21 @@ public class MakeFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_make, container, false);
+        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_upload, container, false);
         imageview=(ImageView)view.findViewById(R.id.image);
+        next=(TextView)view.findViewById(R.id.next);
+        next.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if(in!=null){
+                Log.i("dkdk", f.getName());
+                UploadNextFragment detail = new UploadNextFragment(f);
+                //TODO 이전 fragment 터치 안되도록
+                getFragmentManager().beginTransaction()
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null).add(R.id.container, detail).commit();
+            }}
+        });
         image=(Button)view.findViewById(R.id.image_btn);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -133,14 +153,15 @@ public class MakeFragment extends Fragment {
 
 
         try {
-            bm = getResizedBitmap(decodeUri(data.getData()), getResources().getDimensionPixelSize(R.dimen.idcard_pic_height), getResources().getDimensionPixelSize(R.dimen.idcard_pic_width));
+            in = getActivity().getContentResolver().openInputStream(data.getData());
+            bm = BitmapFactory.decodeStream(in);
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
 
         if (imagetype == SELECT_FILE) {
             f = new File(imagePath);
-            ByteArrayOutputStream stream = new ByteArrayOutputStream();
+            stream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
             Glide.with(getContext())
                     .load(stream.toByteArray())
@@ -149,44 +170,6 @@ public class MakeFragment extends Fragment {
           //  imageview.setImageBitmap(bm);
         }
     }
-    public static Bitmap getResizedBitmap(Bitmap image, int newHeight, int newWidth) {
-        int width = image.getWidth();
-        int height = image.getHeight();
-        float scaleWidth = ((float) newWidth) / width;
-        float scaleHeight = ((float) newHeight) / height;
-        // create a matrix for the manipulation
-        Matrix matrix = new Matrix();
-        matrix.postScale(scaleWidth, scaleHeight);
-        if (Build.VERSION.SDK_INT <= 19) {
-            //matrix.postRotate(90);
-        }
-        // recreate the new Bitmap
-        Bitmap resizedBitmap = Bitmap.createBitmap(image, 0, 0, width, height,
-                matrix, false);
-        return resizedBitmap;
-    }
-    private Bitmap decodeUri(Uri selectedImage) throws FileNotFoundException {
-        BitmapFactory.Options o = new BitmapFactory.Options();
-        o.inJustDecodeBounds = true;
-        BitmapFactory.decodeStream(
-                getContext().getContentResolver().openInputStream(selectedImage), null, o);
 
-        final int REQUIRED_SIZE = 100;
 
-        int width_tmp = o.outWidth, height_tmp = o.outHeight;
-        int scale = 1;
-        while (true) {
-            if (width_tmp / 2 < REQUIRED_SIZE || height_tmp / 2 < REQUIRED_SIZE) {
-                break;
-            }
-            width_tmp /= 2;
-            height_tmp /= 2;
-            scale *= 2;
-        }
-
-        BitmapFactory.Options o2 = new BitmapFactory.Options();
-        o2.inSampleSize = scale;
-        return BitmapFactory.decodeStream(
-                getContext().getContentResolver().openInputStream(selectedImage), null, o2);
-    }
 }

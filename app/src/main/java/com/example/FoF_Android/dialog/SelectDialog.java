@@ -73,7 +73,7 @@ public class SelectDialog extends Dialog {
                 @Override
                 public void onClick(View view) {
                     dismiss();
-                    deleteDialog= new DeleteDialog(getContext());
+                    deleteDialog= new DeleteDialog(getContext(),memeidx);
                     deleteDialog.setCancelable(true);
                     deleteDialog.getWindow().setGravity(Gravity.CENTER);
                     deleteDialog.show();
@@ -89,7 +89,7 @@ public class SelectDialog extends Dialog {
                 @Override
                 public void onClick(View view) {
                     dismiss();
-                    reportDialog= new ReportDialog(getContext());
+                    reportDialog= new ReportDialog(getContext(),memeidx);
                     reportDialog.setCancelable(true);
                     reportDialog.getWindow().setGravity(Gravity.CENTER);
                     reportDialog.show();
@@ -106,7 +106,6 @@ public class SelectDialog extends Dialog {
     public SelectDialog(Context context,Integer memeuseridx ,Integer memeidx) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.memeuseridx=memeuseridx;
-
-        this.memeuseridx=memeidx;
+        this.memeidx=memeidx;
     }
 }

@@ -39,6 +39,7 @@ import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.search.HashClickFragment;
 import com.example.FoF_Android.search.HashTag;
+import com.example.FoF_Android.search.HashTagAdapter;
 
 import java.util.List;
 
@@ -63,9 +64,13 @@ public class MemePagerAdapter extends PagerAdapter {
     TokenManager gettoken;
     String token;
     Integer useridx;
+    private MemePagerAdapter.OnItemClickListener mListener = null;
 
+    public interface OnItemClickListener{
+        void onItemClick(View v, String position);
+    }
     private OnItemClick mCallback;
-
+    public void setOnItemClickListener(MemePagerAdapter.OnItemClickListener listener) {this.mListener = listener;}
     public MemePagerAdapter(Context context,Integer UserIdx, List<Meme.Data> items,  OnItemClick listener)
     {
         this.mCallback = listener;
@@ -112,16 +117,16 @@ public class MemePagerAdapter extends PagerAdapter {
             if (i < 4) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
-            int finalI = i;
-           /* btn[i].setOnClickListener(new View.OnClickListener() {
+            int finalI1 = i;
+            btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     if(mListener != null)
-                        mListener.onItemClick(v, finalI);
+                        mListener.onItemClick(v, array[finalI1]);
                     //Todo hashtag
                 }
-            });*/
-            mCallback.onClick(array[i]);
+            });
+
         } }
 
         report=(ImageButton)view.findViewById(R.id.report);
@@ -130,6 +135,12 @@ public class MemePagerAdapter extends PagerAdapter {
         ImageView memeimg = (ImageView) view.findViewById(R.id.imageView);
         CircleImageView  profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
         TextView copyright=(TextView) view.findViewById(R.id.copyright);
+
+        Glide.with(context)
+                .load(items.get(position).getImageUrl())
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.meme2)
+                .into(memeimg);
 
         copyright.setText(items.get(position).getCopyright());
         copyright.setOnClickListener(new View.OnClickListener() {
@@ -145,19 +156,16 @@ public class MemePagerAdapter extends PagerAdapter {
                 .placeholder(R.drawable.logo_big2)
                 .into(profileimg);
 
-        Glide.with(context)
-        .load(items.get(position).getImageUrl())
-                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                .into(memeimg);
 
         container.addView(view);
 
         likebtnclick(position);
         selectbtnclick(position);
-        view.setOnTouchListener(new View.OnTouchListener() {
+        view.setOnDragListener(new View.OnDragListener() {
             @Override
-            public boolean onTouch(View view, MotionEvent motionEvent) {
-                Toast.makeText(context, "dldl", Toast.LENGTH_SHORT).show();
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                Toast.makeText(context, "dkdk", Toast.LENGTH_SHORT).show();
+               // mListener.onItemClick(v, position);
                 return false;
             }
         });
@@ -181,6 +189,10 @@ public class MemePagerAdapter extends PagerAdapter {
         return (view == (View)o);
     }
 
+
+
+
+
     public void calldialog(Dialog reportDialog){
         reportDialog.setCancelable(true);
         reportDialog.getWindow().setGravity(Gravity.CENTER);
@@ -196,14 +208,6 @@ public class MemePagerAdapter extends PagerAdapter {
             }
         });
     }
-
-
-
-
-
-
-
-
 
 
     public void likebtnclick(int position){

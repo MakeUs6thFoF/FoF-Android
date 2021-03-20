@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:background="@color/white">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <ImageButton
+            android:id="@+id/back"
+            android:layout_width="10dp"
+            android:layout_height="17dp"
+            android:layout_gravity="bottom"
+            android:layout_marginHorizontal="20dp"
+            android:background="@drawable/back"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+
+        <TextView
+            style="@style/point_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="상세입력"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/next"
+            style="@style/basic_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="업로드"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/lightgray"
+        app:layout_constraintTop_toBottomOf="@+id/wrap"
+        />
+
+    <LinearLayout
+        android:id="@+id/linearLayout3"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="26dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view">
+
+        <TextView
+            style="@style/basic_12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="제목을 입력하세요" />
+
+        <EditText
+            android:id="@+id/title"
+            style="@style/basic_16dp"
+            android:backgroundTint="@color/lightgray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/copyright_form"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout3">
+
+        <TextView
+            style="@style/basic_12dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="저작권 표시하세요" />
+
+        <EditText
+            style="@style/basic_16dp"
+            android:id="@+id/copyright"
+            android:backgroundTint="@color/lightgray"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+
+    </LinearLayout>
+    <TextView
+    android:id="@+id/check_form"
+    style="@style/basic_14dp"
+        android:textSize="8dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_marginHorizontal="20dp"
+    android:layout_marginTop="4dp"
+    android:text="(C) "
+    app:layout_constraintStart_toStartOf="parent"
+    app:layout_constraintTop_toBottomOf="@+id/copyright_form" />
+
+    <TextView
+        android:id="@+id/textView6"
+        style="@style/basic_14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:textSize="8dp"
+        android:text=" 저작권자 "
+        android:textColor="@color/black"
+        app:layout_constraintStart_toEndOf="@+id/check_form"
+        app:layout_constraintTop_toBottomOf="@+id/copyright_form" />
+
+    <TextView
+        android:id="@+id/textView8"
+        style="@style/basic_14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="4dp"
+        android:text=" all rights reserved."
+        android:textSize="8dp"
+        app:layout_constraintStart_toEndOf="@+id/textView6"
+        app:layout_constraintTop_toBottomOf="@+id/copyright_form" />
+
+    <LinearLayout
+        android:id="@+id/linearLayout6"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/textView8">
+
+        <TextView
+            style="@style/basic_12dp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="해시태그" />
+
+        <com.example.FoF_Android.make.HashTagEditTextView
+            style="@style/basic_16dp"
+            android:id="@+id/hashtag"
+            android:layout_width="match_parent"
+            android:layout_height="37dp"
+            android:layout_marginTop="10dp"
+            android:paddingHorizontal="10dp"
+            android:background="@drawable/edittext_border" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearLayout7"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginTop="25dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout6">
+
+        <TextView
+            style="@style/basic_12dp_black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="카테고리 설정" />
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <RadioGroup
+                android:id="@+id/line1"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="12dp"
+                android:clickable="true"
+                android:orientation="horizontal"
+                android:textColor="@color/black">
+
+
+                    <RadioButton
+                        android:id="@+id/button1"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:paddingHorizontal="10dp"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />
+
+                    <RadioButton
+                        android:id="@+id/button2"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_margin="4dp"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />
+
+                    <RadioButton
+                        android:id="@+id/button3"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_margin="4dp"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />
+
+                    <RadioButton
+                        android:id="@+id/button4"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_margin="4dp"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />
+            </RadioGroup>
+        </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal">
+                    <RadioGroup
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:id="@+id/line2"
+                        android:clickable="true"
+                        android:orientation="horizontal"
+                        android:textColor="@color/black">
+                    <RadioButton
+                        android:id="@+id/button5"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />
+
+                    <RadioButton
+                        android:id="@+id/button6"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:paddingHorizontal="10dp"
+                        android:layout_margin="4dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />
+
+                    <RadioButton
+                        android:id="@+id/button7"
+                        style="{StaticResource {x:Type ToggleButton}}"
+                        android:layout_width="wrap_content"
+                        android:layout_height="38dp"
+                        android:layout_margin="4dp"
+                        android:paddingHorizontal="10dp"
+                        android:background="@drawable/category_rec"
+                        android:button="@null"
+                        android:gravity="center"
+                        android:textAlignment="center"
+                        android:textAppearance="@style/basic_14dp" />            </RadioGroup>
+
+
+                </LinearLayout>
+
+
+
+
+
+    </LinearLayout>
+
+    <View
+        android:layout_marginTop="30dp"
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/lightgray"
+
+        app:layout_constraintTop_toBottomOf="@+id/linearLayout7" />
+</androidx.constraintlayout.widget.ConstraintLayout>
