@@ -101,7 +101,7 @@ public class HashClickFragment extends Fragment {
 
     public void setRecyclerView(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
-        //TODO 해시태그값으로 검색
+        //TODO 해시태그값으로 검색 모델 수정
        /* api.getHashSearch1(token, mParam2).enqueue(new Callback<HashSearch>() {
             @Override
             public void onResponse(Call<HashSearch> call, Response<HashSearch> response) {

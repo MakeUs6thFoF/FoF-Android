@@ -29,6 +29,7 @@ import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.detail.model.Similar;
 import com.example.FoF_Android.dialog.ModifyDialog;
+import com.example.FoF_Android.home.HashClickFragment;
 import com.example.FoF_Android.home.MemeAllAdapter;
 import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.dialog.DeleteDialog;
@@ -164,10 +165,11 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             if (i < 4) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
+            int finalI = i;
             btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(array[finalI])).addToBackStack(null).commit();
                 }
             });}}
 

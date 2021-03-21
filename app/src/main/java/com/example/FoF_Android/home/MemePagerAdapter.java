@@ -191,10 +191,6 @@ public class MemePagerAdapter extends PagerAdapter {
         return (view == (View)o);
     }
 
-
-
-
-
     public void calldialog(Dialog reportDialog){
         reportDialog.setCancelable(true);
         reportDialog.getWindow().setGravity(Gravity.CENTER);
