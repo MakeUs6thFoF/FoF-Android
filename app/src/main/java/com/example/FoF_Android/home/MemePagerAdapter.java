@@ -14,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
@@ -59,7 +60,8 @@ public class MemePagerAdapter extends PagerAdapter {
     private ReportDialog reportDialog;
     RetrofitApi api;
     private GestureDetector gestureDetector = null;
-    ImageButton copy,send, report;
+    ImageButton copy,send;
+            FrameLayout report;
     ToggleButton like_btn;
     TokenManager gettoken;
     String token;
@@ -129,7 +131,7 @@ public class MemePagerAdapter extends PagerAdapter {
 
         } }
 
-        report=(ImageButton)view.findViewById(R.id.report);
+        report=(FrameLayout) view.findViewById(R.id.report);
         like_btn=(ToggleButton) view.findViewById(R.id.like);
         TextView nick = (TextView) view.findViewById(R.id.nick);
         ImageView memeimg = (ImageView) view.findViewById(R.id.imageView);
@@ -203,7 +205,7 @@ public class MemePagerAdapter extends PagerAdapter {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectDialog = new SelectDialog(context,items.get(position).getUserIdx(),items.get(position).getUserIdx()); // 왼쪽 버튼 이벤트
+                selectDialog = new SelectDialog(context,items.get(position).getUserIdx(),items.get(position).getMemeIdx()); // 왼쪽 버튼 이벤트
                 calldialog(selectDialog);
             }
         });

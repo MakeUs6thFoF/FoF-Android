@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.RadioButton;
 import android.widget.RadioGroup;
 import android.widget.TextView;
@@ -50,7 +51,6 @@ public class UploadNextFragment extends Fragment {
     CognitoCachingCredentialsProvider credentialsProvider;
     AmazonS3 s3;
     TransferUtility transferUtility;
-    TokenManager gettoken;
     //카테고리
     RadioButton togBt1;
     RadioButton togBt2;
@@ -64,7 +64,7 @@ public class UploadNextFragment extends Fragment {
     File f;
     private RadioGroup line1;
     private RadioGroup line2;
-
+    FrameLayout back;
     TextView next;
 
     HashMap<String, Integer> titleHash = new HashMap<String, Integer>();
@@ -95,7 +95,7 @@ public class UploadNextFragment extends Fragment {
         title=view.findViewById(R.id.title);
         copyright=view.findViewById(R.id.copyright);
         hashtag=view.findViewById(R.id.hashtag);
-
+        back=view.findViewById(R.id.back);
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
         getCategory(api);
@@ -202,10 +202,6 @@ public class UploadNextFragment extends Fragment {
                     tmpList.add(s);
 
 
-                for(int i = 0; i < tmpList.size(); i++){
-                 //   tmpList.set(i,"#"+tmpList.get(i));
-                }
-
 
                 Toast.makeText(getContext(), listData.toString(), Toast.LENGTH_SHORT).show();
                 doPost(titletxt,tmpList,imgurl,copytxt,categoryIdx,api);
@@ -240,7 +236,7 @@ public class UploadNextFragment extends Fragment {
         api = client.getRetrofit().create(RetrofitApi.class);
         TokenManager gettoken = new TokenManager(getContext());
         String token = gettoken.checklogin(getContext());
-        Toast.makeText(getContext(), hashtag.toString(), Toast.LENGTH_SHORT).show();
+
 
 
         List<Object> input = new ArrayList<>();
@@ -256,6 +252,7 @@ public class UploadNextFragment extends Fragment {
                 if (response.isSuccessful()){
                     SignUp signup = response.body();
                     System.out.println("확인"+signup.getCode()+signup.getMessage());
+                    Toast.makeText(getContext(), "업로드 하였습니다.", Toast.LENGTH_SHORT).show();
                 }
                 else
        ;

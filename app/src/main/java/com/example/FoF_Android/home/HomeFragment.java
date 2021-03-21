@@ -3,20 +3,14 @@ package com.example.FoF_Android.home;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
-import android.widget.Toast;
 
-import androidx.annotation.Nullable;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
-import androidx.viewpager.widget.ViewPager;
 
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
@@ -25,9 +19,8 @@ import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeResponse;
-import com.example.FoF_Android.search.HashTag;
-import com.example.FoF_Android.search.HashTagAdapter;
-import com.example.FoF_Android.search.SearchFragment;
+import com.example.FoF_Android.home.view.CustomSwipeableViewPager;
+import com.example.FoF_Android.home.view.StackPageTransformer;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -183,7 +176,7 @@ public class HomeFragment extends Fragment implements OnItemClick{
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,HashClickFragment.newInstance(position)).addToBackStack(null).commit();
                         }
                     });
-
+                 //   myviewpager.setOnTouchListener(new );
                     myviewpager.setOffscreenPageLimit(5);
                     myviewpager.setAdapter(padapter);
 

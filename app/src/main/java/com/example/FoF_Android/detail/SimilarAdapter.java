@@ -13,6 +13,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.detail.model.Detail;
+import com.example.FoF_Android.home.MemeAllAdapter;
 
 import java.util.List;
 
@@ -21,11 +22,18 @@ import de.hdodenhof.circleimageview.CircleImageView;
 public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHolder> {
     private List<Detail.Data.Similar> items;
     private Context context;
+    private SimilarAdapter.OnItemClickListener mListener = null;
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, int position);
+    }
 
     public SimilarAdapter(Context applicationContext, List<Detail.Data.Similar> itemArrayList) {
         this.context = applicationContext;
         this.items = itemArrayList;
     }
+
+    public void setOnItemClickListener(SimilarAdapter.OnItemClickListener listener) {this.mListener = listener;}
 
     @Override
     public SimilarAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -69,14 +77,12 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
                     if (pos != RecyclerView.NO_POSITION) {
                         Detail.Data.Similar clickedDataItem = items.get(pos);
 
-                      /*  Intent intent = new Intent(context, DetailActivity.class);
-                        intent.putExtra("login", items.get(pos).getLogin());
-                        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                        context.startActivity(intent);
-               */
-                        
+                        if (pos != RecyclerView.NO_POSITION) {
+                            if (mListener != null)
+                                mListener.onItemClick(v, clickedDataItem.getMemeIdx());
+                        }
                        // recfragment.getFragmentManager().beginTransaction().add(context,detail).commit();
-                        Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
+                      //  Toast.makeText(v.getContext(), "You clicked " + clickedDataItem.getMemeIdx(), Toast.LENGTH_SHORT).show();
                     }
                 }
 

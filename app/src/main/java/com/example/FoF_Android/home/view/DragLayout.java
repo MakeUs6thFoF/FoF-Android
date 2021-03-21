@@ -1,4 +1,4 @@
-package com.example.FoF_Android.home;
+package com.example.FoF_Android.home.view;
 
 import android.content.Context;
 import android.content.res.TypedArray;
