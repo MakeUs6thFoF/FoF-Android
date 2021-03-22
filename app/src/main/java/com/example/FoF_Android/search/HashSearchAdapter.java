@@ -21,6 +21,7 @@ public class HashSearchAdapter extends RecyclerView.Adapter<HashSearchAdapter.Ha
     private List<HashSearch.Data.memeList> mList;
     private Context context;
     private HashTagAdapter.OnItemClickListener mListener = null;
+    private int mode = 0;
 
     public interface OnItemClickListener{
         void onItemClick(View v, int position, ImageView memeimg);
@@ -31,6 +32,11 @@ public class HashSearchAdapter extends RecyclerView.Adapter<HashSearchAdapter.Ha
     public HashSearchAdapter(List<HashSearch.Data.memeList> mList, Context context) {
         this.mList = mList;
         this.context = context;
+    }
+    public HashSearchAdapter(List<HashSearch.Data.memeList> mList, Context context, int mode) {
+        this.mList = mList;
+        this.context = context;
+        this.mode = mode;
     }
 
     public class HashSearchViewHolder extends RecyclerView.ViewHolder {
@@ -56,9 +62,13 @@ public class HashSearchAdapter extends RecyclerView.Adapter<HashSearchAdapter.Ha
     @NonNull
     @Override
     public HashSearchAdapter.HashSearchViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meme_all_item, parent, false);
-        HashSearchViewHolder viewHolder = new HashSearchViewHolder(view);
+        View view;
+        if(mode == 0)
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meme_all_item, parent, false);
+        else
+            view = LayoutInflater.from(parent.getContext()).inflate(R.layout.meme_item_stagger, parent, false);
 
+        HashSearchViewHolder viewHolder = new HashSearchViewHolder(view);
         return viewHolder;
     }
 
