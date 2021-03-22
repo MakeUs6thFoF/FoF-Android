@@ -94,7 +94,7 @@ public class FeelingFragment extends Fragment {
                     ultraViewPager.getIndicator()
                             .setOrientation(UltraViewPager.Orientation.HORIZONTAL)
                             .setFocusColor(Color.RED)
-                            .setNormalColor(Color.WHITE)
+                            .setNormalColor(Color.BLACK)
                             .setRadius((int) TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_DIP, 2, getResources().getDisplayMetrics()));
                     ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
                     ultraViewPager.getIndicator().build();
