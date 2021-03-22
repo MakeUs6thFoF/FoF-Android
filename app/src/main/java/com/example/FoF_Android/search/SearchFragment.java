@@ -10,7 +10,9 @@ import androidx.viewpager.widget.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.LinearLayout;
 import android.widget.TableLayout;
 import android.widget.TextView;
@@ -35,7 +37,8 @@ public class SearchFragment extends Fragment {
     NonSwipeViewPager viewPager;
     RetrofitApi api;
     TokenManager gettoken;
-    EditText searchEdit;
+    Button searchBt;
+    ImageButton searchIb;
     Fragment hashFragment;
 
     int tagIdx[] = new int[5];
@@ -70,13 +73,16 @@ public class SearchFragment extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_search, container, false);
         getHashTag(api, view);
-        searchEdit = view.findViewById(R.id.searchEdit);
-        searchEdit.setOnClickListener(new View.OnClickListener() {
+        searchBt = view.findViewById(R.id.searchEdit);
+        searchIb = view.findViewById(R.id.searchIb);
+
+        searchBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                getFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container, new Search2Fragment()).commit();
+                getFragmentManager().beginTransaction().replace(R.id.container, new SearchHashFragment()).addToBackStack(null).commit();
             }
         });
+
 
         tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("감정"));
@@ -85,6 +91,7 @@ public class SearchFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("클립"));
         tabLayout.addTab(tabLayout.newTab().setText("텍스트"));
         tabLayout.addTab(tabLayout.newTab().setText("이모티콘"));
+
 
         viewPager = (NonSwipeViewPager)view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new PagerAdapter(getFragmentManager()));
@@ -118,12 +125,13 @@ public class SearchFragment extends Fragment {
 
                 }
                 taglist = tag.getData().getTagList();
-
                 RecyclerView mRecyclerView = view.findViewById(R.id.hashtag_recycler);
                 LinearLayoutManager mLinearLayoutmanager = new LinearLayoutManager(getActivity());
                 mRecyclerView.setLayoutManager(mLinearLayoutmanager);
-                mAdapter = new HashTagAdapter(taglist, getContext());
+                mAdapter = new HashTagAdapter(taglist, getContext(), api, token);
                 mRecyclerView.setAdapter(mAdapter);
+
+
 
                 mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
                     @Override
@@ -132,7 +140,6 @@ public class SearchFragment extends Fragment {
                         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(item.getTagIdx(), item.getTagName())).addToBackStack(null).commit();
                     }
                 });
-
             }
 
             @Override
