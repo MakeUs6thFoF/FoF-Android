@@ -25,13 +25,20 @@
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent">
-            <ImageButton
+            <FrameLayout
                 android:id="@+id/back"
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom">
+            <ImageButton
+                android:id="@+id/back_btn"
                 android:background="@drawable/back"
                 android:layout_width="10dp"
                 android:layout_gravity="bottom"
                 android:layout_height="17dp"
+                android:clickable="false"
                 android:layout_marginLeft="20dp"/>
+            </FrameLayout>
             <View
                 android:layout_width="0dp"
                 android:layout_height="0dp"
@@ -50,13 +57,19 @@
                 android:layout_height="0dp"
                 android:layout_weight="1"
                 />
-            <ImageButton
+            <FrameLayout
                 android:id="@+id/report"
-                android:background="@drawable/report"
-                android:layout_width="20dp"
-                android:layout_gravity="bottom"
-                android:layout_marginHorizontal="20dp"
-                android:layout_height="4dp"/>
+                android:layout_width="40dp"
+                android:layout_height="25dp"
+                android:layout_gravity="bottom">
+                 <ImageButton
+                    android:id="@+id/report_btn"
+                    android:background="@drawable/report"
+                    android:layout_width="20dp"
+                    android:layout_gravity="bottom"
+                    android:clickable="false"
+                    android:layout_height="4dp"/>
+            </FrameLayout>
 
         </LinearLayout>
 
@@ -88,6 +101,7 @@
                     android:layout_height="wrap_content"
                     android:text="@string/copyright"
                     style="@style/basic_12dp"
+                    android:ellipsize="end"
                     android:textColor="@color/deepgray2"
                     android:layout_marginLeft="8dp"
                     />

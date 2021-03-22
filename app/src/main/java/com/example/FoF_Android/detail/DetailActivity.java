@@ -67,9 +67,8 @@ public class DetailActivity extends AppCompatActivity  {
 
        setContentView(R.layout.meme_detail);
         initUI();
-        onclick();
         similarUI(i);
-        btnclick(i);
+
     }
 
 
@@ -95,16 +94,9 @@ public class DetailActivity extends AppCompatActivity  {
         reportDialog.show();
     }
 
-    public void onclick(){
-        report.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                reportDialog = new SelectDialog(DetailActivity.this,leftListener,cancellistener); // 왼쪽 버튼 이벤트
-                calldialog(reportDialog);
-            }});
 
 
-    }
+
 
 
     public void setUI(){
@@ -190,20 +182,9 @@ public class DetailActivity extends AppCompatActivity  {
 
     }
 
-    private View.OnClickListener leftListener = new View.OnClickListener() {
-        public void onClick(View v) {
 
-            reportDialog.dismiss();
-            deleteDialog= new DeleteDialog(DetailActivity.this,cancellistener);
-            calldialog(deleteDialog);
-        }
-    };
-    private View.OnClickListener cancellistener = new View.OnClickListener() {
-        public void onClick(View v) {
-            reportDialog.dismiss();
-            if(deleteDialog!=null)deleteDialog.dismiss();
-        }
-    };
+
+
 
     public void btnclick( int position){
         gettoken=new TokenManager(DetailActivity.this);

@@ -4,16 +4,22 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
+import android.view.DragEvent;
+import android.view.GestureDetector;
 import android.view.Gravity;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.widget.CompoundButton;
+import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
@@ -32,6 +38,9 @@ import com.example.FoF_Android.dialog.ModifyDialog;
 import com.example.FoF_Android.dialog.ReportDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.search.HashClickFragment;
+import com.example.FoF_Android.search.HashTag;
+import com.example.FoF_Android.search.HashTagAdapter;
 
 import java.util.List;
 
@@ -50,18 +59,27 @@ public class MemePagerAdapter extends PagerAdapter {
     private ModifyDialog modifyDialog;
     private ReportDialog reportDialog;
     RetrofitApi api;
-    View next,prev;
-    ImageButton copy,send, report;
+    private GestureDetector gestureDetector = null;
+    ImageButton copy,send;
+            FrameLayout report;
     ToggleButton like_btn;
     TokenManager gettoken;
     String token;
-    StackPageTransformer transformer;
-    public MemePagerAdapter(Context context, List<Meme.Data> items)
+    Integer useridx;
+    private MemePagerAdapter.OnItemClickListener mListener = null;
+
+    public interface OnItemClickListener{
+        void onItemClick(View v, String position);
+    }
+    private OnItemClick mCallback;
+    public void setOnItemClickListener(MemePagerAdapter.OnItemClickListener listener) {this.mListener = listener;}
+    public MemePagerAdapter(Context context,Integer UserIdx, List<Meme.Data> items,  OnItemClick listener)
     {
+        this.mCallback = listener;
         this.context = context;
         this.items = items;
+        this.useridx=UserIdx;
     }
-
 
     @NonNull
     @Override
@@ -70,10 +88,9 @@ public class MemePagerAdapter extends PagerAdapter {
         View view = inflater.inflate(R.layout.meme_rec_item, null);
 
         float factor = context.getResources().getDisplayMetrics().density;
-
+        Log.i("HomeFragmet","useridx="+useridx+"memeuseridx="+items.get(position).getUserIdx());
         int pixelw = (int) (66 * factor + 0.5f);
         int pixelh = (int) (26 * factor + 0.5f);
-
         LinearLayout Tag= (LinearLayout)view.findViewById(R.id.Tag);
         LinearLayout Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
         TextView btn[] = new TextView[30];
@@ -102,55 +119,62 @@ public class MemePagerAdapter extends PagerAdapter {
             if (i < 4) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
+            int finalI1 = i;
             btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-
+                    if(mListener != null)
+                        mListener.onItemClick(v, array[finalI1]);
+                    //Todo hashtag
                 }
-            });}}
+            });
 
-        report=(ImageButton)view.findViewById(R.id.report);
+        } }
+
+        report=(FrameLayout) view.findViewById(R.id.report);
         like_btn=(ToggleButton) view.findViewById(R.id.like);
         TextView nick = (TextView) view.findViewById(R.id.nick);
         ImageView memeimg = (ImageView) view.findViewById(R.id.imageView);
         CircleImageView  profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
         TextView copyright=(TextView) view.findViewById(R.id.copyright);
 
+        Glide.with(context)
+                .load(items.get(position).getImageUrl())
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.meme2)
+                .into(memeimg);
+
         copyright.setText(items.get(position).getCopyright());
         copyright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifyDialog = new ModifyDialog(context,items.get(position).getCopyright(),items.get(position).getMemeIdx(),cancellistener); // 왼쪽 버튼 이벤트
+                modifyDialog = new ModifyDialog(context,items.get(position).getCopyright(),items.get(position).getMemeIdx()); // 왼쪽 버튼 이벤트
                 calldialog(modifyDialog);
             }
         });
         nick.setText(items.get(position).getNickname());
         Glide.with(context)
                 .load(items.get(position).getProfileImage())
-                .placeholder(R.drawable.meme2)
+                .placeholder(R.drawable.logo_big2)
                 .into(profileimg);
-
-        Glide.with(context)
-        .load(items.get(position).getImageUrl())
-                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                .placeholder(R.drawable.meme2)
-                .into(memeimg);
-
 
 
         container.addView(view);
+
         likebtnclick(position);
-        reportbtnclick(position);
+        selectbtnclick(position);
+        view.setOnDragListener(new View.OnDragListener() {
+            @Override
+            public boolean onDrag(View view, DragEvent dragEvent) {
+                Toast.makeText(context, "dkdk", Toast.LENGTH_SHORT).show();
+               // mListener.onItemClick(v, position);
+                return false;
+            }
+        });
         return view;
 
     }
 
-
-    public void calldialog(Dialog reportDialog){
-        reportDialog.setCancelable(true);
-        reportDialog.getWindow().setGravity(Gravity.CENTER);
-        reportDialog.show();
-    }
 
     @Override
     public int getCount() {
@@ -167,35 +191,22 @@ public class MemePagerAdapter extends PagerAdapter {
         return (view == (View)o);
     }
 
+    public void calldialog(Dialog reportDialog){
+        reportDialog.setCancelable(true);
+        reportDialog.getWindow().setGravity(Gravity.CENTER);
+        reportDialog.show();
+    }
 
-
-    private View.OnClickListener deletelistener = new View.OnClickListener() {
-        public void onClick(View v) {
-            reportDialog.dismiss();
-            deleteDialog= new DeleteDialog(context,cancellistener);
-            calldialog(deleteDialog);
-        }
-    };
-
-    private View.OnClickListener cancellistener = new View.OnClickListener() {
-        public void onClick(View v) {
-            if(modifyDialog!=null)  modifyDialog.dismiss();
-            if(reportDialog!=null)  reportDialog.dismiss();
-         if(deleteDialog!=null)deleteDialog.dismiss();
-        }
-    };
-
-
-
-    public void reportbtnclick(int position){
+    public void selectbtnclick(int position){
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                reportDialog = new ReportDialog(context,deletelistener,cancellistener); // 왼쪽 버튼 이벤트
-                calldialog(reportDialog);
+                selectDialog = new SelectDialog(context,items.get(position).getUserIdx(),items.get(position).getMemeIdx()); // 왼쪽 버튼 이벤트
+                calldialog(selectDialog);
             }
         });
     }
+
 
     public void likebtnclick(int position){
         gettoken=new TokenManager(context);

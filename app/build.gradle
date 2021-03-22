@@ -33,6 +33,13 @@ dependencies {
    // compile 'com.github.aohanyao:ViewPagerCardTransformer:1.2'
    // compile 'com.github.OCNYang:PageTransformerHelp:v1.0.1'
  //   implementation 'com.github.yuyakaido:cardstackview:2.3.4'
+    //
+   // implementation 'com.github.aqoong:HashTagEditTextView:Tag'
+
+    compile 'com.amazonaws:aws-android-sdk-core:2.4.4'
+    implementation 'com.amazonaws:aws-android-sdk-s3:2.6.+'
+    compile 'com.amazonaws:aws-android-sdk-ddb:2.2.+'
+
     implementation 'com.squareup.retrofit2:retrofit:2.6.1'
     implementation 'com.squareup.retrofit2:converter-gson:2.6.1'
 

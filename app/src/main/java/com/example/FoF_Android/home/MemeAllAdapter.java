@@ -77,6 +77,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
             Glide.with(context)
                     .load(items.get(i).getImageUrl())
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                    .error(R.drawable.meme2)
                     .into(viewHolder.memeimg);
     }
 

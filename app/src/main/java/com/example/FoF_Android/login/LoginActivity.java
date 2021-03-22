@@ -91,14 +91,10 @@ public class LoginActivity extends AppCompatActivity {
                     System.out.println("확인"+flag);
                     if(flag == 200){
                         System.out.println(login.getJwt().toString());
-
+                        System.out.println("확인"+login.getUserinfo().getIdx().toString());
                         TokenManager token=new TokenManager(getBaseContext());
-                        token.createLoginSession(login.getJwt());
+                        token.createLoginSession(login.getJwt(),login.getUserinfo().getIdx());
 
-                      /*  SharedPreferences sharedPreferences= getSharedPreferences("test", MODE_PRIVATE);    // test 이름의 기본모드 설정
-                        SharedPreferences.Editor editor= sharedPreferences.edit(); //sharedPreferences를 제어할 editor를 선언
-                        editor.putString("token",login.getJwt());
-                        editor.commit();*/
 
                         Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
                         startActivity(intent);

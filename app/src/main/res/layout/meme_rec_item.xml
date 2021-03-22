@@ -86,15 +86,18 @@
                     android:layout_width="0dp"
                     android:layout_height="0dp"
                     android:layout_weight="1" />
-
-                <ImageButton
+                <FrameLayout
                     android:id="@+id/report"
+                    android:layout_width="60dp"
+                    android:layout_height="25dp"       >
+                <ImageButton
+                    android:id="@+id/report_btn"
                     android:background="@drawable/report"
                     android:layout_width="20dp"
                     android:layout_gravity="center"
-                    android:layout_marginHorizontal="20dp"
+                    android:clickable="false"
                     android:layout_height="4dp"/>
-
+            </FrameLayout>
 
             </LinearLayout>
         </LinearLayout>
@@ -104,8 +107,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-            android:adjustViewBounds="true"
 
+            android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
 

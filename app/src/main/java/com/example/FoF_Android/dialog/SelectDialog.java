@@ -3,11 +3,15 @@ package com.example.FoF_Android.dialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.LinearLayout;
 
 import com.example.FoF_Android.R;
+import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.home.MemeAllAdapter;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeCase;
@@ -16,12 +20,19 @@ import java.util.List;
 
 public class SelectDialog extends Dialog {
 
-    private Button mModifyButton;
+    private Button deleteButton;
     private Button mNegativeButton;
+    private Button report;
 
-    private View.OnClickListener mModifyListener;
-    private View.OnClickListener mNegativeListener;
+    private Integer useridx=0;
+    private Integer memeuseridx;
 
+    private Integer memeidx;
+
+    TokenManager getuseridx;
+    LinearLayout MyModify;
+    ReportDialog reportDialog;
+    DeleteDialog deleteDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -34,23 +45,67 @@ public class SelectDialog extends Dialog {
         getWindow().setAttributes(layoutParams);
 
         setContentView(R.layout.dialog_select);
+        getuseridx=new TokenManager(getContext());
+        useridx=getuseridx.checkIdx(getContext());
 
-        //셋팅
-        mModifyButton=(Button)findViewById(R.id.delete);
+        MyModify=(LinearLayout)findViewById(R.id.my_modify);
+        report=(Button)findViewById(R.id.report);
+        deleteButton=(Button)findViewById(R.id.delete);
+
         mNegativeButton=(Button)findViewById(R.id.cancel);
+        mNegativeButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dismiss();
+            }
+        });
+        Log.i("HomeFragmet","useridx="+useridx+"memeuseridx="+memeuseridx);
 
-        //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
 
-        mModifyButton.setOnClickListener(mModifyListener);
-        mNegativeButton.setOnClickListener(mNegativeListener);
+        if(useridx==memeuseridx){
+            MyModify.setVisibility(View.VISIBLE);
+            report.setVisibility(View.GONE);
+            //셋팅
+
+            //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
+
+            deleteButton.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                    deleteDialog= new DeleteDialog(getContext(),memeidx);
+                    deleteDialog.setCancelable(true);
+                    deleteDialog.getWindow().setGravity(Gravity.CENTER);
+                    deleteDialog.show();
+                }
+            });
+
+
+        }else{
+            MyModify.setVisibility(View.GONE);
+            report.setVisibility(View.VISIBLE);
+
+            report.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    dismiss();
+                    reportDialog= new ReportDialog(getContext(),memeidx);
+                    reportDialog.setCancelable(true);
+                    reportDialog.getWindow().setGravity(Gravity.CENTER);
+                    reportDialog.show();
+                }
+            });
+
+        }
+
+
+
     }
 
     //생성자 생성
-    public SelectDialog(Context context, View.OnClickListener modifylistener,
-                        View.OnClickListener cancelistener) {
+    public SelectDialog(Context context,Integer memeuseridx ,Integer memeidx) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-
-        this.mModifyListener=modifylistener;
-        this.mNegativeListener = cancelistener;
+        this.memeuseridx=memeuseridx;
+        this.memeidx=memeidx;
     }
 }

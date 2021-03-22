@@ -80,6 +80,7 @@
 
         <RelativeLayout
             android:layout_width="match_parent"
+            android:layout_marginHorizontal="20dp"
             android:layout_height="0dp"
             style="@style/basic_12dp_black"
             android:layout_marginTop="32dp"
@@ -88,13 +89,13 @@
 
             <ToggleButton
                 android:id="@+id/button1"
-                style="@style/basic_12dp_black"
+                android:textAppearance="@style/basic_12dp_black"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="28dp"
                 android:layout_marginTop="0dp"
+                android:backgroundTint="@color/lightgray"
                 android:background="@drawable/pref_diamond"
                 app:layout_constraintEnd_toStartOf="@+id/button3"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -104,12 +105,9 @@
                 style="@style/basic_12dp_black"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="20dp"
                 android:layout_marginTop="0dp"
-                android:layout_marginEnd="28dp"
-                android:layout_toEndOf="@+id/button1"
+                android:backgroundTint="@color/lightgray"
                 android:background="@drawable/pref_diamond"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -117,13 +115,14 @@
                 android:id="@+id/button3"
                 style="@style/basic_12dp_black"
                 android:layout_width="150dp"
-                android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="105dp"
+                android:layout_height="49dp"
+                android:backgroundTint="@color/lightgray"
+                android:layout_alignParentTop="true"
+
+                android:layout_centerHorizontal="true"
                 android:layout_marginTop="30dp"
-                android:layout_marginEnd="105dp"
                 android:background="@drawable/pref_diamond" />
+
             <ToggleButton
                 android:id="@+id/button4"
                 style="@style/basic_12dp_black"
@@ -131,8 +130,8 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="50dp"
+                android:backgroundTint="@color/lightgray"
+                android:layout_marginTop="60dp"
                 android:background="@drawable/pref_diamond"
                 app:layout_constraintEnd_toStartOf="@+id/button3"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -144,23 +143,19 @@
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="50dp"
-                android:layout_marginEnd="28dp"
-                android:layout_toEndOf="@+id/button1"
+                android:layout_marginTop="60dp"
+                android:backgroundTint="@color/lightgray"
                 android:background="@drawable/pref_diamond"
-                tools:layout_editor_absoluteY="125dp" />
+           />
 
             <ToggleButton
                 android:id="@+id/button6"
                 style="@style/basic_12dp_black"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
-                android:layout_alignParentStart="true"
-                android:layout_alignParentEnd="true"
-                android:layout_marginStart="105dp"
-                android:layout_marginTop="80dp"
-                android:layout_marginEnd="105dp"
+                android:layout_centerHorizontal="true"
+                android:backgroundTint="@color/lightgray"
+                android:layout_marginTop="90dp"
                 android:background="@drawable/pref_diamond" />
             <ToggleButton
                 android:id="@+id/button7"
@@ -169,23 +164,21 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:layout_marginStart="28dp"
-                android:layout_marginTop="100dp"
+                android:backgroundTint="@color/lightgray"
+                android:layout_marginTop="120dp"
                 android:background="@drawable/pref_diamond"
                 app:layout_constraintEnd_toStartOf="@+id/button3"
                 app:layout_constraintStart_toStartOf="parent" />
 
             <ToggleButton
                 android:id="@+id/button8"
-                style="@style/basic_12dp_black"
+                android:textAppearance="@style/basic_12dp_black"
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
-                android:layout_marginStart="20dp"
-                android:layout_marginTop="100dp"
-                android:layout_marginEnd="28dp"
-                android:layout_toEndOf="@+id/button1"
+                android:layout_marginTop="120dp"
+                android:backgroundTint="@color/lightgray"
                 android:background="@drawable/pref_diamond"
                 tools:layout_editor_absoluteY="125dp" />
 
