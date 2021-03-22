@@ -11,6 +11,8 @@ import com.example.FoF_Android.login.Login;
 import com.example.FoF_Android.search.CategoryMeme;
 import com.example.FoF_Android.search.HashSearch;
 import com.example.FoF_Android.search.HashTag;
+import com.example.FoF_Android.search.MemeSearch;
+import com.example.FoF_Android.search.RandomTag;
 import com.example.FoF_Android.signup.SignUp;
 
 
@@ -48,6 +50,9 @@ public interface RetrofitApi {
                                @Query("filter") String filter,
                                @Query("page") Integer page, @Query("size") Integer size);
 
+    @GET("/search/meme?")
+    Call<MemeSearch> getSearchMeme(@Header("x-access-token") String token,
+                                   @Query("word") String word, @Query("page") Integer page, @Query("size") Integer size);
 
     @GET("/category")
     Call<Category> getCategory();
@@ -83,4 +88,7 @@ public interface RetrofitApi {
 
     @GET("/meme/tag/{tagIdx}")
     Call<HashSearch> getHashSearch(@Header("x-access-token") String token, @Path("tagIdx") Integer tagIdx);
+
+    @GET("/tag")
+    Call<RandomTag> getRandomTag();
 }
