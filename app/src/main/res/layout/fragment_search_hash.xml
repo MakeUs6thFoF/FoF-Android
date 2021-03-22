@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/frameLayout"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".search.SearchFragment">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/topLayout"
+        android:layout_width="match_parent"
+        android:layout_height="168dp"
+        app:layout_constraintTop_toTopOf="parent"
+        android:background="#BEDCFF"
+        >
+        <TextView
+            android:id="@+id/searchTv"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="검색"
+            android:textAppearance="@style/basic_20dp"
+            android:textColor="#000000"
+            android:textStyle="bold"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <EditText
+            android:id="@+id/searchEdit"
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            style="@style/basic_14dp"
+            android:textColor="@color/black"
+            android:background="@drawable/edittext_blackboarder"
+            android:inputType="textPersonName"
+            android:paddingStart="20dp"
+            android:layout_marginLeft="20dp"
+            app:layout_constraintTop_toBottomOf="@id/searchTv"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toStartOf="@id/searchIb"/>
+
+        <ImageButton
+            android:id="@+id/searchIb"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:src="@drawable/magnifier"
+            android:backgroundTint="#BEDCFF"
+
+            android:layout_marginTop="85dp"
+            app:layout_constraintStart_toEndOf="@id/searchEdit"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent"/>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <TextView
+        android:id="@+id/diamond1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="145dp"
+        android:background="@drawable/ic_hashtagdia"
+        android:text="#예시"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toStartOf="@+id/diamond2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/diamond2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:layout_marginTop="145dp"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/diamond1"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/diamond3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:layout_marginTop="170dp"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/diamond4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:layout_marginTop="195dp"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/diamond2"/>
+
+    <TextView
+        android:id="@+id/diamond5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:layout_marginTop="195dp"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/diamond1"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/diamond6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_marginTop="220dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/diamond7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_marginTop="245dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toStartOf="@+id/diamond2"/>
+
+    <TextView
+        android:id="@+id/diamond8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/ic_hashtagdia"
+        android:padding="13dp"
+        android:textAlignment="center"
+        android:textColor="@color/black"
+        android:textSize="15dp"
+        android:textStyle="bold"
+        android:layout_marginTop="245dp"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/diamond1"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
