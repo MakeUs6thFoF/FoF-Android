@@ -27,11 +27,12 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <EditText
+        <Button
             android:id="@+id/searchEdit"
             android:layout_width="0dp"
             android:layout_height="34dp"
-            style="@style/basic_20dp"
+            style="@style/basic_14dp"
+            android:textColor="@color/black"
             android:background="@drawable/edittext_blackboarder"
             android:inputType="textPersonName"
             android:paddingStart="20dp"
