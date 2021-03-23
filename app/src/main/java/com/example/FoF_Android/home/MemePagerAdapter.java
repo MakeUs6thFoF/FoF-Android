@@ -4,6 +4,7 @@ import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -13,11 +14,13 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
+import android.view.ViewTreeObserver;
 import android.widget.CompoundButton;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 import android.widget.ToggleButton;
@@ -55,24 +58,29 @@ public class MemePagerAdapter extends PagerAdapter {
     private Context context;
     private List<Meme.Data> items;
     private SelectDialog selectDialog;
-    private DeleteDialog deleteDialog;
     private ModifyDialog modifyDialog;
-    private ReportDialog reportDialog;
-    RetrofitApi api;
     private GestureDetector gestureDetector = null;
     ImageButton copy,send;
-            FrameLayout report;
+    FrameLayout report;
     ToggleButton like_btn;
     TokenManager gettoken;
     String token;
     Integer useridx;
+    ScrollView sv_scrollview;
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
+    View.OnTouchListener gestureListener;
+
     private MemePagerAdapter.OnItemClickListener mListener = null;
 
     public interface OnItemClickListener{
         void onItemClick(View v, String position);
     }
     private OnItemClick mCallback;
+
     public void setOnItemClickListener(MemePagerAdapter.OnItemClickListener listener) {this.mListener = listener;}
+
     public MemePagerAdapter(Context context,Integer UserIdx, List<Meme.Data> items,  OnItemClick listener)
     {
         this.mCallback = listener;
@@ -86,6 +94,14 @@ public class MemePagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.meme_rec_item, null);
+        gestureDetector = new GestureDetector(context, new MyGestureDetector());
+        gestureListener = new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
+            }
+        };
+
+
 
         float factor = context.getResources().getDisplayMetrics().density;
         Log.i("HomeFragmet","useridx="+useridx+"memeuseridx="+items.get(position).getUserIdx());
@@ -157,20 +173,22 @@ public class MemePagerAdapter extends PagerAdapter {
                 .load(items.get(position).getProfileImage())
                 .placeholder(R.drawable.logo_big2)
                 .into(profileimg);
+       // memeimg.setOnClickListener(MemePagerAdapter.this);
 
 
         container.addView(view);
 
         likebtnclick(position);
         selectbtnclick(position);
-        view.setOnDragListener(new View.OnDragListener() {
-            @Override
-            public boolean onDrag(View view, DragEvent dragEvent) {
-                Toast.makeText(context, "dkdk", Toast.LENGTH_SHORT).show();
-               // mListener.onItemClick(v, position);
-                return false;
+
+        view.setOnTouchListener(gestureListener);
+
+        view.setOnTouchListener(new View.OnTouchListener() {
+            public boolean onTouch(View v, MotionEvent event) {
+                return gestureDetector.onTouchEvent(event);
             }
         });
+
         return view;
 
     }
@@ -211,7 +229,7 @@ public class MemePagerAdapter extends PagerAdapter {
     public void likebtnclick(int position){
         gettoken=new TokenManager(context);
         HttpClient client=new HttpClient();
-        api = client.getRetrofit().create(RetrofitApi.class);
+        RetrofitApi api = client.getRetrofit().create(RetrofitApi.class);
         token = gettoken.checklogin(context);
         like_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
             @Override
@@ -235,5 +253,30 @@ public class MemePagerAdapter extends PagerAdapter {
                 }
 
         });
+    }
+    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                // right to left swipe
+                if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                    Toast.makeText(context, "Left Swipe", Toast.LENGTH_SHORT).show();
+
+
+                } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                    Toast.makeText(context, "Right Swipe", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // nothing
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
     }
 }

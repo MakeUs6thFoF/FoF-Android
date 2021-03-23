@@ -201,9 +201,6 @@ public class UploadNextFragment extends Fragment {
                 for(String s : hashTagArray)
                     tmpList.add(s);
 
-
-
-                Toast.makeText(getContext(), listData.toString(), Toast.LENGTH_SHORT).show();
                 doPost(titletxt,tmpList,imgurl,copytxt,categoryIdx,api);
 
             }

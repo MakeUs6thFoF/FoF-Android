@@ -116,7 +116,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectDialog = new SelectDialog(getContext(),detail.getUserIdx(),detail.getUserIdx()); // 왼쪽 버튼 이벤트
+                selectDialog = new SelectDialog(getContext(),detail.getUserIdx(),detail.getMemeIdx()); // 왼쪽 버튼 이벤트
                 calldialog(selectDialog);
             }
         });

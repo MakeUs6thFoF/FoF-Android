@@ -7,8 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
 
+import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -111,6 +113,25 @@ public class HomeFragment extends Fragment implements OnItemClick{
         adapter = new MemeAllAdapter(items,getContext());
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
+/*
+        recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+
+                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
+                int totalCount = recyclerView.getAdapter().getItemCount();
+
+                if(lastPosition == totalCount){
+                    //아이템 추가
+                }
+            }
+        });*/
         recycle.setAdapter(adapter);
         adapter.setOnItemClickListener(new MemeAllAdapter.OnItemClickListener() {
             @Override
@@ -131,7 +152,7 @@ public class HomeFragment extends Fragment implements OnItemClick{
 
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        Call<MemeResponse> call = api.getdata(token, "all",1, 10);
+        Call<MemeResponse> call = api.getdata(token, "all",1, 10); //page설정
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {

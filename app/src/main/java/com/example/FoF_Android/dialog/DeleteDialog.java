@@ -52,6 +52,7 @@ public class DeleteDialog extends Dialog {
             public void onClick(View view) {
                 deletememe(api);
                 dismiss();
+                Toast.makeText(getContext(), "삭제 하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
         mNegativeButton.setOnClickListener(new View.OnClickListener() {

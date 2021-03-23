@@ -18,8 +18,8 @@ import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.search.HashSearch;
-import com.example.FoF_Android.search.HashSearchAdapter;
 import com.example.FoF_Android.search.HashTagAdapter;
+import com.example.FoF_Android.search.MemeSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -34,7 +34,7 @@ import retrofit2.Response;
  * create an instance of this fragment.
  */
 public class HashClickFragment extends Fragment {
-
+    private int page = 0;
     ImageView hashImage;
     TextView hashText;
     TextView hashCnt;
@@ -43,7 +43,7 @@ public class HashClickFragment extends Fragment {
     HashSearchAdapter mAdapter;
 
     int memeCount;
-    List<HashSearch.Data.memeList> memeList = new ArrayList<>();
+    List<MemeSearch.Data> memeList = new ArrayList<>();
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -102,12 +102,12 @@ public class HashClickFragment extends Fragment {
     public void setRecyclerView(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
         //TODO 해시태그값으로 검색 모델 수정
-       /* api.getHashSearch1(token, mParam2).enqueue(new Callback<HashSearch>() {
+        api.getSearchMeme(token, mParam2, getPage(), 10).enqueue(new Callback<MemeSearch>() {
             @Override
-            public void onResponse(Call<HashSearch> call, Response<HashSearch> response) {
-                HashSearch body = response.body();
-                memeList = body.getData().getMemeList();
-                memeCount = body.getData().getMemeCount();
+            public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
+                MemeSearch body = response.body();
+                memeList = body.getData();
+                memeCount = body.getData().size();
                 hashCnt.setText(String.valueOf(memeCount)+" 게시물");
 
                 RecyclerView mRecyclerView = view.findViewById(R.id.hashClickRecycle);
@@ -119,7 +119,7 @@ public class HashClickFragment extends Fragment {
                 mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
-                        HashSearch.Data.memeList item = mAdapter.getItem(position);
+                        MemeSearch.Data item = mAdapter.getItem(position);
                         DetailFragment detail = new DetailFragment(item.getMemeIdx());
                         getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
                                 .setReorderingAllowed(true)
@@ -129,12 +129,15 @@ public class HashClickFragment extends Fragment {
             }
 
             @Override
-            public void onFailure(Call<HashSearch> call, Throwable t) {
+            public void onFailure(Call<MemeSearch> call, Throwable t) {
 
             }
-        });*/
+        });
 
 
 
+    }public int getPage(){
+        page++;
+        return page;
     }
 }
