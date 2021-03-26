@@ -28,6 +28,7 @@ import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.detail.DetailFragment;
+import com.example.FoF_Android.dialog.DeleteDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -42,7 +43,7 @@ public class UploadFragment extends Fragment {
     ImageView imageview;
     Uri imageUri;
     TextView next, cancel;
-
+    private View.OnClickListener mNegativeListener;
     InputStream in;
     File f;
     ByteArrayOutputStream stream;
@@ -68,7 +69,9 @@ public class UploadFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                DeleteDialog deleteDialog=new DeleteDialog(getContext(), 0, mNegativeListener);
                 //TODO dialog넣기 listener 포함
+
                 Drawable drawable = getResources().getDrawable(R.drawable.make_bg);
                 imageview.setImageDrawable(drawable);
                 in=null;
@@ -80,7 +83,6 @@ public class UploadFragment extends Fragment {
                 if(in!=null){
                 Log.i("dkdk", f.getName());
                 UploadNextFragment detail = new UploadNextFragment(f);
-                //TODO 이전 fragment 터치 안되도록
                 getFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
                         .addToBackStack(null).add(R.id.container, detail).commit();
@@ -92,26 +94,26 @@ public class UploadFragment extends Fragment {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                final CharSequence[] items = { "사진 가져오기",
+               /* final CharSequence[] items = { "사진 가져오기",
                         "취소"};
                 AlertDialog.Builder builder = new AlertDialog.Builder(getContext());
                 builder.setTitle("사진가져오기");
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialog, int item) {
+                    public void onClick(DialogInterface dialog, int item) {*/
                         boolean result = Utility.checkPermission(getContext());
 
-                     if (items[item].equals("사진 가져오기")) {
+              /*       if (items[item].equals("사진 가져오기")) {
                             userChoosenTask = "사진 가져오기";
                          userChoosenTask = "사진 가져오기";
                          if (result)
-                             galleryIntent();
+
                         } else if (items[item].equals("취소")) {
                             dialog.dismiss();
                         }
                     }
                 });
-                builder.show();
+                builder.show();*/ if(result)  galleryIntent();
             }
         });
         return view;
