@@ -17,6 +17,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
@@ -49,8 +50,8 @@ public class HomeFragment extends Fragment implements OnItemClick {
     FrameLayout container;
     FrameLayout pagercontainer;
     TokenManager gettoken;
-    CustomSwipeableViewPager myviewpager;
-    MemePagerAdapter padapter;
+    ViewPager2 myviewpager;
+    MemePagerAdapter2 padapter;
     GestureDetector gestureDetector;
     private int mNumber = 0;
 
@@ -76,7 +77,7 @@ public class HomeFragment extends Fragment implements OnItemClick {
         initPagerUI();
         initUI();
 
-        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
+        myviewpager.setPageTransformer( new StackPageTransformer());
 
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -197,9 +198,9 @@ public class HomeFragment extends Fragment implements OnItemClick {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                    padapter=new MemePagerAdapter(getContext(),idx,items,HomeFragment.this::onClick);
+                    padapter=new MemePagerAdapter2(getContext(),idx,items,HomeFragment.this::onClick);
                   //  myviewpager.setOnDragListener();
-                    padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
+                    padapter.setOnItemClickListener(new MemePagerAdapter2.OnItemClickListener() {
                         @Override
                         public void onItemClick(View v, String position) {
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,HashClickFragment.newInstance(position)).addToBackStack(null).commit();
@@ -207,7 +208,7 @@ public class HomeFragment extends Fragment implements OnItemClick {
                     });
 
                     gestureDetector = new GestureDetector(getContext(), new MyGestureDetector());
-                    padapter.setOnTouchListener(new MemePagerAdapter.OnTouchListener(){
+                    padapter.setOnTouchListener(new MemePagerAdapter2.OnTouchListener(){
                         @Override
                         public void onTouch(View v, Integer position, MotionEvent event) {
                            gestureDetector.onTouchEvent(event);

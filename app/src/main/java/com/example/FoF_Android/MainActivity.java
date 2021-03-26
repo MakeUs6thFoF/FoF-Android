@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG,"home");
                         break;
                     case R.id.navigation_search:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).addToBackStack(null).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).commit();
                         Log.i(TAG,"search");
                         break;
                     case R.id.navigation_my:
