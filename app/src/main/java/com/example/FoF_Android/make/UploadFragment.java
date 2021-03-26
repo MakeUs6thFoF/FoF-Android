@@ -8,6 +8,7 @@ import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Matrix;
+import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -40,7 +41,8 @@ public class UploadFragment extends Fragment {
     String imagePath;
     ImageView imageview;
     Uri imageUri;
-    TextView next;
+    TextView next, cancel;
+
     InputStream in;
     File f;
     ByteArrayOutputStream stream;
@@ -50,12 +52,9 @@ public class UploadFragment extends Fragment {
         // Required empty public constructor
     }
 
-
-
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
     }
 
     @Override
@@ -65,6 +64,16 @@ public class UploadFragment extends Fragment {
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_upload, container, false);
         imageview=(ImageView)view.findViewById(R.id.image);
         next=(TextView)view.findViewById(R.id.next);
+        cancel=(TextView)view.findViewById(R.id.cancel);
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //TODO dialog넣기 listener 포함
+                Drawable drawable = getResources().getDrawable(R.drawable.make_bg);
+                imageview.setImageDrawable(drawable);
+                in=null;
+            }
+        });
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,8 +84,10 @@ public class UploadFragment extends Fragment {
                 getFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
                         .addToBackStack(null).add(R.id.container, detail).commit();
+
             }}
         });
+
         image=(Button)view.findViewById(R.id.image_btn);
         image.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -165,7 +176,7 @@ public class UploadFragment extends Fragment {
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
             Glide.with(getContext())
                     .load(stream.toByteArray())
-                    .placeholder(R.drawable.meme2)
+                 //   .placeholder(R.drawable.meme2)
                     .into(imageview);
           //  imageview.setImageBitmap(bm);
         }

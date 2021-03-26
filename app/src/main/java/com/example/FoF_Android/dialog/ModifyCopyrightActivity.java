@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -45,7 +46,7 @@ public class ModifyCopyrightActivity extends AppCompatActivity {
                 api = client.getRetrofit().create(RetrofitApi.class);
                 TokenManager gettoken = new TokenManager(ModifyCopyrightActivity.this);
                 String token = gettoken.checklogin(ModifyCopyrightActivity.this);
-                api.modifycopy(token,memeIdx).enqueue(new Callback<Copyright>() {
+                api.modifycopy(token,memeIdx, changecopy).enqueue(new Callback<Copyright>() {
                     @Override
                     public void onResponse(@NonNull Call<Copyright> call, @NonNull Response<Copyright> response) {
                         if (response.isSuccessful()) {
@@ -53,6 +54,8 @@ public class ModifyCopyrightActivity extends AppCompatActivity {
                             if (body != null) {
                                 Log.d("data.getUserId()", body.getMessage() + "");
                                 Log.e("patchData end", "======================================");
+                                Toast.makeText(ModifyCopyrightActivity.this, "저작권자를 수정하였습니다.", Toast.LENGTH_SHORT).show();
+                                finish();
                             }
                         }
                     }

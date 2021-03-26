@@ -17,7 +17,7 @@
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/wrap"
             android:layout_width="match_parent"
-            android:layout_height="76dp"
+            android:layout_height="54dp"
             android:paddingBottom="12dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -95,7 +95,7 @@
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
                 android:layout_marginTop="0dp"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:background="@drawable/pref_diamond"
                 app:layout_constraintEnd_toStartOf="@+id/button3"
                 app:layout_constraintStart_toStartOf="parent" />
@@ -107,7 +107,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="0dp"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:background="@drawable/pref_diamond"
                 tools:layout_editor_absoluteY="125dp" />
 
@@ -116,7 +116,7 @@
                 style="@style/basic_12dp_black"
                 android:layout_width="150dp"
                 android:layout_height="49dp"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:layout_alignParentTop="true"
 
                 android:layout_centerHorizontal="true"
@@ -130,7 +130,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:layout_marginTop="60dp"
                 android:background="@drawable/pref_diamond"
                 app:layout_constraintEnd_toStartOf="@+id/button3"
@@ -144,7 +144,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="60dp"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:background="@drawable/pref_diamond"
            />
 
@@ -154,7 +154,7 @@
                 android:layout_width="150dp"
                 android:layout_height="50dp"
                 android:layout_centerHorizontal="true"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:layout_marginTop="90dp"
                 android:background="@drawable/pref_diamond" />
             <ToggleButton
@@ -164,7 +164,7 @@
                 android:layout_height="50dp"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:layout_marginTop="120dp"
                 android:background="@drawable/pref_diamond"
                 app:layout_constraintEnd_toStartOf="@+id/button3"
@@ -178,7 +178,7 @@
                 android:layout_alignParentTop="true"
                 android:layout_alignParentEnd="true"
                 android:layout_marginTop="120dp"
-                android:backgroundTint="@color/lightgray"
+                android:backgroundTint="@drawable/report_color"
                 android:background="@drawable/pref_diamond"
                 tools:layout_editor_absoluteY="125dp" />
 

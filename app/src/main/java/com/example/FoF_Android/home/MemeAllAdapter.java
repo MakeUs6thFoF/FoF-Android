@@ -69,7 +69,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
         viewHolder.nick.setText(items.get(i).getNickname());
         Glide.with(context)
                 .load(items.get(i).getProfileImage())
-                .placeholder(R.drawable.meme2)
+
                 .into(viewHolder.profileimg);
         }
 
@@ -77,7 +77,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
             Glide.with(context)
                     .load(items.get(i).getImageUrl())
                     .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                    .error(R.drawable.meme2)
+                 //   .error(R.drawable.meme2)
                     .into(viewHolder.memeimg);
     }
 
@@ -92,18 +92,14 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
         private TextView nick;
         private TextView title;
         private TextView copyright;
-        private RecyclerView similar;
-        private LinearLayout Tag;
-        private LinearLayout Tag2;
+
 
         public ViewHolder(View view) {
             super(view);
-            Tag = (LinearLayout) view.findViewById(R.id.Tag);
-            Tag2 = (LinearLayout) view.findViewById(R.id.Tag2);
             nick = (TextView) view.findViewById(R.id.nick);
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
-            similar = (RecyclerView) view.findViewById(R.id.similar);
+
             title = (TextView) view.findViewById(R.id.title);
             copyright = (TextView) view.findViewById(R.id.copyright);
 

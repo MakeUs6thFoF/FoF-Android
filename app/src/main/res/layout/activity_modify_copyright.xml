@@ -83,7 +83,6 @@
             android:layout_marginHorizontal="20dp"
             android:background="@drawable/edittext_border"
             android:layout_marginTop="25dp"
-            android:text="미리보기"
             android:paddingStart="20dp"
             android:paddingTop="20dp"
             android:ems="10"

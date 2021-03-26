@@ -63,7 +63,7 @@ public class HomeRecFragment extends Fragment  {
      //   layoutManager.setScaleInterval(0.95f);
 
         initUI(view);
-        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
+//        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
 
       /*  back.setOnClickListener(new View.OnClickListener() {
             @Override

@@ -59,27 +59,31 @@ public class MemePagerAdapter extends PagerAdapter {
     private List<Meme.Data> items;
     private SelectDialog selectDialog;
     private ModifyDialog modifyDialog;
-    private GestureDetector gestureDetector = null;
+
     ImageButton copy,send;
     FrameLayout report;
     ToggleButton like_btn;
     TokenManager gettoken;
     String token;
     Integer useridx;
-    ScrollView sv_scrollview;
+
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
-    View.OnTouchListener gestureListener;
 
     private MemePagerAdapter.OnItemClickListener mListener = null;
+    private MemePagerAdapter.OnTouchListener gestureListener = null;
 
     public interface OnItemClickListener{
         void onItemClick(View v, String position);
     }
+    public interface OnTouchListener{
+        void onTouch(View v, Integer position, MotionEvent event);
+    }
     private OnItemClick mCallback;
 
     public void setOnItemClickListener(MemePagerAdapter.OnItemClickListener listener) {this.mListener = listener;}
+    public void setOnTouchListener(MemePagerAdapter.OnTouchListener gestureListener) {this.gestureListener = gestureListener;}
 
     public MemePagerAdapter(Context context,Integer UserIdx, List<Meme.Data> items,  OnItemClick listener)
     {
@@ -94,12 +98,7 @@ public class MemePagerAdapter extends PagerAdapter {
     public Object instantiateItem(@NonNull ViewGroup container, int position) {
         LayoutInflater inflater = (LayoutInflater)context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
         View view = inflater.inflate(R.layout.meme_rec_item, null);
-        gestureDetector = new GestureDetector(context, new MyGestureDetector());
-        gestureListener = new View.OnTouchListener() {
-            public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
-            }
-        };
+
 
 
 
@@ -107,12 +106,13 @@ public class MemePagerAdapter extends PagerAdapter {
         Log.i("HomeFragmet","useridx="+useridx+"memeuseridx="+items.get(position).getUserIdx());
         int pixelw = (int) (66 * factor + 0.5f);
         int pixelh = (int) (26 * factor + 0.5f);
+        int pixelb = (int) (4 * factor + 0.5f);
         LinearLayout Tag= (LinearLayout)view.findViewById(R.id.Tag);
         LinearLayout Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
         TextView btn[] = new TextView[30];
 
-            String hashtag=items.get(position).getTag();
-            if(hashtag!=null){
+        String hashtag=items.get(position).getTag();
+        if(hashtag!=null){
         String[] array = hashtag.split(",");
         //     next= (View)view.findViewById(R.id.next);
         //   prev= (View)view.findViewById(R.id.prev);
@@ -129,7 +129,7 @@ public class MemePagerAdapter extends PagerAdapter {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(0,8,0,0);
+            btn[i].setPadding(0,pixelb,0,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
             if (i < 4) {
@@ -141,12 +141,12 @@ public class MemePagerAdapter extends PagerAdapter {
                 public void onClick(View v) {
                     if(mListener != null)
                         mListener.onItemClick(v, array[finalI1]);
-                    //Todo hashtag
                 }
             });
 
         } }
-
+        send=(ImageButton) view.findViewById(R.id.send);
+        copy=(ImageButton) view.findViewById(R.id.copy);
         report=(FrameLayout) view.findViewById(R.id.report);
         like_btn=(ToggleButton) view.findViewById(R.id.like);
         TextView nick = (TextView) view.findViewById(R.id.nick);
@@ -157,7 +157,7 @@ public class MemePagerAdapter extends PagerAdapter {
         Glide.with(context)
                 .load(items.get(position).getImageUrl())
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                .error(R.drawable.meme2)
+                .error(R.drawable.placeholder)
                 .into(memeimg);
 
         copyright.setText(items.get(position).getCopyright());
@@ -174,18 +174,20 @@ public class MemePagerAdapter extends PagerAdapter {
                 .placeholder(R.drawable.logo_big2)
                 .into(profileimg);
        // memeimg.setOnClickListener(MemePagerAdapter.this);
-
+        onclickbtn(position);
 
         container.addView(view);
 
         likebtnclick(position);
         selectbtnclick(position);
 
-        view.setOnTouchListener(gestureListener);
-
-        view.setOnTouchListener(new View.OnTouchListener() {
+        view.setOnTouchListener(new View.OnTouchListener(){
+            @Override
             public boolean onTouch(View v, MotionEvent event) {
-                return gestureDetector.onTouchEvent(event);
+              //  gestureDetector.onTouchEvent(event);
+
+                gestureListener.onTouch(v, position, event);
+                return false;
             }
         });
 
@@ -213,6 +215,14 @@ public class MemePagerAdapter extends PagerAdapter {
         reportDialog.setCancelable(true);
         reportDialog.getWindow().setGravity(Gravity.CENTER);
         reportDialog.show();
+    }
+    public void onclickbtn(int position){
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
     public void selectbtnclick(int position){
@@ -254,29 +264,5 @@ public class MemePagerAdapter extends PagerAdapter {
 
         });
     }
-    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
-        @Override
-        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
-            try {
-                if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH)
-                    return false;
-                // right to left swipe
-                if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(context, "Left Swipe", Toast.LENGTH_SHORT).show();
 
-
-                } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(context, "Right Swipe", Toast.LENGTH_SHORT).show();
-                }
-            } catch (Exception e) {
-                // nothing
-            }
-            return false;
-        }
-
-        @Override
-        public boolean onDown(MotionEvent e) {
-            return true;
-        }
-    }
 }

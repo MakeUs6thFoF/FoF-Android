@@ -2,12 +2,16 @@ package com.example.FoF_Android.home;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.GestureDetector;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -22,6 +26,7 @@ import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.home.view.CustomSwipeableViewPager;
+import com.example.FoF_Android.home.view.DragLayout;
 import com.example.FoF_Android.home.view.StackPageTransformer;
 import com.google.android.material.tabs.TabLayout;
 
@@ -31,19 +36,22 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment implements OnItemClick{
+public class HomeFragment extends Fragment implements OnItemClick {
     TabLayout tabLayout;
     private RecyclerView recycle;
     RetrofitApi api;
     List<Meme.Data> items;
 
+    private static final int SWIPE_MIN_DISTANCE = 120;
+    private static final int SWIPE_MAX_OFF_PATH = 250;
+    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     MemeAllAdapter adapter;
     FrameLayout container;
     FrameLayout pagercontainer;
     TokenManager gettoken;
     CustomSwipeableViewPager myviewpager;
     MemePagerAdapter padapter;
-
+    GestureDetector gestureDetector;
     private int mNumber = 0;
 
 
@@ -197,7 +205,16 @@ public class HomeFragment extends Fragment implements OnItemClick{
                             getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,HashClickFragment.newInstance(position)).addToBackStack(null).commit();
                         }
                     });
-                 //   myviewpager.setOnTouchListener(new );
+
+                    gestureDetector = new GestureDetector(getContext(), new MyGestureDetector());
+                    padapter.setOnTouchListener(new MemePagerAdapter.OnTouchListener(){
+                        @Override
+                        public void onTouch(View v, Integer position, MotionEvent event) {
+                           gestureDetector.onTouchEvent(event);
+
+                        }
+                    });
+
                     myviewpager.setOffscreenPageLimit(5);
                     myviewpager.setAdapter(padapter);
 
@@ -221,5 +238,31 @@ public class HomeFragment extends Fragment implements OnItemClick{
     public void onClick(String value) {
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(value)).addToBackStack(null).commit();
 
+    }
+
+    class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
+        @Override
+        public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
+            try {
+                if (Math.abs(e1.getX() - e2.getX()) > SWIPE_MAX_OFF_PATH)
+                    return false;
+                // right to left swipe
+                if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                    Toast.makeText(getContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+
+
+                } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
+                    Toast.makeText(getContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+                }
+            } catch (Exception e) {
+                // nothing
+            }
+            return false;
+        }
+
+        @Override
+        public boolean onDown(MotionEvent e) {
+            return true;
+        }
     }
 }

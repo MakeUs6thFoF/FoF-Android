@@ -62,6 +62,10 @@ public interface RetrofitApi {
     Call<Report> getReportTag();
 
 
+    @POST("/meme/{memeIdx}/report/{reportTagIdx}")
+    Call<SignUp> postReport(@Header("x-access-token") String token, @Path("memeIdx") Integer memeIdx, @Path("reportTagIdx") Integer reportTagIdx);
+
+
     @FormUrlEncoded
     @POST("/meme")
     Call<SignUp> postMeme(@Header("x-access-token") String token, @Field("title") String title,
@@ -76,8 +80,9 @@ public interface RetrofitApi {
     @POST("/meme/{memeidx}/good")
     Call<Like> postLike(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx);
 
+    @FormUrlEncoded
     @PATCH("/meme/{memeidx}/copyright")
-    Call<Copyright> modifycopy(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx);
+    Call<Copyright> modifycopy(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx, @Field("copyright") String copyright);
 
 
     @GET("/meme/{memeidx}")

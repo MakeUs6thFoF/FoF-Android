@@ -2,6 +2,7 @@ package com.example.FoF_Android.make;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -13,6 +14,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
@@ -26,6 +28,9 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.dialog.DeleteDialog;
+import com.example.FoF_Android.dialog.model.CancelDialog;
+import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.signup.SignUp;
 
 import java.io.File;
@@ -51,6 +56,7 @@ public class UploadNextFragment extends Fragment {
     CognitoCachingCredentialsProvider credentialsProvider;
     AmazonS3 s3;
     TransferUtility transferUtility;
+    CancelDialog canceldialog;
     //카테고리
     RadioButton togBt1;
     RadioButton togBt2;
@@ -249,7 +255,12 @@ public class UploadNextFragment extends Fragment {
                 if (response.isSuccessful()){
                     SignUp signup = response.body();
                     System.out.println("확인"+signup.getCode()+signup.getMessage());
-                    Toast.makeText(getContext(), "업로드 하였습니다.", Toast.LENGTH_SHORT).show();
+                    if(signup.getCode()!=200)Toast.makeText(getContext(), signup.getMessage(), Toast.LENGTH_SHORT).show();
+                    else {Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_SHORT).show();
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        fragmentManager.beginTransaction().remove(UploadNextFragment.this).commit();
+                        fragmentManager.popBackStack();
+                    }
                 }
                 else
        ;
@@ -261,4 +272,5 @@ public class UploadNextFragment extends Fragment {
             }
         });
     }
+
 }

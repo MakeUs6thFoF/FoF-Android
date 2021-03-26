@@ -93,7 +93,6 @@ public class HashClickFragment extends Fragment {
         hashText = view.findViewById(R.id.hashNametv);
         hashCnt = view.findViewById(R.id.hashCnttv);
         hashText.setText(mParam2);
-
         setRecyclerView(api, view);
 
         return view;
@@ -109,7 +108,7 @@ public class HashClickFragment extends Fragment {
                 memeList = body.getData();
                 memeCount = body.getData().size();
                 hashCnt.setText(String.valueOf(memeCount)+" 게시물");
-
+                if(memeCount==0) hashText.setText("0 게시물");
                 RecyclerView mRecyclerView = view.findViewById(R.id.hashClickRecycle);
                 mAdapter = new HashSearchAdapter(memeList, getContext());
                 StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

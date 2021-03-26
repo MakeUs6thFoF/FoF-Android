@@ -6,6 +6,8 @@ import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
@@ -36,10 +38,11 @@ public class ReportDialog extends Dialog {
 
     private Button reportbutton;
     private ImageButton mNegativeButton;
-
+    String button_num="";
     private View.OnClickListener mModifyListener;
     private View.OnClickListener mNegativeListener;
     private Integer memeidx;
+    private ReportNextDialog reportnext;
     ToggleButton togBt1;
     ToggleButton togBt2;
     ToggleButton togBt3;
@@ -54,7 +57,7 @@ public class ReportDialog extends Dialog {
     String titles[] = new String[8];
     int titleIdx[] = new int[8];
     HashMap<String, Integer> titleHash = new HashMap<String, Integer>();
-    int maxSize = 1;
+
 
 
     @Override
@@ -88,30 +91,25 @@ public class ReportDialog extends Dialog {
         togBt7 = findViewById(R.id.button7);
         togBt8 = findViewById(R.id.button8);
 
-        List<String> buttonList = new ArrayList<String>();
+
 
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
             @Override
             public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
                 if(buttonView.isChecked()) { //눌렀을 때
-                    if (!buttonList.contains(buttonView.getText().toString())) { // 체크 안된 상태이면
-                        if (buttonList.size() < maxSize) { // 3개 이하로 체크했을 때
-                            buttonList.add(buttonView.getText().toString()); //추가해주고
-                            System.out.println(buttonList.size());
-                            System.out.println(buttonView.getText().toString());
-                        }
-                        else { // 3개 이상 체크하면
-                            clearbtn();
-                            buttonList.remove(buttonList.get(0));
-                            buttonList.add(buttonView.getText().toString()); //추가해주고
-                        }
+                    if (button_num=="") { // 체크 안된 상태이면
+                            button_num=buttonView.getText().toString(); //추가해주고
+                              System.out.println(button_num.toString());
+                    }else{
+                        clearbtn(buttonView);
+                        button_num=buttonView.getText().toString(); //추가해주고
+                        System.out.println(button_num.toString());
                     }
                 }
                 else //체크해제
                 {
-                    buttonList.remove(buttonView.getText().toString());
-                    System.out.println(buttonList.size());
-                    System.out.println(buttonView.getText().toString());
+                    button_num="";
+                    System.out.println(button_num.toString());
                 }
             }
 
@@ -127,7 +125,18 @@ public class ReportDialog extends Dialog {
         togBt8.setOnCheckedChangeListener(onCheckedChangeListener);
 
 
-        reportbutton.setOnClickListener(mModifyListener);
+        reportbutton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                reportnext= new ReportNextDialog(getContext(),memeidx,button_num, titleHash.get(button_num));
+                Log.i("Report",memeidx.toString()+titleHash.get(button_num).toString());
+                dismiss();
+                reportnext.setCancelable(true);
+                reportnext.getWindow().setGravity(Gravity.CENTER);
+                reportnext.show();
+            }
+        });
 
 
         mNegativeButton.setOnClickListener(new View.OnClickListener() {
@@ -141,8 +150,16 @@ public class ReportDialog extends Dialog {
     }
 
 
-    public void clearbtn(){
-        togBt1.setChecked(false);togBt2.setChecked(false);togBt3.setChecked(false);togBt4.setChecked(false);togBt5.setChecked(false);togBt6.setChecked(false);togBt7.setChecked(false);togBt8.setChecked(false);
+    public void clearbtn(CompoundButton button){
+        togBt1.setChecked(false);
+        togBt2.setChecked(false);
+        togBt3.setChecked(false);
+        togBt4.setChecked(false);
+        togBt5.setChecked(false);
+        togBt6.setChecked(false);
+        togBt7.setChecked(false);
+        togBt8.setChecked(false);
+        button.setChecked(true);
     }
     public void getCategory(RetrofitApi api){
         api.getReportTag().enqueue(new Callback<Report>() {
@@ -172,33 +189,13 @@ public class ReportDialog extends Dialog {
         });
     }
 
-    public void postReport(RetrofitApi api, List<String> buttonList){
-        List<Integer> tmpList = new ArrayList<Integer>();
-        for(String s : buttonList)
-            tmpList.add(titleHash.get(s));
-        String token = gettoken.checklogin(getContext());
-        api.postCategory(token,tmpList).enqueue(new Callback<SignUp>() {
-            @Override
-            public void onResponse(Call<SignUp> call, Response<SignUp> response) {
-                SignUp signUp = response.body();
-                System.out.println("포스트확인2"+signUp.getCode());
-          //      Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
-          //      startActivity(intent);
-          //      finish();
-            }
 
-            @Override
-            public void onFailure(Call<SignUp> call, Throwable t) {
-
-            }
-        });
-    }
 
 
     //생성자 생성
     public ReportDialog(Context context, Integer memeIdx) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-        this.memeidx=memeidx;
+        this.memeidx=memeIdx;
 
     }
 

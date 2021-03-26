@@ -21,6 +21,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
@@ -72,6 +73,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_detail, container, false);
         initUI(view);
         onclick();
@@ -120,7 +122,18 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 calldialog(selectDialog);
             }
         });
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
 
     }
 
@@ -131,7 +144,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         Glide.with(getContext())
                 .load(detail.getImageUrl())
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(memeimg);
+
         title.setText(detail.getMemeTitle());
         copyright.setText(detail.getCopyright());
         if(detail.getLikeStatus()==1)like_btn.setChecked(true);

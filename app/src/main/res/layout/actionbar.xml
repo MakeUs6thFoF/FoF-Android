@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="wrap_content">
 
-    <LinearLayout
+    <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/wrap"
         android:layout_width="match_parent"
         android:layout_height="76dp"
@@ -14,18 +14,7 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-        <ImageButton
-            android:id="@+id/back"
-            android:layout_width="10dp"
-            android:layout_height="17dp"
-            android:layout_gravity="bottom"
-            android:layout_marginLeft="20dp"
-            android:background="@drawable/back" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
         <TextView
             android:id="@+id/title"
@@ -33,22 +22,24 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="bottom"
-            android:text="제목" />
+            android:text="제목"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
 
-        <View
-            android:layout_width="0dp"
-            android:layout_height="0dp"
-            android:layout_weight="1" />
 
-        <ImageButton
+
+        <ImageView
             android:id="@+id/report"
             android:layout_width="20dp"
             android:layout_height="4dp"
             android:layout_gravity="bottom"
             android:layout_marginHorizontal="20dp"
-            android:background="@color/white" />
+            android:background="@color/white"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
 
-    </LinearLayout>
+    </androidx.constraintlayout.widget.ConstraintLayout>
     <View
         android:layout_width="match_parent"
         android:layout_height="0.1px"

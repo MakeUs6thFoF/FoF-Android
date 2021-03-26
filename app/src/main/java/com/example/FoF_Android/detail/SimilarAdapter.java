@@ -11,6 +11,7 @@ import android.widget.Toast;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.request.target.Target;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.home.MemeAllAdapter;
@@ -47,7 +48,8 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
 
         Glide.with(context)
                 .load(items.get(i).getImageUrl())
-                .placeholder(R.drawable.meme2)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.placeholder)
                 .into(viewHolder.memeimg);
     }
 
