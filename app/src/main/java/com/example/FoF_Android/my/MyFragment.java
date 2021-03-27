@@ -1,5 +1,6 @@
 package com.example.FoF_Android.my;
 
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -38,16 +39,20 @@ public class MyFragment extends Fragment {
     private TextView nicktv;
     private CircleImageView profImage;
     private TextView liketv;
+    private TextView liketv2;
     private TextView upLoadtv;
+    private TextView upLoadtv2;
     private TextView acceptedLiketv;
     private TextView changeProfileImage;
     private RecyclerView mRecyclerView;
+    private StaggeredGridLayoutManager layoutManager;
     private UploadLikeAdapter mAdapter;
+    private UploadLikeAdapter mAdapter2;
     private TextView[] toptv = new TextView[5];
 
-    private int page = 0;
+    private int likepage = 0;
+    private int uploadpage = 0;
     private boolean isLoading = false;
-    private String filter;
 
     RetrofitApi api;
     TokenManager gettoken;
@@ -75,18 +80,42 @@ public class MyFragment extends Fragment {
         acceptedLiketv = view.findViewById(R.id.acceptedLike);
         changeProfileImage = view.findViewById(R.id.changeProfileImage);
         upLoadtv = view.findViewById(R.id.myUploadtv);
+        upLoadtv2 = view.findViewById(R.id.myUploadtv2);
         liketv = view.findViewById(R.id.myLiketv);
+        liketv2 = view.findViewById(R.id.myLiketv2);
         mRecyclerView = view.findViewById(R.id.profileRecyclerView);
         toptv[0] = view.findViewById(R.id.top1);    toptv[1] = view.findViewById(R.id.top2);    toptv[2] = view.findViewById(R.id.top3);    toptv[3] = view.findViewById(R.id.top4);    toptv[4] = view.findViewById(R.id.top5);
 
-        filter = "uploaded"; //기본은 내 업로드 보기로 리사이클러뷰 세팅
+        String token = gettoken.checklogin(getContext());
 
-        getProfile(api, view);
+        getProfile(api, token, view);
+
+        upLoadtv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setUploadData(mAdapter);
+                upLoadtv.setTextColor(Color.BLACK);
+                upLoadtv2.setTextColor(Color.BLACK);
+                liketv.setTextColor(Color.GRAY);
+                liketv2.setTextColor(Color.GRAY);
+            }
+        });
+
+        liketv.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                setLikeData(mAdapter2);
+                upLoadtv.setTextColor(Color.GRAY);
+                upLoadtv2.setTextColor(Color.GRAY);
+                liketv.setTextColor(Color.BLACK);
+                liketv2.setTextColor(Color.BLACK);
+            }
+        });
+
         return view;
     }
 
-    public void getProfile(RetrofitApi api, View view){
-        String token = gettoken.checklogin(getContext());
+    public void getProfile(RetrofitApi api, String token, View view){
         api.getMyProfile(token).enqueue(new Callback<MyProfile>() {
             @Override
             public void onResponse(Call<MyProfile> call, Response<MyProfile> response) {
@@ -99,7 +128,8 @@ public class MyFragment extends Fragment {
                 List<MyProfile.Data.Insight> mList = body.getdata().getInsight();
 
                 setProfile(profileImage, nickName, acceptedLike, uploadCnt, likeCnt, mList, view);
-                setRecycler(api, token, view);
+                getUploadData(api, token, view);
+                getLikeData(api, token, view);
             }
 
             @Override
@@ -121,51 +151,17 @@ public class MyFragment extends Fragment {
         }
     }
 
-    public void setRecycler(RetrofitApi api, String token, View view){
-        page=0;
-        api.getUploadLike(token, filter, getPage(), 10).enqueue(new Callback<UploadLike>() {
+    public void getUploadData(RetrofitApi api, String token, View view){
+        uploadpage=1;
+        api.getUploadLike(token, "uploaded", uploadpage, 10).enqueue(new Callback<UploadLike>() {
             @Override
             public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
                 UploadLike body = response.body();
                 List<UploadLike.Data> mList = body.getData();
 
                 mAdapter = new UploadLikeAdapter(mList, getContext());
-                StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mRecyclerView.setAdapter(mAdapter);
-                mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        UploadLike.Data item = mAdapter.getItem(position);
-                        DetailFragment detail = new DetailFragment(item.getMemeIdx());
-                        getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
-                                .setReorderingAllowed(true)
-                                .addToBackStack(null).replace(R.id.container, detail).commit();
-                    }
-                });
-
-                mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                        super.onScrollStateChanged(recyclerView, newState);
-                    }
-
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                        int visibleItemCount = layoutManager.getChildCount();
-                        int totalItemCount = layoutManager.getItemCount();
-                        int pastVisibleItems;
-                        int[] firstVisibleItems = null;
-
-                        // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
-                        if(!isLoading){
-                            firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
-                            if(firstVisibleItems != null && firstVisibleItems.length > 0)
-                                pastVisibleItems = firstVisibleItems[0];
-                        }
-                    }
-                });
+                // 먼저 업로드로 리사이클러뷰를 세팅
+                setUploadData(mAdapter);
             }
 
             @Override
@@ -175,8 +171,109 @@ public class MyFragment extends Fragment {
         });
     }
 
-    public int getPage(){
-        page++;
-        return page;
+    public void setUploadData(UploadLikeAdapter mAdapter){
+        layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                UploadLike.Data item = mAdapter.getItem(position);
+                DetailFragment detail = new DetailFragment(item.getMemeIdx());
+                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null).replace(R.id.container, detail).commit();
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisibleItems;
+                int[] firstVisibleItems = null;
+
+                // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
+                if(!isLoading){
+                    firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
+                    if(firstVisibleItems != null && firstVisibleItems.length > 0)
+                        pastVisibleItems = firstVisibleItems[0];
+                }
+            }
+        });
+    }
+
+    public void getLikeData(RetrofitApi api, String token, View view){
+        likepage = 1;
+        api.getUploadLike(token, "favorite", likepage, 10).enqueue(new Callback<UploadLike>() {
+            @Override
+            public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
+                UploadLike body = response.body();
+                List<UploadLike.Data> mList = body.getData();
+                mAdapter2 = new UploadLikeAdapter(mList, getContext());
+            }
+
+            @Override
+            public void onFailure(Call<UploadLike> call, Throwable t) {
+
+            }
+        });
+    }
+
+    public void setLikeData(UploadLikeAdapter mAdapter){
+        layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+        mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                UploadLike.Data item = mAdapter.getItem(position);
+                DetailFragment detail = new DetailFragment(item.getMemeIdx());
+                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null).replace(R.id.container, detail).commit();
+            }
+        });
+
+        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
+                super.onScrollStateChanged(recyclerView, newState);
+            }
+
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+                int visibleItemCount = layoutManager.getChildCount();
+                int totalItemCount = layoutManager.getItemCount();
+                int pastVisibleItems;
+                int[] firstVisibleItems = null;
+
+                // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
+                if(!isLoading){
+                    firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
+                    if(firstVisibleItems != null && firstVisibleItems.length > 0)
+                        pastVisibleItems = firstVisibleItems[0];
+                }
+            }
+        });
+    }
+
+    public int getPage(int flag){
+        if(flag == 0){
+            uploadpage ++;
+            return uploadpage;
+        }
+        else{
+            likepage++;
+            return likepage;
+        }
     }
 }
