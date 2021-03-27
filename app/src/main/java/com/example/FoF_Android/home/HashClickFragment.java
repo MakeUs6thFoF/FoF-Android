@@ -28,11 +28,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-/**
- * A simple {@link Fragment} subclass.
- * Use the {@link HashClickFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
+
 public class HashClickFragment extends Fragment {
     private int page = 0;
     ImageView hashImage;
@@ -41,31 +37,25 @@ public class HashClickFragment extends Fragment {
     TokenManager gettoken;
     RetrofitApi api;
     HashSearchAdapter mAdapter;
-
+    RecyclerView mRecyclerView;
     int memeCount;
+
     List<MemeSearch.Data> memeList = new ArrayList<>();
 
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
     private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
 
     private String mParam2; //tagName
 
     public HashClickFragment() {
+
+        // Required empty public constructor
+    }
+    public HashClickFragment(String position) {
+        this.mParam2=position;
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment HashClickFragment.
-     */
-    // TODO: Rename and change types and number of parameters
     public static HashClickFragment newInstance( String param2) {
         HashClickFragment fragment = new HashClickFragment();
         Bundle args = new Bundle();
@@ -93,6 +83,8 @@ public class HashClickFragment extends Fragment {
         hashText = view.findViewById(R.id.hashNametv);
         hashCnt = view.findViewById(R.id.hashCnttv);
         hashText.setText(mParam2);
+
+        mRecyclerView = view.findViewById(R.id.hashClickRecycle);
         setRecyclerView(api, view);
 
         return view;
@@ -100,16 +92,13 @@ public class HashClickFragment extends Fragment {
 
     public void setRecyclerView(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
-        //TODO 해시태그값으로 검색 모델 수정
-        api.getSearchMeme(token, mParam2, getPage(), 10).enqueue(new Callback<MemeSearch>() {
+        api.getSearchMeme(token, mParam2, 1, 10).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
                 MemeSearch body = response.body();
                 memeList = body.getData();
                 memeCount = body.getData().size();
                 hashCnt.setText(String.valueOf(memeCount)+" 게시물");
-                if(memeCount==0) hashText.setText("0 게시물");
-                RecyclerView mRecyclerView = view.findViewById(R.id.hashClickRecycle);
                 mAdapter = new HashSearchAdapter(memeList, getContext());
                 StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mRecyclerView.setLayoutManager(layoutManager);

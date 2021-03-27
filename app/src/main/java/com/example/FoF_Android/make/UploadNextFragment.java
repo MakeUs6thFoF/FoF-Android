@@ -263,9 +263,14 @@ public class UploadNextFragment extends Fragment {
                     System.out.println("확인"+signup.getCode()+signup.getMessage());
                     if(signup.getCode()!=200)Toast.makeText(getContext(), signup.getMessage(), Toast.LENGTH_LONG).show();
                     else {
+
+                        //TODO 성공창 보여주기
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction().remove(UploadNextFragment.this).commit();
                         fragmentManager.popBackStack();
+                        //
+                        fragmentManager.beginTransaction().replace(R.id.container,new UploadFragment()).commit();
+                        //
                         Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
                     }
                 }

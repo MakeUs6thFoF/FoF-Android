@@ -53,7 +53,14 @@ public class TokenManager {
 
     public void logout()
     {
-
+        preferences1 = context.getSharedPreferences(keyIdx,privatemode);
+        preferences = context.getSharedPreferences(PREF_NAME,privatemode);
+        editor1 = preferences1.edit();
+        editor = preferences.edit();
+        editor.clear();
+        editor1.clear();
+        editor.commit();
+        editor1.commit();
 
     }
 

@@ -1,6 +1,7 @@
 package com.example.FoF_Android.home;
 
 import android.os.Bundle;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.GestureDetector;
 import android.view.LayoutInflater;
@@ -14,6 +15,7 @@ import androidx.annotation.NonNull;
 import androidx.constraintlayout.widget.ConstraintSet;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
@@ -37,12 +39,15 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class HomeFragment extends Fragment implements OnItemClick {
+import static androidx.viewpager.widget.PagerAdapter.POSITION_NONE;
+
+public class HomeFragment extends Fragment implements OnItemClick, FragmentManager.OnBackStackChangedListener {
     TabLayout tabLayout;
     private RecyclerView recycle;
     RetrofitApi api;
+    View view;
     List<Meme.Data> items;
-
+    Integer cposition;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -50,9 +55,10 @@ public class HomeFragment extends Fragment implements OnItemClick {
     FrameLayout container;
     FrameLayout pagercontainer;
     TokenManager gettoken;
-    ViewPager2 myviewpager;
-    MemePagerAdapter2 padapter;
+    CustomSwipeableViewPager myviewpager;
+    MemePagerAdapter padapter;
     GestureDetector gestureDetector;
+    View.OnTouchListener gestureListener;
     private int mNumber = 0;
 
 
@@ -77,7 +83,7 @@ public class HomeFragment extends Fragment implements OnItemClick {
         initPagerUI();
         initUI();
 
-        myviewpager.setPageTransformer( new StackPageTransformer());
+        myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
 
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -198,24 +204,30 @@ public class HomeFragment extends Fragment implements OnItemClick {
 
                     Log.i("TAG", "onResponse: "+items.size());
 
-                    padapter=new MemePagerAdapter2(getContext(),idx,items,HomeFragment.this::onClick);
+                    padapter=new MemePagerAdapter(getContext(),idx,items,HomeFragment.this::onClick);
                   //  myviewpager.setOnDragListener();
-                    padapter.setOnItemClickListener(new MemePagerAdapter2.OnItemClickListener() {
+                    padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View v, String position) {
-                            getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container,HashClickFragment.newInstance(position)).addToBackStack(null).commit();
+
+                            HashClickFragment hashclick= HashClickFragment.newInstance(position);
+                            hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+                            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.container, hashclick).addToBackStack(null).commit();
                         }
                     });
 
                     gestureDetector = new GestureDetector(getContext(), new MyGestureDetector());
-                    padapter.setOnTouchListener(new MemePagerAdapter2.OnTouchListener(){
-                        @Override
-                        public void onTouch(View v, Integer position, MotionEvent event) {
-                           gestureDetector.onTouchEvent(event);
 
+            
+                    padapter.setOnTouchListener(new MemePagerAdapter.OnTouchListener() {
+                        @Override
+                        public boolean onTouch(View v, Integer position, MotionEvent event) {
+                            cposition=position;
+                            view=v;
+                          return gestureDetector.onTouchEvent(event);
                         }
                     });
-
+                    myviewpager.setOnTouchListener(gestureListener);
                     myviewpager.setOffscreenPageLimit(5);
                     myviewpager.setAdapter(padapter);
 
@@ -241,6 +253,11 @@ public class HomeFragment extends Fragment implements OnItemClick {
 
     }
 
+    @Override
+    public void onBackStackChanged() {
+
+    }
+
     class MyGestureDetector extends GestureDetector.SimpleOnGestureListener {
         @Override
         public boolean onFling(MotionEvent e1, MotionEvent e2, float velocityX, float velocityY) {
@@ -249,11 +266,18 @@ public class HomeFragment extends Fragment implements OnItemClick {
                     return false;
                 // right to left swipe
                 if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(getContext(), "Left Swipe", Toast.LENGTH_SHORT).show();
+                    DetailFragment detail = new DetailFragment(items.get(cposition).getMemeIdx());
+                    detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
+                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
+                    // detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
+                    //detail.setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.image_shared_element_transition));
+
+                    getFragmentManager().beginTransaction().setReorderingAllowed(true).addSharedElement(view.findViewById(R.id.imageView),ViewCompat.getTransitionName(view.findViewById(R.id.imageView)))
+                            .addToBackStack(null).add(R.id.container, detail).commit();
 
 
                 } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                    Toast.makeText(getContext(), "Right Swipe", Toast.LENGTH_SHORT).show();
+                  //  Toast.makeText(getContext(), "Right Swipe"+cposition, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 // nothing
@@ -266,4 +290,7 @@ public class HomeFragment extends Fragment implements OnItemClick {
             return true;
         }
     }
+
+
+
 }

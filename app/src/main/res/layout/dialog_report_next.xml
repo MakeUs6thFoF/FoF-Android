@@ -120,7 +120,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/report_name" />
         <Button
-            android:id="@+id/report_btn"
+            android:id="@+id/withdrawal_btn"
             style="@style/bold_16dp"
             android:layout_width="0dp"
             android:layout_height="53dp"

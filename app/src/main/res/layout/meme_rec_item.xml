@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.cardview.widget.CardView
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/card"
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:scrollbarAlwaysDrawHorizontalTrack="true" android:background="@color/lightgray"
@@ -92,7 +93,7 @@
                     android:layout_width="60dp"
                     android:layout_height="25dp"       >
                 <ImageButton
-                    android:id="@+id/report_btn"
+                    android:id="@+id/withdrawal_btn"
                     android:background="@drawable/report"
                     android:layout_width="20dp"
                     android:layout_gravity="center"
@@ -108,11 +109,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="6dp"
-
             android:adjustViewBounds="true"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-
+            android:transitionName="example_transition"
             app:layout_constraintTop_toBottomOf="@+id/linearLayout4" />
         <LinearLayout
             android:id="@+id/wrap_2"

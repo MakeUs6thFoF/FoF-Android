@@ -8,6 +8,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -72,6 +73,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     TokenManager gettoken;
     String token;
 
+    View.OnClickListener mpositivitListener=null;
 
     private Integer i=0;
 
@@ -160,7 +162,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         Glide.with(getContext())
                 .load(detail.getImageUrl())
-                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).placeholder(R.drawable.placeholder)
                 .into(memeimg);
 
         title.setText(detail.getMemeTitle());
@@ -200,12 +202,19 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.container, HashClickFragment.newInstance(array[finalI])).addToBackStack(null).commit();
+                   // newhash(finalI);
                 }
             });}}
 
     }
 
+
+    public void newhash(Integer position){
+        HashClickFragment hashclick= HashClickFragment.newInstance(array[position]);
+        hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+        getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).add(R.id.container, hashclick).commit();
+
+    }
 
     public void similarUI(View view, int i) {
         HttpClient client = new HttpClient();
@@ -231,6 +240,10 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                         public void onItemClick(View v, int position) {
 
                             DetailFragment detail = new DetailFragment(position);
+
+                            detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
+                            detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
+
                             getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
                                     .setReorderingAllowed(true)
                                     .addToBackStack(null).add(R.id.container, detail).commit();
@@ -258,8 +271,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
     @Override
     public void onDestroy() {
-
-        Log.d("ChildFragment", "onDestroy");     super.onDestroy();
+        Log.d("ChildFragment", "onDestroy");
+        super.onDestroy();
     }
 
 

@@ -7,20 +7,14 @@ import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.CompoundButton;
 import android.widget.ImageButton;
 import android.widget.TextView;
-import android.widget.Toast;
-import android.widget.ToggleButton;
 
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
-import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.signup.SignUp;
-
-import org.w3c.dom.Text;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -65,7 +59,7 @@ public class ReportNextDialog extends Dialog {
 
 
         //셋팅
-        reportbutton = (Button) findViewById(R.id.report_btn);
+        reportbutton = (Button) findViewById(R.id.withdrawal_btn);
         mNegativeButton = (ImageButton) findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)

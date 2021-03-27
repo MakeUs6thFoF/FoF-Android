@@ -2,9 +2,6 @@ package com.example.FoF_Android.dialog;
 
 import android.app.Dialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.res.ColorStateList;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -16,19 +13,13 @@ import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
-import com.example.FoF_Android.Category.Category;
-import com.example.FoF_Android.Category.CategoryActivity;
 import com.example.FoF_Android.HttpClient;
-import com.example.FoF_Android.MainActivity;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.dialog.model.Report;
-import com.example.FoF_Android.signup.SignUp;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -73,7 +64,7 @@ public class ReportDialog extends Dialog {
         setContentView(R.layout.dialog_report);
 
         //셋팅
-        reportbutton=(Button)findViewById(R.id.report_btn);
+        reportbutton=(Button)findViewById(R.id.withdrawal_btn);
         mNegativeButton=(ImageButton) findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)

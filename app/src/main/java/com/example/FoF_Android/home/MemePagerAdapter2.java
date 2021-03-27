@@ -1,8 +1,10 @@
 package com.example.FoF_Android.home;
 
 import android.app.Dialog;
+import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.net.Uri;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -134,6 +136,7 @@ public class MemePagerAdapter2 extends RecyclerView.Adapter<MemePagerAdapter2.Vi
                 deleteDialog.dismiss();
                 deletememe(position);
                 notifyDataSetChanged();
+                notifyItemRemoved(position);
             }
         };
 
@@ -173,65 +176,72 @@ public class MemePagerAdapter2 extends RecyclerView.Adapter<MemePagerAdapter2.Vi
             Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
 
         }
-    }
-public void newbutton(MemePagerAdapter2.ViewHolder viewHolder,int position){
-    float factor = context.getResources().getDisplayMetrics().density;
-    int pixelw = (int) (66 * factor + 0.5f);
-    int pixelh = (int) (26 * factor + 0.5f);
-    int pixelb = (int) (4 * factor + 0.5f);
+        }
+    public void newbutton(MemePagerAdapter2.ViewHolder viewHolder,int position){
+        float factor = context.getResources().getDisplayMetrics().density;
+        int pixelw = (int) (66 * factor + 0.5f);
+        int pixelh = (int) (26 * factor + 0.5f);
+        int pixelb = (int) (4 * factor + 0.5f);
 
-    TextView btn[] = new TextView[30];
+        TextView btn[] = new TextView[30];
 
-    String hashtag=items.get(position).getTag();
-    if(hashtag!=null){
-        String[] array = hashtag.split(",");
-        //     next= (View)view.findViewById(R.id.next);
-        //   prev= (View)view.findViewById(R.id.prev);
+        String hashtag=items.get(position).getTag();
+        if(hashtag!=null){
+            String[] array = hashtag.split(",");
+            //     next= (View)view.findViewById(R.id.next);
+            //   prev= (View)view.findViewById(R.id.prev);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, LayoutParams.MATCH_PARENT);
-        params.width=pixelw;
-        params.height=pixelh;
-        params.rightMargin=4;
-        params.gravity=Gravity.CENTER;
-        for (int i = 0; i < array.length; i++) {
-            btn[i] = new TextView(context);
-            btn[i].setLayoutParams(params);
-            btn[i].setText(array[i]);
-            btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
-            btn[i].setBackgroundResource(R.color.white);
-            btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(0,pixelb,0,0);
-            btn[i].setTextAppearance(R.style.basic_12dp_black);
-            btn[i].setId(i);
-            if (i < 4) {
-                viewHolder.Tag.addView(btn[i]);
-            }else  viewHolder.Tag2.addView(btn[i]);
-            int finalI1 = i;
-            btn[i].setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(mListener != null)
-                        mListener.onItemClick(v, array[finalI1]);
-                }
-            });
+            LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, LayoutParams.MATCH_PARENT);
+            params.width=pixelw;
+            params.height=pixelh;
+            params.rightMargin=4;
+            params.gravity=Gravity.CENTER;
+            for (int i = 0; i < array.length; i++) {
+                btn[i] = new TextView(context);
+                btn[i].setLayoutParams(params);
+                btn[i].setText(array[i]);
+                btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
+                btn[i].setBackgroundResource(R.color.white);
+                btn[i].setIncludeFontPadding(false);
+                btn[i].setPadding(0,pixelb,0,0);
+                btn[i].setTextAppearance(R.style.basic_12dp_black);
+                btn[i].setId(i);
+                if (i < 4) {
+                    viewHolder.Tag.addView(btn[i]);
+                }else  viewHolder.Tag2.addView(btn[i]);
+                int finalI1 = i;
+                btn[i].setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        if(mListener != null)
+                            mListener.onItemClick(v, array[finalI1]);
+                    }
+                });
+
+            }
 
         }
 
     }
 
-}
+    public Meme.Data getItem(int position){
+            return items.get(position);
+        }
+        public void onclickbtn(MemePagerAdapter2.ViewHolder viewHolder,int position){
+            viewHolder.send.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
 
-public Meme.Data getItem(int position){
-        return items.get(position);
-    }
-    public void onclickbtn(MemePagerAdapter2.ViewHolder viewHolder,int position){
-        viewHolder.send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-            }
-        });
-    }
+                    Uri myUri = Uri.parse(items.get(position).getImageUrl());
+
+                    ClipData clip = ClipData.newUri(context.getContentResolver(),"URI" ,myUri);
+                    clipboard.setPrimaryClip(clip);
+
+                    Toast.makeText(context, "복사하였습니다.", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
 
     public void selectbtnclick(MemePagerAdapter2.ViewHolder viewHolder,int position){
         viewHolder.report.setOnClickListener(new View.OnClickListener() {

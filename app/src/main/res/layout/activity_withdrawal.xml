@@ -93,7 +93,7 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/report_btn"
+        android:id="@+id/withdrawal_btn"
         style="@style/bold_16dp"
         android:layout_width="0dp"
         android:layout_height="53dp"

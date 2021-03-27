@@ -84,7 +84,7 @@
             android:layout_height="0dp"
             style="@style/basic_12dp_black"
             android:layout_marginTop="32dp"
-            app:layout_constraintBottom_toTopOf="@+id/report_btn"
+            app:layout_constraintBottom_toTopOf="@+id/withdrawal_btn"
             app:layout_constraintTop_toBottomOf="@+id/info">
 
             <ToggleButton
@@ -184,7 +184,7 @@
 
         </RelativeLayout>
         <Button
-            android:id="@+id/report_btn"
+            android:id="@+id/withdrawal_btn"
             style="@style/bold_16dp"
             android:layout_width="0dp"
             android:layout_height="53dp"
