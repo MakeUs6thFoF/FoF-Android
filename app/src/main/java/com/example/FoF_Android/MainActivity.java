@@ -6,14 +6,17 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.FoF_Android.home.HomeFragment;
 import com.example.FoF_Android.make.UploadFragment;
 import com.example.FoF_Android.my.MyFragment;
 import com.example.FoF_Android.search.SearchFragment;
+import com.example.FoF_Android.signup.StartActivity;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.google.android.material.snackbar.Snackbar;
 
@@ -23,11 +26,20 @@ public class MainActivity extends AppCompatActivity {
     Fragment searchFragment;
     Fragment myFragment;
     Fragment makeFragment;
+    TokenManager tokenManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        tokenManager=new TokenManager(MainActivity.this);
+        String token=tokenManager.checklogin(MainActivity.this);
+
+        if(token==null || token.length()<8){ //토큰 없으면 초기화면으로
+            Intent mainintent = new Intent(MainActivity.this, StartActivity.class);
+            startActivity(mainintent);
+            finish();
+        }
 
         homeFragment=new HomeFragment();
         searchFragment=new SearchFragment();
@@ -46,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG,"home");
                         break;
                     case R.id.navigation_search:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).addToBackStack(null).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).commit();
                         Log.i(TAG,"search");
                         break;
                     case R.id.navigation_my:

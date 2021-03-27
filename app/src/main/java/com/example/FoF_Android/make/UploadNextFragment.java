@@ -57,6 +57,10 @@ public class UploadNextFragment extends Fragment {
     AmazonS3 s3;
     TransferUtility transferUtility;
     CancelDialog canceldialog;
+    Integer useridx;
+    String token;
+    TokenManager gettoken;
+
     //카테고리
     RadioButton togBt1;
     RadioButton togBt2;
@@ -105,6 +109,11 @@ public class UploadNextFragment extends Fragment {
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
         getCategory(api);
+
+        gettoken = new TokenManager(getContext());
+        token = gettoken.checklogin(getContext());
+        useridx=gettoken.checkIdx(getContext());
+
 
         line1=view.findViewById(R.id.line1);
         line2=view.findViewById(R.id.line2);
@@ -180,8 +189,7 @@ public class UploadNextFragment extends Fragment {
                 String titletxt=title.getText().toString();
                 String[] hashTagArray=null;
 
-                uploadImg();
-                String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+f.getName();
+                String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+useridx.toString()+f.getName();
 
                 if(hashtag.getInsertTag()!=null)
                     hashTagArray = hashtag.getInsertTag();
@@ -229,7 +237,7 @@ public class UploadNextFragment extends Fragment {
 
         transferUtility = new TransferUtility(s3, getContext());
 
-        TransferObserver observer = transferUtility.upload("fofuploadtest",f.getName(),f);
+        TransferObserver observer = transferUtility.upload("fofuploadtest",useridx.toString()+f.getName(),f);
 
     }
 
@@ -237,10 +245,8 @@ public class UploadNextFragment extends Fragment {
     public void doPost(String title, List<String> hashtag, String imageUrl, String copyright, Integer categoryIdx, RetrofitApi api){
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        TokenManager gettoken = new TokenManager(getContext());
-        String token = gettoken.checklogin(getContext());
 
-
+        uploadImg();
 
         List<Object> input = new ArrayList<>();
         input.add( title);
@@ -255,11 +261,12 @@ public class UploadNextFragment extends Fragment {
                 if (response.isSuccessful()){
                     SignUp signup = response.body();
                     System.out.println("확인"+signup.getCode()+signup.getMessage());
-                    if(signup.getCode()!=200)Toast.makeText(getContext(), signup.getMessage(), Toast.LENGTH_SHORT).show();
-                    else {Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_SHORT).show();
+                    if(signup.getCode()!=200)Toast.makeText(getContext(), signup.getMessage(), Toast.LENGTH_LONG).show();
+                    else {
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction().remove(UploadNextFragment.this).commit();
                         fragmentManager.popBackStack();
+                        Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
                     }
                 }
                 else

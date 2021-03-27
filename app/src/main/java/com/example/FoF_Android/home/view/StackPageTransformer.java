@@ -12,27 +12,26 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.core.view.ViewCompat;
 import androidx.viewpager.widget.ViewPager;
+import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.FoF_Android.R;
 
-public class StackPageTransformer implements ViewPager.PageTransformer {
+public class StackPageTransformer implements ViewPager2.PageTransformer {
 
     private static final float CENTER_PAGE_SCALE = 1f;
-    private int offscreenPageLimit;
-    private ViewPager boundViewPager;
+    private int offscreenPageLimit=3;
 
-    public StackPageTransformer ( ViewPager boundViewPager) {
-        this.boundViewPager = boundViewPager;
-        this.offscreenPageLimit = boundViewPager.getOffscreenPageLimit();
+
+    public StackPageTransformer ( ) {
+
     }
-
 
     @Override
     public void transformPage( View view, float position) {
         View leftOverlay = view.findViewById(R.id.left_overlay);
         View rightOverlay = view.findViewById(R.id.right_overlay);
-        int pagerWidth = boundViewPager.getWidth();
-        int pagerHeight = boundViewPager.getHeight();//
+        int pagerWidth = view.getWidth();
+        int pagerHeight = view.getHeight();
         float horizontalOffsetBase = (pagerWidth - pagerWidth * CENTER_PAGE_SCALE) / 2 / offscreenPageLimit + 10;
         float verticalOffsetBase = (pagerHeight - pagerHeight * CENTER_PAGE_SCALE) / 2 / offscreenPageLimit + 8;//
         leftOverlay.setAlpha(0);

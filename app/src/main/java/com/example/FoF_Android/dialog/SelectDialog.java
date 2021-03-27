@@ -23,7 +23,7 @@ public class SelectDialog extends Dialog {
     private Button deleteButton;
     private Button mNegativeButton;
     private Button report;
-
+    private View.OnClickListener mPositiveListener;
     private Integer useridx=0;
     private Integer memeuseridx;
 
@@ -69,16 +69,7 @@ public class SelectDialog extends Dialog {
 
             //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
 
-            deleteButton.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View view) {
-                    dismiss();
-                    deleteDialog= new DeleteDialog(getContext(),memeidx);
-                    deleteDialog.setCancelable(true);
-                    deleteDialog.getWindow().setGravity(Gravity.CENTER);
-                    deleteDialog.show();
-                }
-            });
+            deleteButton.setOnClickListener(mPositiveListener);
 
 
         }else{
@@ -103,9 +94,10 @@ public class SelectDialog extends Dialog {
     }
 
     //생성자 생성
-    public SelectDialog(Context context,Integer memeuseridx ,Integer memeidx) {
+    public SelectDialog(Context context,Integer memeuseridx ,Integer memeidx, View.OnClickListener mPositiveListener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.memeuseridx=memeuseridx;
         this.memeidx=memeidx;
+        this.mPositiveListener=mPositiveListener;
     }
 }

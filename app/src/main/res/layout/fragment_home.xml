@@ -88,7 +88,7 @@
             app:layout_constraintBottom_toBottomOf="@+id/myviewpager"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <com.example.FoF_Android.home.view.CustomSwipeableViewPager
+        <androidx.viewpager2.widget.ViewPager2
             android:id="@+id/myviewpager"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
@@ -99,7 +99,7 @@
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="RtlSymmetry">
 
-        </com.example.FoF_Android.home.view.CustomSwipeableViewPager>
+        </androidx.viewpager2.widget.ViewPager2>
 
 
 

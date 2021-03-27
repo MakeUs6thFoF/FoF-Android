@@ -1,7 +1,13 @@
 package com.example.FoF_Android.detail;
 
 import android.app.Dialog;
+import android.content.ClipData;
+import android.content.ClipboardManager;
+import android.content.Context;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
@@ -13,10 +19,12 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -36,6 +44,8 @@ import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.make.UploadNextFragment;
+import com.example.FoF_Android.signup.SignUp;
 
 import java.util.List;
 
@@ -50,7 +60,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     RecyclerView similar;
     private ModifyDialog modifyDialog;
     private SelectDialog selectDialog;
-
+    private DeleteDialog deleteDialog;
     List<Detail.Data.Similar> items;
     Detail.Data.memeDetail detail;
     ImageView memeimg;
@@ -118,7 +128,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                selectDialog = new SelectDialog(getContext(),detail.getUserIdx(),detail.getMemeIdx()); // 왼쪽 버튼 이벤트
+                selectDialog = new SelectDialog(getContext(),detail.getUserIdx(),detail.getMemeIdx(),mPositiveListener); // 왼쪽 버튼 이벤트
                 calldialog(selectDialog);
             }
         });
@@ -131,7 +141,13 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                Uri myUri = Uri.parse(detail.getImageUrl());
 
+                ClipData clip = ClipData.newUri(getContext().getContentResolver(),"URI" ,myUri);
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(getContext(), "복사하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -275,6 +291,47 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 });
             }
 
+        });
+    }
+    private View.OnClickListener mPositiveListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            selectDialog.dismiss();
+            deleteDialog= new DeleteDialog(getContext(),detail.getMemeIdx(),mNegativeListener);
+            deleteDialog.setCancelable(true);
+            deleteDialog.getWindow().setGravity(Gravity.CENTER);
+            deleteDialog.show();
+        }
+    };
+
+
+    private View.OnClickListener mNegativeListener = new View.OnClickListener() {
+        public void onClick(View v) {
+            deletememe(api);
+            deleteDialog.dismiss();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
+            fragmentManager.popBackStack();
+            Toast.makeText(getContext(),"삭제되었습니다." , Toast.LENGTH_LONG).show();
+        }
+    };
+
+    public void deletememe(RetrofitApi api){
+        api = HttpClient.getRetrofit().create(RetrofitApi.class);
+        gettoken=new TokenManager(getContext());
+        String token=gettoken.checklogin(getContext());
+
+        api.deleteMeme(token,detail.getMemeIdx()).enqueue(new Callback<SignUp>() {
+            @Override
+            public void onResponse(Call<SignUp> call, Response<SignUp> response) {
+                SignUp report = response.body();
+
+                Log.i("TAG", "onResponse: " + report.getMessage());
+            }
+            @Override
+            public void onFailure(Call<SignUp> call, Throwable t) {
+                Toast.makeText(getContext(),"서버와의 연결이 끊겼습니다",Toast.LENGTH_SHORT).show();
+
+            }
         });
     }
 }
