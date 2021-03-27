@@ -1,5 +1,6 @@
 package com.example.FoF_Android.my;
 
+import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -109,6 +110,14 @@ public class MyFragment extends Fragment {
                 upLoadtv2.setTextColor(Color.GRAY);
                 liketv.setTextColor(Color.BLACK);
                 liketv2.setTextColor(Color.BLACK);
+            }
+        });
+
+        settingBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), SettingActivity.class);
+                startActivity(intent);
             }
         });
 
