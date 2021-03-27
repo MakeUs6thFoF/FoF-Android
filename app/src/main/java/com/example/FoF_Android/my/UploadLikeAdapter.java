@@ -88,7 +88,7 @@ public class UploadLikeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof UploadLikeViewHolder)
             Glide.with(context).load(mList.get(position).getImageUrl()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).into(((UploadLikeViewHolder) holder).hashImage);
-        else if(holder instanceof MemeSearchAdapter.MemeLoadingViewHolder)
+        else if(holder instanceof MemeLoadingViewHolder)
             showLoadingView((MemeLoadingViewHolder) holder, position);
     }
 
