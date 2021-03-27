@@ -73,7 +73,6 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     TokenManager gettoken;
     String token;
 
-    View.OnClickListener mpositivitListener=null;
 
     private Integer i=0;
 
@@ -199,22 +198,23 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
             int finalI = i;
+            int finalI1 = i;
             btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                   // newhash(finalI);
+                    newhash(finalI1);
                 }
-            });}}
+            });
+          }}
+
 
     }
+public void newhash(Integer position){
+    HashClickFragment hashclick= HashClickFragment.newInstance(array[position]);
+    hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+    getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).add(R.id.container, hashclick).commit();
 
-
-    public void newhash(Integer position){
-        HashClickFragment hashclick= HashClickFragment.newInstance(array[position]);
-        hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
-        getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).add(R.id.container, hashclick).commit();
-
-    }
+}
 
     public void similarUI(View view, int i) {
         HttpClient client = new HttpClient();

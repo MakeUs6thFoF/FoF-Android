@@ -64,14 +64,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
 
     @Override
     public void onBindViewHolder(MemeAllAdapter.ViewHolder viewHolder, int i) {
-        if(type== SMALL){
-        viewHolder.copyright.setText(items.get(i).getCopyright());
-        viewHolder.nick.setText(items.get(i).getNickname());
-        Glide.with(context)
-                .load(items.get(i).getProfileImage())
 
-                .into(viewHolder.profileimg);
-        }
 
       //  viewHolder.bind(items.get(i), listener);
             Glide.with(context)
@@ -89,18 +82,15 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView memeimg;
         private CircleImageView profileimg;
-        private TextView nick;
-        private TextView title;
+
         private TextView copyright;
 
 
         public ViewHolder(View view) {
             super(view);
-            nick = (TextView) view.findViewById(R.id.nick);
+
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
-
-            title = (TextView) view.findViewById(R.id.title);
             copyright = (TextView) view.findViewById(R.id.copyright);
 
             //on item click

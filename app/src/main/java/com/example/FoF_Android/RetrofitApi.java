@@ -18,6 +18,8 @@ import com.example.FoF_Android.search.RandomTag;
 import com.example.FoF_Android.signup.SignUp;
 
 
+import org.json.JSONArray;
+
 import java.util.HashMap;
 import java.util.List;
 
@@ -71,6 +73,10 @@ public interface RetrofitApi {
     @POST("/meme")
     Call<SignUp> postMeme(@Header("x-access-token") String token, @Field("title") String title,
                           @Field("imageUrl") String ImageUrl,@Field("copyright") String copyright, @Field("tag")List<String> tag, @Field("categoryIdx")Integer categoryIdx);
+    @FormUrlEncoded
+    @POST("/meme")
+    Call<SignUp> postMeme(@Header("x-access-token") String token, @Field("title") String title,
+                          @Field("imageUrl") String ImageUrl, @Field("copyright") String copyright, @Field("tag") JSONArray tag, @Field("categoryIdx")Integer categoryIdx);
 
     @FormUrlEncoded
     @POST("/user/meme")

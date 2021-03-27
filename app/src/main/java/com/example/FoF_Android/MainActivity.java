@@ -55,6 +55,7 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
+
                         Log.i(TAG,"home");
                         break;
                     case R.id.navigation_search:

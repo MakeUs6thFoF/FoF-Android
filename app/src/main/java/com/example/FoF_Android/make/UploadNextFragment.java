@@ -2,6 +2,7 @@ package com.example.FoF_Android.make;
 
 import android.annotation.SuppressLint;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -202,6 +203,7 @@ public class UploadNextFragment extends Fragment {
                     RadioButton btn = (RadioButton) line1.getChildAt(radioId);
                     selectedResult = (String) btn.getText();
                     categoryIdx=titleHash.get(selectedResult);
+
                 } else if (line2.getCheckedRadioButtonId() > 0 ){
                     View radioButton = line2.findViewById(line2.getCheckedRadioButtonId());
                     int radioId = line2.indexOfChild(radioButton);
@@ -211,15 +213,15 @@ public class UploadNextFragment extends Fragment {
                 }
 
                 List listData = new ArrayList();
-                List<String> tmpList = new ArrayList<String>();
+                List<String> tmpList = new ArrayList<>();
                 for(String s : hashTagArray)
                     tmpList.add(s);
+                if(tmpList.size()==1) tmpList.set(0,"\""+tmpList.get(0)+"\"");
+                Log.i("Uploadnext", tmpList.toString());
 
                 doPost(titletxt,tmpList,imgurl,copytxt,categoryIdx,api);
 
             }
-
-
 
         });
 
@@ -247,14 +249,6 @@ public class UploadNextFragment extends Fragment {
         api = client.getRetrofit().create(RetrofitApi.class);
 
         uploadImg();
-
-        List<Object> input = new ArrayList<>();
-        input.add( title);
-        input.add( imageUrl);
-        input.add(copyright);
-        input.add( hashtag);
-        input.add( categoryIdx);
-
         api.postMeme(token, title,imageUrl,copyright,hashtag,categoryIdx).enqueue(new Callback<SignUp>() {
             @Override
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
@@ -263,15 +257,12 @@ public class UploadNextFragment extends Fragment {
                     System.out.println("확인"+signup.getCode()+signup.getMessage());
                     if(signup.getCode()!=200)Toast.makeText(getContext(), signup.getMessage(), Toast.LENGTH_LONG).show();
                     else {
-
+                     //   Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
                         //TODO 성공창 보여주기
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                        fragmentManager.beginTransaction().remove(UploadNextFragment.this).commit();
-                        fragmentManager.popBackStack();
-                        //
                         fragmentManager.beginTransaction().replace(R.id.container,new UploadFragment()).commit();
                         //
-                        Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
+
                     }
                 }
                 else
