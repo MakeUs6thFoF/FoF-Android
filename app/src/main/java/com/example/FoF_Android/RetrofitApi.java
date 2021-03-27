@@ -7,8 +7,9 @@ import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.home.model.MemeResponse;
-import com.example.FoF_Android.make.MemeUpload;
 import com.example.FoF_Android.login.Login;
+import com.example.FoF_Android.my.MyProfile;
+import com.example.FoF_Android.my.UploadLike;
 import com.example.FoF_Android.search.CategoryMeme;
 import com.example.FoF_Android.search.HashSearch;
 import com.example.FoF_Android.search.HashTag;
@@ -108,6 +109,9 @@ public interface RetrofitApi {
     @GET("/search/meme/word/{tagName}")
     Call<HashSearch> getHashSearch1(@Header("x-access-token") String token, @Path("tagName") String tagName);
 
+    @GET("/profile")
+    Call<MyProfile> getMyProfile(@Header("x-access-token") String token);
 
-
+    @GET("/user/meme?")
+    Call<UploadLike> getUploadLike(@Header("x-access-token") String token, @Query("filter") String filter, @Query("page") Integer page, @Query("size") Integer size);
 }
