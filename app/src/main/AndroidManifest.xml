@@ -14,7 +14,7 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".my.ChangeCategory"></activity>
+        <activity android:name=".my.ChangeCategoryActivity"></activity>
         <activity android:name=".my.SettingActivity" />
         <activity android:name=".CongActivity" />
         <activity android:name=".PasswordActivity" />
