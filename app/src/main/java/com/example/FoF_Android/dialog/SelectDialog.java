@@ -42,8 +42,8 @@ public class SelectDialog extends Dialog {
         WindowManager.LayoutParams layoutParams = new WindowManager.LayoutParams();
         layoutParams.flags = WindowManager.LayoutParams.FLAG_DIM_BEHIND;
         layoutParams.dimAmount = 0.8f;
+       // layoutParams.windowAnimations = R.style.AnimationPopupStyle;
         getWindow().setAttributes(layoutParams);
-
         setContentView(R.layout.dialog_select);
         getuseridx=new TokenManager(getContext());
         useridx=getuseridx.checkIdx(getContext());

@@ -28,7 +28,7 @@ public class LogoutDialog extends Dialog {
     private View.OnClickListener mPositiveListener;
     private View.OnClickListener mNegativeListener;
 
-    RetrofitApi api;
+
     TokenManager gettoken;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +45,7 @@ public class LogoutDialog extends Dialog {
         TextView textView2=findViewById(R.id.textView2);
         textView2.setText("잠시만 안녕");
         TextView textView5=findViewById(R.id.textView5);
-        textView5.setText("해당계정을\n로그아웃겠습니까?");
+        textView5.setText("해당계정을\n로그아웃하겠습니까?");
 
 
         //셋팅
@@ -78,24 +78,6 @@ public class LogoutDialog extends Dialog {
         this.mNegativeListener=mNegativeListener;
     }
 
-    public void logout(RetrofitApi api){
-        api = HttpClient.getRetrofit().create(RetrofitApi.class);
-        gettoken=new TokenManager(getContext());
-        String token=gettoken.checklogin(getContext());
 
-        api.deleteMeme(token,memeidx).enqueue(new Callback<SignUp>() {
-            @Override
-            public void onResponse(Call<SignUp> call, Response<SignUp> response) {
-                SignUp report = response.body();
-
-                Log.i("TAG", "onResponse: " + report.getMessage());
-            }
-            @Override
-            public void onFailure(Call<SignUp> call, Throwable t) {
-                Toast.makeText(getContext(),"서버와의 연결이 끊겼습니다",Toast.LENGTH_SHORT).show();
-
-            }
-        });
-    }
 }
 

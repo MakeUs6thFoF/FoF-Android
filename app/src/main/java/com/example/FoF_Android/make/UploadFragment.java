@@ -22,6 +22,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
@@ -41,11 +42,13 @@ public class UploadFragment extends Fragment {
     Button image;
     String imagePath;
     ImageView imageview;
+    LinearLayout wrap;
     Uri imageUri;
     TextView next, cancel;
     private View.OnClickListener mNegativeListener;
     InputStream in;
     File f;
+    boolean result;
     ByteArrayOutputStream stream;
     private int SELECT_FILE = 3;
     private String userChoosenTask;
@@ -66,6 +69,9 @@ public class UploadFragment extends Fragment {
         imageview=(ImageView)view.findViewById(R.id.image);
         next=(TextView)view.findViewById(R.id.next);
         cancel=(TextView)view.findViewById(R.id.cancel);
+        wrap=view.findViewById(R.id.wrap);
+        result = Utility.checkPermission(getContext());
+
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -101,8 +107,8 @@ public class UploadFragment extends Fragment {
                 builder.setItems(items, new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int item) {*/
-                        boolean result = Utility.checkPermission(getContext());
 
+                if(result)  galleryIntent();
               /*       if (items[item].equals("사진 가져오기")) {
                             userChoosenTask = "사진 가져오기";
                          userChoosenTask = "사진 가져오기";
@@ -113,7 +119,15 @@ public class UploadFragment extends Fragment {
                         }
                     }
                 });
-                builder.show();*/ if(result)  galleryIntent();
+                builder.show();*/
+            }
+        });
+
+        imageview.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(result)  galleryIntent();
             }
         });
         return view;
@@ -125,6 +139,7 @@ public class UploadFragment extends Fragment {
         intent.setAction(Intent.ACTION_GET_CONTENT);//
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
+
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -176,6 +191,7 @@ public class UploadFragment extends Fragment {
             f = new File(imagePath);
             stream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+            wrap.setVisibility(View.GONE);
             Glide.with(getContext())
                     .load(stream.toByteArray())
                  //   .placeholder(R.drawable.meme2)

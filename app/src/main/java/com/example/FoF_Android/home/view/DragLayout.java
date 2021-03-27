@@ -15,10 +15,7 @@ import androidx.customview.widget.ViewDragHelper;
 
 import com.example.FoF_Android.R;
 
-/**
- * 尽量考虑了所有操作系统版本的分辨率适配
- * Created by xmuSistone on 2016/9/18.
- */
+
 public class DragLayout extends FrameLayout {
 
     private int bottomDragVisibleHeight; // 滑动可见的高度

@@ -102,7 +102,8 @@ public interface RetrofitApi {
     @GET("/meme/tag/{tagIdx}")
     Call<HashSearch> getHashSearch(@Header("x-access-token") String token, @Path("tagIdx") Integer tagIdx);
 
-
+    @DELETE("/user")
+    Call<SignUp> deleteUser();
     @GET("/tag")
     Call<RandomTag> getRandomTag();
 

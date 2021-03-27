@@ -46,7 +46,7 @@
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="제목"
+
                 style="@style/point_16dp"
                 android:layout_gravity="bottom"
              />
@@ -61,7 +61,7 @@
                 android:layout_height="25dp"
                 android:layout_gravity="bottom">
                  <ImageButton
-                    android:id="@+id/report_btn"
+                    android:id="@+id/withdrawal_btn"
                     android:background="@drawable/report"
                     android:layout_width="20dp"
                     android:layout_gravity="bottom"
@@ -85,7 +85,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="0dp"
                     android:adjustViewBounds="true"
-
                     android:transitionName="example_transition"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
