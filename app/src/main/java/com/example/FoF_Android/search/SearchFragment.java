@@ -122,7 +122,6 @@ public class SearchFragment extends Fragment {
                     tagIdx[i] = tag.getData().getTagList().get(i).getTagIdx();
                     tagName[i] = tag.getData().getTagList().get(i).getTagName();
                     searchCnt[i] = tag.getData().getTagList().get(i).getSearchCnt();
-
                 }
                 taglist = tag.getData().getTagList();
                 RecyclerView mRecyclerView = view.findViewById(R.id.hashtag_recycler);
@@ -130,8 +129,6 @@ public class SearchFragment extends Fragment {
                 mRecyclerView.setLayoutManager(mLinearLayoutmanager);
                 mAdapter = new HashTagAdapter(taglist, getContext(), api, token);
                 mRecyclerView.setAdapter(mAdapter);
-
-
 
                 mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
                     @Override
