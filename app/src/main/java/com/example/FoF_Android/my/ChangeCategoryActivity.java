@@ -1,4 +1,4 @@
-package com.example.FoF_Android.Category;
+package com.example.FoF_Android.my;
 
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -7,9 +7,12 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.CompoundButton;
+import android.widget.ImageButton;
 import android.widget.Toast;
 import android.widget.ToggleButton;
 
+import com.example.FoF_Android.Category.Category;
+import com.example.FoF_Android.Category.CategoryActivity;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.MainActivity;
 import com.example.FoF_Android.R;
@@ -20,23 +23,17 @@ import com.example.FoF_Android.signup.SignUp;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
-import java.util.stream.Collectors;
 
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class CategoryActivity extends AppCompatActivity {
+public class ChangeCategoryActivity extends AppCompatActivity {
 
-    Button skip;
-    Button next;
-    ToggleButton togBt1;
-    ToggleButton togBt2;
-    ToggleButton togBt3;
-    ToggleButton togBt4;
-    ToggleButton togBt5;
-    ToggleButton togBt6;
-    ToggleButton togBt7;
+    private Button finishBt;
+    private ImageButton backBt;
+    private ToggleButton togBt1;  private ToggleButton togBt2;  private ToggleButton togBt3;  private ToggleButton togBt4;
+    private ToggleButton togBt5;  private ToggleButton togBt6;  private ToggleButton togBt7;
     RetrofitApi api;
     TokenManager gettoken;
 
@@ -48,21 +45,15 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_category);
+        setContentView(R.layout.activity_change_category);
 
         api = HttpClient.getRetrofit().create(RetrofitApi.class);
         getCategory(api);
         gettoken=new TokenManager(getApplicationContext());
 
-        skip = findViewById(R.id.skip_btn);
-        next = findViewById(R.id.next_btn);
-        togBt1 = findViewById(R.id.button1);
-        togBt2 = findViewById(R.id.button2);
-        togBt3 = findViewById(R.id.button3);
-        togBt4 = findViewById(R.id.button4);
-        togBt5 = findViewById(R.id.button5);
-        togBt6 = findViewById(R.id.button6);
-        togBt7 = findViewById(R.id.button7);
+        finishBt = findViewById(R.id.finish_btn);   backBt = findViewById(R.id.back);
+        togBt1 = findViewById(R.id.button1);  togBt2 = findViewById(R.id.button2);  togBt3 = findViewById(R.id.button3);   togBt4 = findViewById(R.id.button4);
+        togBt5 = findViewById(R.id.button5);  togBt6 = findViewById(R.id.button6);  togBt7 = findViewById(R.id.button7);
 
         List<String> buttonList = new ArrayList<String>();
 
@@ -87,36 +78,28 @@ public class CategoryActivity extends AppCompatActivity {
                     buttonList.remove(buttonView.getText().toString());
                     System.out.println(buttonList.size());
                     System.out.println(buttonView.getText().toString());
-                    }
-                }
-
-        };
-
-        togBt1.setOnCheckedChangeListener(onCheckedChangeListener);
-        togBt2.setOnCheckedChangeListener(onCheckedChangeListener);
-        togBt3.setOnCheckedChangeListener(onCheckedChangeListener);
-        togBt4.setOnCheckedChangeListener(onCheckedChangeListener);
-        togBt5.setOnCheckedChangeListener(onCheckedChangeListener);
-        togBt6.setOnCheckedChangeListener(onCheckedChangeListener);
-        togBt7.setOnCheckedChangeListener(onCheckedChangeListener);
-
-
-        Intent mainIntent = new Intent(CategoryActivity.this, MainActivity.class);
-        Button.OnClickListener onClickListener = new Button.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                switch (v.getId()){
-                    case R.id.skip_btn:
-                        startActivity(mainIntent);
-                        break;
-                    case R.id.next_btn:
-                        postCategory(api, buttonList);
-                        break;
                 }
             }
+
         };
-        skip.setOnClickListener(onClickListener);
-        next.setOnClickListener(onClickListener);
+
+        togBt1.setOnCheckedChangeListener(onCheckedChangeListener);  togBt2.setOnCheckedChangeListener(onCheckedChangeListener);  togBt3.setOnCheckedChangeListener(onCheckedChangeListener);
+        togBt4.setOnCheckedChangeListener(onCheckedChangeListener);  togBt5.setOnCheckedChangeListener(onCheckedChangeListener);  togBt6.setOnCheckedChangeListener(onCheckedChangeListener);
+        togBt7.setOnCheckedChangeListener(onCheckedChangeListener);
+
+        finishBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                postCategory(api, buttonList);
+            }
+        });
+
+        backBt.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finish();
+            }
+        });
     }
 
     public void getCategory(RetrofitApi api){
@@ -151,12 +134,10 @@ public class CategoryActivity extends AppCompatActivity {
         for(String s : buttonList)
             tmpList.add(titleHash.get(s));
         String token = gettoken.checklogin(getApplicationContext());
-        api.postCategory(token,tmpList).enqueue(new Callback<SignUp>() {
+        api.postCategory(token, tmpList).enqueue(new Callback<SignUp>() {
             @Override
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
                 SignUp signUp = response.body();
-                Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
-                startActivity(intent);
                 finish();
             }
 
@@ -166,5 +147,4 @@ public class CategoryActivity extends AppCompatActivity {
             }
         });
     }
-
 }

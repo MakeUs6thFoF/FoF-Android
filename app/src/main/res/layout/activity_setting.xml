@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/white"
     xmlns:app="http://schemas.android.com/apk/res-auto">
 
 
@@ -23,7 +24,7 @@
             android:layout_height="17dp"
             android:layout_marginLeft="20dp"/>
         <View
-            android:layout_width="0dp"
+            android:layout_width="30dp"
             android:layout_height="0dp"
             android:layout_weight="1"
             />
@@ -49,12 +50,149 @@
 
     </LinearLayout>
 
-    <ListView
+    <LinearLayout
+        android:id="@+id/select_category_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/wrap"
-/>
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/wrap">
+        <TextView
+            android:text="밈 집중선택 설정"
+            style="@style/basic_16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/nextBt1"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            app:srcCompat="@drawable/ic_vector" />
+    </LinearLayout>
 
+    <LinearLayout
+        android:id="@+id/select_info_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_category_layout">
+        <TextView
+            android:text="개인정보"
+            style="@style/basic_16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/nextBt2"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            app:srcCompat="@drawable/ic_vector" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/select_pw_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_info_layout">
+        <TextView
+            android:text="비밀번호"
+            style="@style/basic_16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/nextBt3"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            app:srcCompat="@drawable/ic_vector" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/select_logout_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_pw_layout">
+        <TextView
+            android:text="로그아웃"
+            style="@style/basic_16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/nextBt4"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            app:srcCompat="@drawable/ic_vector" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/select_withdrawal_layout"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginTop="10dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/select_logout_layout">
+        <TextView
+            android:text="계정탈퇴"
+            style="@style/basic_16dp"
+            android:layout_gravity="center"
+            android:layout_marginLeft="20dp"
+            android:textColor="@color/black"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+        <View
+            android:layout_width="0dp"
+            android:layout_height="0dp"
+            android:layout_weight="1"/>
+        <ImageView
+            android:id="@+id/nextBt5"
+            android:layout_marginRight="20dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center|right"
+            app:srcCompat="@drawable/ic_vector" />
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
