@@ -155,7 +155,6 @@ public class CategoryActivity extends AppCompatActivity {
             @Override
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
                 SignUp signUp = response.body();
-                System.out.println("포스트확인2"+signUp.getCode());
                 Intent intent = new Intent(CategoryActivity.this, MainActivity.class);
                 startActivity(intent);
                 finish();
