@@ -101,6 +101,7 @@ public class Search2Fragment extends Fragment {
 
     public void loadFirstPost(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
+        page=0;
         api.getSearchMeme(token, mParam1, getPage(), 10).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
