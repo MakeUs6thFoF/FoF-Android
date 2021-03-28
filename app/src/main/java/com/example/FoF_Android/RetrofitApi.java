@@ -137,6 +137,6 @@ public interface RetrofitApi {
     Call<MyInfo> getMyInfo(@Header("x-access-token") String token);
 
     @GET("/email/auth")
-    Call<EmailAuth> getCode(@Header("x-access-token") String token);
+    Call<EmailAuth> getEmailCode(@Header("x-access-token") String token);
 
 }
