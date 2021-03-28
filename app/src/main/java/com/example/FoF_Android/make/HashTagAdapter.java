@@ -8,26 +8,17 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.FoF_Android.R;
-import com.example.FoF_Android.RetrofitApi;
-import com.example.FoF_Android.search.HashSearch;
-import com.example.FoF_Android.search.HashSearchAdapter;
-import com.example.FoF_Android.search.HashTag;
 
 import java.util.List;
 
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
-
 public class HashTagAdapter extends RecyclerView.Adapter<HashTagAdapter.HashViewHolder> {
 
-    private List<HashTag.Data.TagList> mList;
+    private List<UpHashSearch.Data> mList;
     private Context context;
     private OnItemClickListener mListener = null;
-    private RetrofitApi api;
+
     private String token;
 
     public interface OnItemClickListener{
@@ -36,11 +27,10 @@ public class HashTagAdapter extends RecyclerView.Adapter<HashTagAdapter.HashView
 
     public void setOnItemClickListener(OnItemClickListener listener) {this.mListener = listener;}
 
-    public HashTagAdapter(List<HashTag.Data.TagList> mList, Context context, RetrofitApi api, String token) {
+    public HashTagAdapter(List<UpHashSearch.Data> mList, Context context) {
         this.mList = mList;
         this.context = context;
-        this.api = api;
-        this.token = token;
+
     }
 
     public class HashViewHolder extends RecyclerView.ViewHolder {
@@ -75,22 +65,7 @@ public class HashTagAdapter extends RecyclerView.Adapter<HashTagAdapter.HashView
     public void onBindViewHolder(@NonNull HashViewHolder holder, int position) {
         holder.hashtv.setText(mList.get(position).getTagName());
         //getTagIdx를 해서 이것을 hashsearch하듯이 옮겨주면 된다.
-        api.getHashSearch(token, mList.get(position).getTagIdx()).enqueue(new Callback<HashSearch>() {
-            @Override
-            public void onResponse(Call<HashSearch> call, Response<HashSearch> response) {
-                HashSearch body = response.body();
-                List<HashSearch.Data.memeList> memeList = body.getData().getMemeList();
-                StaggeredGridLayoutManager staggeredGridLayoutManager = new StaggeredGridLayoutManager(1, StaggeredGridLayoutManager.HORIZONTAL);
 
-                HashSearchAdapter mAdapter = new HashSearchAdapter(memeList, context, 1);
-         ;
-            }
-
-            @Override
-            public void onFailure(Call<HashSearch> call, Throwable t) {
-
-            }
-        });
     }
 
     @Override
@@ -98,7 +73,7 @@ public class HashTagAdapter extends RecyclerView.Adapter<HashTagAdapter.HashView
         return (null != mList ? mList.size() : 0);
     }
 
-    public HashTag.Data.TagList getItem(int position){
+    public UpHashSearch.Data getItem(int position){
         return mList.get(position);
     }
 

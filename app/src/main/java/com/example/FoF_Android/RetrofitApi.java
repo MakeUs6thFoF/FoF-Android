@@ -8,6 +8,7 @@ import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.login.Login;
+import com.example.FoF_Android.make.UpHashSearch;
 import com.example.FoF_Android.my.EmailAuth;
 import com.example.FoF_Android.my.MyInfo;
 import com.example.FoF_Android.my.MyProfile;
@@ -111,7 +112,7 @@ public interface RetrofitApi {
     Call<HashSearch> getHashSearch(@Header("x-access-token") String token, @Path("tagIdx") Integer tagIdx);
 
     @DELETE("/user")
-    Call<SignUp> deleteUser();
+    Call<SignUp> deleteUser(@Header("x-access-token") String token);
     @GET("/tag")
     Call<RandomTag> getRandomTag();
 
@@ -128,8 +129,8 @@ public interface RetrofitApi {
     @GET("/user/meme?")
     Call<UploadLike> getUploadLike(@Header("x-access-token") String token, @Query("filter") String filter, @Query("page") Integer page, @Query("size") Integer size);
 
-    @GET("/user/tag/word/{word}")
-    Call<com.example.FoF_Android.make.HashSearch> getHashtag(@Header("x-access-token") String token, @Path("word") String tagName);
+    @GET("/search/tag?")
+    Call<UpHashSearch> getHashtag(@Header("x-access-token") String token, @Query("word") String word);
 
 
     @FormUrlEncoded

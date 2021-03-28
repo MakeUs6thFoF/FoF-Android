@@ -1,22 +1,27 @@
 package com.example.FoF_Android.make;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
+import android.util.Log;
+import android.view.Gravity;
 import android.view.View;
-import android.widget.SearchView;
+import android.view.ViewGroup;
+import android.widget.EditText;
+import android.widget.LinearLayout;
+import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.core.view.ViewCompat;
-import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
-import com.example.FoF_Android.detail.DetailFragment;
-import com.example.FoF_Android.search.HashSearchAdapter;
-import com.example.FoF_Android.search.HashTagAdapter;
+import com.example.FoF_Android.search.HashSearch;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -25,57 +30,107 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.view.View.TEXT_ALIGNMENT_CENTER;
+
 
 public class UploadHashtag extends AppCompatActivity {
-    String TAG="MainActivity";
-    SearchView hashtag;
-    List<com.example.FoF_Android.make.HashSearch.Data> hashlist = new ArrayList<>();
+    TextView next;
+    EditText hashtag;
+    com.example.FoF_Android.make.HashTagAdapter madapter;
+    List<UpHashSearch.Data> hashlist = new ArrayList<>();
+    LinearLayout Tag;
+    Integer i=0;
+    String tagname="";
+    TextView btn[] = new TextView[10];
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.fragment_upload_hashtag);
         hashtag=findViewById(R.id.hashtag);
-        hashtag.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
+        Tag=findViewById(R.id.Tag);
+        next=findViewById(R.id.next);
+        hashtag.setText("#");
+        hashtag.addTextChangedListener(new TextWatcher() {
             @Override
-            public boolean onQueryTextSubmit(String query) {
-                return false;
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
             }
 
             @Override
-            public boolean onQueryTextChange(String newText) {
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
                 RetrofitApi api = HttpClient.getRetrofit().create(RetrofitApi.class);
-                api.getHashtag(new TokenManager(UploadHashtag.this).checklogin(UploadHashtag.this), newText).enqueue(new Callback<com.example.FoF_Android.make.HashSearch>() {
+
+                Log.i("Upload",s.toString());
+                api.getHashtag(new TokenManager(UploadHashtag.this).checklogin(UploadHashtag.this), s.toString()).enqueue(new Callback<UpHashSearch>() {
                     @Override
-                    public void onResponse(Call<com.example.FoF_Android.make.HashSearch> call, Response<com.example.FoF_Android.make.HashSearch> response) {
-                        HashSearch body = response.body();
+                    public void onResponse(Call<UpHashSearch> call, Response<UpHashSearch> response) {
+                        if(response.isSuccessful()){
+                            UpHashSearch tag = response.body();
+                            List<UpHashSearch.Data> items=tag.getData();
+                        Log.i("Upload",tag.getMessage());
+                        if(tag!=null){
+                            RecyclerView mRecyclerView = findViewById(R.id.hashtag_recycler);
+                            LinearLayoutManager mLinearLayoutmanager = new LinearLayoutManager(UploadHashtag.this);
+                            mRecyclerView.setLayoutManager(mLinearLayoutmanager);
+                            madapter = new HashTagAdapter( items,UploadHashtag.this);
+                            mRecyclerView.setAdapter(madapter);
 
-/*
-
-                        RecyclerView mRecyclerView = view.findViewById(R.id.hashClickRecycle);
-                        mAdapter = new HashSearchAdapter(memeList, getContext());
-                        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                        mRecyclerView.setLayoutManager(layoutManager);
-                        mRecyclerView.setAdapter(mAdapter);
-
-                        mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, int position) {
-                                HashSearch.Data.memeList item = mAdapter.getItem(position);
-                                DetailFragment detail = new DetailFragment(item.getMemeIdx());
-                                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
-                                        .setReorderingAllowed(true)
-                                        .addToBackStack(null).replace(R.id.container, detail).commit();
-                            }
-                        });*/}
-
-
-                    @Override
-                    public void onFailure(Call<com.example.FoF_Android.make.HashSearch> call, Throwable t) {
+                            madapter.setOnItemClickListener(new com.example.FoF_Android.make.HashTagAdapter.OnItemClickListener() {
+                                @Override
+                                public void onItemClick(View v, int position) {
+                                    if(i<7){
+                                        hashtag.setText("#");
+                                        hashtag.setSelection(hashtag.length());
+                                        String name="#"+tag.getData().get(position).getTagName();
+                                        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+                                        params.rightMargin=4;
+                                        params.gravity= Gravity.CENTER;
+                                        btn[i] = new TextView(UploadHashtag.this);
+                                        btn[i].setLayoutParams(params);
+                                        btn[i].setText(name);
+                                        btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
+                                        btn[i].setBackgroundResource(R.color.green);
+                                        btn[i].setIncludeFontPadding(false);
+                                        btn[i].setPadding(5,8,5,0);
+                                        btn[i].setTextAppearance(R.style.basic_12dp_black);
+                                        btn[i].setId(i);
+                                        Tag.addView(btn[i]);
+                                        tagname=tagname+name+" ";
+                                        i=i+1;}
+                                    else Toast.makeText(UploadHashtag.this, "해시태그는 최대 6개까지만 가능합니다", Toast.LENGTH_SHORT).show();
+                                }
+                            });}}else  Log.i("Upload",response.message());
 
                     }
+
+
+                    @Override
+                    public void onFailure(Call<UpHashSearch> call, Throwable t) {
+                        Log.i("Upload",t.toString());
+                    }
                 });
-                return false;
             }
-        });
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        } );
+
+    next.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Intent intent = new Intent();
+            intent.putExtra("tagname", tagname);
+            setResult(UploadNextFragment.RESULT_CODE, intent);
+            finish();
+        }
+    });
+
+    }
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
     }
 }

@@ -1,6 +1,7 @@
 package com.example.FoF_Android.make;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -54,10 +55,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 public class UploadNextFragment extends Fragment {
-
+    public static final int RESULT_CODE = 12;
     String titles[] = new String[7];
     int titleIdx[] = new int[7];
-
+    private int SELECT_FILE = 3;
     HashTagEditTextView hashtag;
     EditText title;
     EditText copyright;
@@ -80,6 +81,7 @@ public class UploadNextFragment extends Fragment {
     RetrofitApi api;
     MemeUpload meme;
     File f;
+    String gethashtag;
     private RadioGroup line1;
     private RadioGroup line2;
     FrameLayout back;
@@ -131,14 +133,16 @@ public class UploadNextFragment extends Fragment {
 
         line2.clearCheck();
         line2.setOnCheckedChangeListener(listener2);
-
-        hashtag.setOnClickListener(new View.OnClickListener() {
+        hashtag.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onClick(View v) {
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
                 Intent hashintent = new Intent(getActivity(), UploadHashtag.class);
-                startActivity(hashintent);
-            }
+
+                startActivityForResult(Intent.createChooser(hashintent, "Select File"), SELECT_FILE);
+            }}
         });
+
 
         setUpload(view);
     return view;
@@ -272,7 +276,6 @@ public class UploadNextFragment extends Fragment {
                     if(signup.getCode()!=200)Toast.makeText(getContext(), signup.getMessage(), Toast.LENGTH_LONG).show();
                     else {
                      //   Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
-                        //TODO 성공창 보여주기
                         UploadSuccessDialog successDialog=new UploadSuccessDialog(getContext());
                         successDialog.setCancelable(true);
                         successDialog.getWindow().setGravity(Gravity.CENTER);
@@ -296,7 +299,13 @@ public class UploadNextFragment extends Fragment {
     }
 
     @Override
-    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 3 && resultCode == RESULT_CODE) {
+            String testResult = data.getStringExtra("tagname");
+            hashtag.setText(testResult);
+        }
+
+
     }
 }

@@ -40,6 +40,7 @@
         <activity android:name=".dialog.ModifyCopyrightActivity" />
         <activity android:name=".detail.DetailActivity" />
         <activity android:name=".make.UploadHashtag" />
+        <activity android:name=".my.WithdrawalActivity" />
     </application>
 
 </manifest>

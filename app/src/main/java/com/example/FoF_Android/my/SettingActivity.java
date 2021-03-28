@@ -65,12 +65,11 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 LogoutDialog logoutDialog = new LogoutDialog(0, this, mnegativtlistenr);
                 logoutDialog.setCancelable(true);
                 logoutDialog.getWindow().setGravity(Gravity.CENTER);
-
                 logoutDialog.show();
-
-
                 break;
             case R.id.select_withdrawal_layout:
+                Intent intent4 = new Intent(this, WithdrawalActivity.class);
+                startActivity(intent4);
                 break;
             case R.id.back:
                 finish();

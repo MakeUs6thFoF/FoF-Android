@@ -176,7 +176,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        Call<MemeResponse> call = api.getdata(token, "all",1, 10); //page설정
+        Call<MemeResponse> call = api.getdata(token, "all",1, 20); //page설정
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
@@ -204,7 +204,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         Integer idx= gettoken.checkIdx(getContext());
 
         System.out.println("확인"+token);
-        Call<MemeResponse> call = api.getdata(token,"recommend",1,10);
+        Call<MemeResponse> call = api.getdata(token,"recommend",1,20);
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
