@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     RetrofitApi api;
 
     View view;
-
+    List<Meme.Data> pitems;
     List<Meme.Data> items;
     Integer cposition;
 
@@ -112,6 +112,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     }
 
     public void setCurrentTabFragment(int position, ViewGroup view){
+        adapter.notifyDataSetChanged();
+        padapter.notifyDataSetChanged();
         pagercontainer=(FrameLayout)view.findViewById(R.id.pagercontainer);
         container=(FrameLayout)view.findViewById(R.id.container);
       //  container.setVisibility(View.GONE);
@@ -207,11 +209,11 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                 if(response.isSuccessful()){
-                    List<Meme.Data> items = response.body().getItems();
+                    pitems = response.body().getItems();
 
-                    Log.i("TAG", "onResponse: "+items.size());
+                    Log.i("TAG", "onResponse: "+pitems.size());
 
-                    padapter=new MemePagerAdapter(getContext(),idx,items,HomeFragment.this::onClick);
+                    padapter=new MemePagerAdapter(getContext(),idx,pitems,HomeFragment.this::onClick);
                   //  myviewpager.setOnDragListener();
                     padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
                         @Override
@@ -273,7 +275,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                     return false;
                 // right to left swipe
                 if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                    DetailFragment detail = new DetailFragment(items.get(cposition).getMemeIdx());
+                    DetailFragment detail = new DetailFragment(pitems.get(cposition).getMemeIdx());
                     detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition));
                     detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
                     // detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));

@@ -43,15 +43,6 @@
                 android:background="@color/lightgray"
                 />
 
-            <Button
-                android:id="@+id/modify"
-                style="@style/bold_16dp"
-                android:layout_width="match_parent"
-                android:layout_height="53dp"
-                android:background="@color/white"
-                android:gravity="center"
-                android:text="수정"
-                android:textSize="14dp" />
         </LinearLayout>
         <Button
             android:visibility="visible"

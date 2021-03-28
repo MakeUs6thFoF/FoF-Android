@@ -1,6 +1,7 @@
 package com.example.FoF_Android.make;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -14,6 +15,7 @@ import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 
@@ -25,14 +27,17 @@ import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
 import com.example.FoF_Android.Category.Category;
+import com.example.FoF_Android.CongActivity;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.LogoutDialog;
+import com.example.FoF_Android.dialog.UploadSuccessDialog;
 import com.example.FoF_Android.dialog.model.CancelDialog;
 import com.example.FoF_Android.home.OnBackPressed;
+import com.example.FoF_Android.login.LoginActivity;
 import com.example.FoF_Android.signup.SignUp;
 
 import java.io.File;
@@ -127,6 +132,13 @@ public class UploadNextFragment extends Fragment {
         line2.clearCheck();
         line2.setOnCheckedChangeListener(listener2);
 
+        hashtag.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent hashintent = new Intent(getActivity(), UploadHashtag.class);
+                startActivity(hashintent);
+            }
+        });
 
         setUpload(view);
     return view;
@@ -251,7 +263,7 @@ public class UploadNextFragment extends Fragment {
         api = client.getRetrofit().create(RetrofitApi.class);
         List<String> test =new ArrayList<String>();
         uploadImg();
-        api.postMeme(token, title,imageUrl,copyright,test,categoryIdx).enqueue(new Callback<SignUp>() {
+        api.postMeme(token, title,imageUrl,copyright,hashtag,categoryIdx).enqueue(new Callback<SignUp>() {
             @Override
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
                 if (response.isSuccessful()){
@@ -261,6 +273,10 @@ public class UploadNextFragment extends Fragment {
                     else {
                      //   Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
                         //TODO 성공창 보여주기
+                        UploadSuccessDialog successDialog=new UploadSuccessDialog(getContext());
+                        successDialog.setCancelable(true);
+                        successDialog.getWindow().setGravity(Gravity.CENTER);
+                        successDialog.show();
 
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container,new UploadFragment()).commit();
@@ -279,4 +295,8 @@ public class UploadNextFragment extends Fragment {
         });
     }
 
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+    }
 }

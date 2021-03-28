@@ -113,7 +113,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                     // myurl=getImageUri(context,);
                 } else  myurl=getImageUri(getContext(), drawable);
                 //  String name=saveBitmapToJpeg(context,drawable,"임시");
-                Log.i("meme",drawable.toString());
+
                 //Uri screenshotUri = Uri.parse(name);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
@@ -129,8 +129,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 ClipboardManager clipboard = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
                 ClipData clip = ClipData.newIntent("Intent",appIntent);
                 clipboard.setPrimaryClip(clip);
-
-                Toast.makeText(getContext(), "복사하였습니다.", Toast.LENGTH_SHORT).show();
+                Bitmap drawable=null;
+                drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
+                Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 
@@ -321,29 +322,32 @@ public void newhash(){
         api = client.getRetrofit().create(RetrofitApi.class);
         token = gettoken.checklogin(getContext());
 
-        like_btn.setOnCheckedChangeListener(new CompoundButton.OnCheckedChangeListener() {
+        like_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onCheckedChanged(CompoundButton buttonView, boolean isChecked) {
-                api.postLike(token,position).enqueue(new Callback<Like>() {
-                    @Override
-                    public void onResponse(Call<Like> call, Response<Like> response) {
-                        if(response.isSuccessful()) {
-                            Like like = response.body();
+            public void onClick(View v) {
+                    api.postLike(token,position).enqueue(new Callback<Like>() {
+                        @Override
+                        public void onResponse(Call<Like> call, Response<Like> response) {
+                            if(response.isSuccessful()) {
+                                Like like = response.body();
 
-                            System.out.println("포스트확인2" + like.getCode());
-                            System.out.println("포스트확인2" + like.getMessage());
+                                System.out.println("포스트확인2" + like.getCode());
+                                System.out.println("포스트확인2" + like.getMessage());
+                            }
                         }
-                    }
 
-                    @Override
-                    public void onFailure(Call<Like> call, Throwable t) {
+                        @Override
+                        public void onFailure(Call<Like> call, Throwable t) {
 
-                    }
-                });
+                        }
+                    });
+                }
+
+            });
             }
 
-        });
-    }
+
+
     private View.OnClickListener mPositiveListener = new View.OnClickListener() {
         public void onClick(View v) {
             selectDialog.dismiss();

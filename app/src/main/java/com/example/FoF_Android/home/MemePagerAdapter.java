@@ -212,7 +212,7 @@ public class MemePagerAdapter extends PagerAdapter {
                 if(drawable1!=null){
                 } else  myurl=getImageUri(context, drawable);
                 //  String name=saveBitmapToJpeg(context,drawable,"임시");
-                Log.i("meme",drawable.toString());
+
                 //Uri screenshotUri = Uri.parse(name);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
@@ -224,17 +224,14 @@ public class MemePagerAdapter extends PagerAdapter {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-             /*   Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(position).getImageUrl()));
-                ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-                Bitmap drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-                Uri myurl=getImageUri(context, drawable);
+               // Bitmap drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
+            //    Uri myurl=getImageUri(context, drawable);
                 Uri copyuri = Uri.parse(items.get(position).getImageUrl());
-                //  String name=saveBitmapToJpeg(context,drawable,"임시");
-                Log.i("meme",drawable.toString());
-                ClipData clip = ClipData.newIntent("Intent",appIntent);
-                clipboard.setPrimaryClip(clip);
 
-                Toast.makeText(context, "복사하였습니다.", Toast.LENGTH_SHORT).show();*/
+                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+
+
+                Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
         container.addView(view);
