@@ -16,7 +16,7 @@
             android:id="@+id/searchTv2"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="44dp"
+            android:layout_marginTop="40dp"
             android:text="검색"
             android:textAppearance="@style/basic_20dp"
             android:textColor="#000000"
@@ -35,6 +35,7 @@
             android:inputType="textPersonName"
             android:paddingStart="20dp"
             android:layout_marginLeft="20dp"
+            android:layout_marginTop="10dp"
             app:layout_constraintTop_toBottomOf="@id/searchTv2"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toStartOf="@id/searchIb2"/>
@@ -45,7 +46,7 @@
             android:layout_height="wrap_content"
             android:src="@drawable/magnifier"
             android:backgroundTint="#BEDCFF"
-            android:layout_marginTop="85dp"
+            android:layout_marginTop="65dp"
             app:layout_constraintStart_toEndOf="@id/searchEdit2"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent"/>
