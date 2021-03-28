@@ -119,6 +119,11 @@ public interface RetrofitApi {
     @GET("/profile")
     Call<MyProfile> getMyProfile(@Header("x-access-token") String token);
 
+    @FormUrlEncoded
+    @PATCH("/profile/image")
+    Call<SignUp> patchprofileimg(@Header("x-access-token") String token, @Field("imageUrl") String imageUrl);
+
     @GET("/user/meme?")
     Call<UploadLike> getUploadLike(@Header("x-access-token") String token, @Query("filter") String filter, @Query("page") Integer page, @Query("size") Integer size);
+
 }

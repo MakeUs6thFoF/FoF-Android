@@ -24,8 +24,8 @@ public class LogoutDialog extends Dialog {
 
     private Button mPositiveButton;
     private Button mNegativeButton;
-    private Integer memeidx;
-    private View.OnClickListener mPositiveListener;
+
+    private View.OnClickListener mPositiveListener=null;
     private View.OnClickListener mNegativeListener;
     Integer type=0;
 
@@ -55,6 +55,22 @@ public class LogoutDialog extends Dialog {
 
             mPositiveButton.setText("확인");
         }
+
+        else if(type==1){
+
+            textView5.setText("현재 편집을\n삭제하겠습니까?");
+        }else if(type==2) {
+
+            textView5.setText("프로필 사진을\n삭제하겠습니까?");
+
+            mPositiveButton.setText("확인");
+        }else if(type==3){
+            textView2.setText("");
+
+            textView5.setText("해당 사진으로\n수정하겠습니까?");
+
+            mPositiveButton.setText("확인");
+        }
         //셋팅
 
         mNegativeButton=(Button)findViewById(R.id.cancel);
@@ -69,20 +85,31 @@ public class LogoutDialog extends Dialog {
             }
         });*/
         mPositiveButton.setOnClickListener(mNegativeListener);
-        mNegativeButton.setOnClickListener(new View.OnClickListener() {
+      if(mPositiveListener==null) {  mNegativeButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 dismiss();
             }
         });
+    }else mNegativeButton.setOnClickListener(mPositiveListener);
     }
 
+
     //생성자 생성
-    public LogoutDialog(Integer type, Context context, Integer memeidx, View.OnClickListener mNegativeListener) {
+
+    public LogoutDialog(Integer type, Context context, View.OnClickListener mNegativeListener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
-        this.memeidx=memeidx;
+
         this.type=type;
         this.mNegativeListener=mNegativeListener;
+    }
+
+    public LogoutDialog(Integer type, Context context, View.OnClickListener mNegativeListener, View.OnClickListener mPositiveListener) {
+        super(context, android.R.style.Theme_Translucent_NoTitleBar);
+
+        this.type=type;
+        this.mNegativeListener=mNegativeListener;
+        this.mPositiveListener=mPositiveListener;
     }
 
 

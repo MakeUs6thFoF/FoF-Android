@@ -16,7 +16,7 @@
         app:layout_constraintStart_toStartOf="parent">
 
         <LinearLayout
-            android:visibility="gone"
+
             android:id="@+id/my_modify"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -27,15 +27,14 @@
             app:layout_constraintStart_toStartOf="parent">
 
             <Button
-                android:id="@+id/delete"
-                style="@style/bold_16dp"
+                android:id="@+id/select"
+                style="@style/basic_16dp"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="삭제"
-                android:textColor="@color/pink"
-                android:textSize="14dp" />
+                android:text="사진첩에서 선택"
+                />
 
             <View
                 android:layout_width="match_parent"
@@ -44,28 +43,16 @@
                 />
 
             <Button
-                android:id="@+id/modify"
-                style="@style/bold_16dp"
+                android:id="@+id/delete"
+                style="@style/basic_16dp"
                 android:layout_width="match_parent"
                 android:layout_height="53dp"
                 android:background="@color/white"
                 android:gravity="center"
-                android:text="수정"
-                android:textSize="14dp" />
+                android:text="현재 사진 삭제"
+           />
         </LinearLayout>
-        <Button
-            android:visibility="visible"
-            android:id="@+id/report"
-            style="@style/bold_16dp"
-            android:layout_width="match_parent"
-            android:layout_height="53dp"
-            android:background="@color/white"
-            android:gravity="center"
-            android:text="신고"
-            android:layout_marginBottom="12dp"
-            app:layout_constraintBottom_toTopOf="@id/cancel"
-            android:textColor="@color/pink"
-            android:textSize="14dp" />
+
         <Button
             android:id="@+id/cancel"
             android:layout_width="match_parent"

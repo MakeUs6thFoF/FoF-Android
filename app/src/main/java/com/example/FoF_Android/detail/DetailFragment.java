@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
@@ -30,6 +31,8 @@ import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.Target;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
@@ -48,6 +51,7 @@ import com.example.FoF_Android.home.model.Meme;
 import com.example.FoF_Android.make.UploadNextFragment;
 import com.example.FoF_Android.signup.SignUp;
 
+import java.io.ByteArrayOutputStream;
 import java.util.List;
 
 import retrofit2.Call;
@@ -72,8 +76,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     ToggleButton like_btn;
     TokenManager gettoken;
     String token;
-
-
+    Integer position=0;
+    Uri myurl=null;
     private Integer i=0;
 
     String[] array;
@@ -90,7 +94,47 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         onclick();
         similarUI(view, i);
         btnclick(i);
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                Bitmap drawable=null;
+                GifDrawable drawable1=null;
+                //imgBitmap=getImage(items.get(position).getImageUrl());
+                if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
+                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();}
+                else if(memeimg.getDrawable() instanceof GifDrawable)
+                    drawable1 = ((GifDrawable)memeimg.getDrawable());
 
+
+
+                if(drawable1!=null){
+
+                    // myurl=getImageUri(context,);
+                } else  myurl=getImageUri(getContext(), drawable);
+                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+                Log.i("meme",drawable.toString());
+                //Uri screenshotUri = Uri.parse(name);
+                sharingIntent.setType("image/*");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
+                getContext().startActivity(Intent.createChooser(sharingIntent, "Share image using"));
+            }
+        });
+
+
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(position).getImageUrl()));
+                ClipboardManager clipboard = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
+                ClipData clip = ClipData.newIntent("Intent",appIntent);
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(getContext(), "복사하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        });
+
+        onclickbtn(i);
         return view;
     }
 
@@ -133,27 +177,20 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 calldialog(selectDialog);
             }
         });
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
 
-            }
-        });
-        copy.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
-                Uri myUri = Uri.parse(detail.getImageUrl());
-
-                ClipData clip = ClipData.newUri(getContext().getContentResolver(),"URI" ,myUri);
-                clipboard.setPrimaryClip(clip);
-
-                Toast.makeText(getContext(), "복사하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
 
     }
 
+  public void onclickbtn(int position){
+
+
+    }
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
+    }
 
     public void setUI(){
 
@@ -202,17 +239,18 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             btn[i].setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    newhash(finalI1);
+                    position=finalI;
+                    newhash();
                 }
             });
           }}
 
 
     }
-public void newhash(Integer position){
+public void newhash(){
     HashClickFragment hashclick= HashClickFragment.newInstance(array[position]);
     hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
-    getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).add(R.id.container, hashclick).commit();
+    getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).replace(R.id.container, hashclick).commit();
 
 }
 
