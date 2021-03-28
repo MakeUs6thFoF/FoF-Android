@@ -51,10 +51,9 @@ public class ChangeCategoryActivity extends AppCompatActivity {
         getCategory(api);
         gettoken=new TokenManager(getApplicationContext());
 
-        finishBt = findViewById(R.id.finish_btn);   backBt = findViewById(R.id.back);
+        finishBt = findViewById(R.id.finish_btn);   backBt = findViewById(R.id.backBt);
         togBt1 = findViewById(R.id.button1);  togBt2 = findViewById(R.id.button2);  togBt3 = findViewById(R.id.button3);   togBt4 = findViewById(R.id.button4);
         togBt5 = findViewById(R.id.button5);  togBt6 = findViewById(R.id.button6);  togBt7 = findViewById(R.id.button7);
-
         List<String> buttonList = new ArrayList<String>();
 
         CompoundButton.OnCheckedChangeListener onCheckedChangeListener = new CompoundButton.OnCheckedChangeListener() {
@@ -90,6 +89,7 @@ public class ChangeCategoryActivity extends AppCompatActivity {
         finishBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "변경 되었습니다",Toast.LENGTH_SHORT).show();
                 postCategory(api, buttonList);
             }
         });
@@ -97,6 +97,7 @@ public class ChangeCategoryActivity extends AppCompatActivity {
         backBt.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                System.out.println("여기클릭");
                 finish();
             }
         });
