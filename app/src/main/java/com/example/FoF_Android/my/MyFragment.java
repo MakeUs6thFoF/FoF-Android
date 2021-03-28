@@ -277,18 +277,23 @@ public class MyFragment extends Fragment {
         });
     }
 
-    public void setProfile(String profileImage, String nickName, int acceptedLike, int uploadCnt, int likeCnt, List<MyProfile.Data.Insight> mList, View view){
+    public void setProfile(String profileImage, String nickName, int acceptedLike, int uploadCnt, int likeCnt, List<MyProfile.Data.Insight> mList, View view) {
         Glide.with(getContext()).load(profileImage).error(R.drawable.logo_big2).into(profImage);
         nicktv.setText(nickName);
-        acceptedLiketv.setText(""+acceptedLike);
-        upLoadtv.setText(""+uploadCnt);
-        liketv.setText(""+likeCnt);
-        for(int i=0; i< mList.size(); i++)
-        {
+        acceptedLiketv.setText("" + acceptedLike);
+        upLoadtv.setText("" + uploadCnt);
+        liketv.setText("" + likeCnt);
+        for (int i = 0; i < mList.size(); i++) {
             toptv[i].setText(mList.get(i).getTagName());
         }
+        if (stream != null) {
+            Glide.with(getContext())
+                    .load(stream.toByteArray())
+                    //   .placeholder(R.drawable.meme2)
+                    .into(profImage);
+            stream=null;
+        }
     }
-
     public void getUploadData(RetrofitApi api, String token, View view){
         uploadpage=1;
         api.getUploadLike(token, "uploaded", uploadpage, 10).enqueue(new Callback<UploadLike>() {
@@ -463,11 +468,11 @@ public class MyFragment extends Fragment {
         } catch (FileNotFoundException e) {
             e.printStackTrace();
         }
-
         if (imagetype == SELECT_FILE) {
             f = new File(imagePath);
             stream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
+
             Glide.with(getContext())
                     .load(stream.toByteArray())
                     //   .placeholder(R.drawable.meme2)
@@ -478,6 +483,7 @@ public class MyFragment extends Fragment {
             logoutDialog.show();
             //  imageview.setImageBitmap(bm);
         }
+
     }
 
     public View.OnClickListener mnewlistener= new View.OnClickListener() {
