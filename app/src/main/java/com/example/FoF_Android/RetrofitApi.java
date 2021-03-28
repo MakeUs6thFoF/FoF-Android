@@ -139,4 +139,7 @@ public interface RetrofitApi {
     @GET("/email/auth")
     Call<EmailAuth> getEmailCode(@Header("x-access-token") String token);
 
+    @FormUrlEncoded
+    @PATCH("/password")
+    Call<SignUp> postPw(@Header("x-access-token") String token, @Field("password") String password);
 }
