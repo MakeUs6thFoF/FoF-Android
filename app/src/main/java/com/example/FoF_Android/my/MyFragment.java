@@ -137,7 +137,7 @@ public class MyFragment extends Fragment {
                 liketv2.setTextColor(Color.GRAY);
             }
         });
-        profImage.setOnClickListener(new View.OnClickListener() {
+        changeProfileImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                profileImgDialog= new ProfileImgDialog(getContext(),mdeletelistener, mselectlistener);
