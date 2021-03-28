@@ -10,6 +10,7 @@ import android.widget.LinearLayout;
 import android.widget.Switch;
 
 import com.example.FoF_Android.Category.CategoryActivity;
+import com.example.FoF_Android.PasswordActivity;
 import com.example.FoF_Android.R;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
@@ -53,7 +54,8 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent2);
                 break;
             case R.id.select_pw_layout:
-                Intent intent3 = new Intent(this, )
+                Intent intent3 = new Intent(this, PasswordActivity.class);
+                startActivity(intent3);
                 break;
             case R.id.select_logout_layout:
                 break;
