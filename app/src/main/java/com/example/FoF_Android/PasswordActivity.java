@@ -61,6 +61,6 @@ public class PasswordActivity extends AppCompatActivity {
     }
 
     public void sendMail(RetrofitApi api){
-        
+
     }
 }
