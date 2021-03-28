@@ -81,6 +81,8 @@ public class MyFragment extends Fragment {
     private int SELECT_FILE = 3;
     RetrofitApi api;
     TokenManager gettoken;
+    String token;
+    View view;
 
     private String userChoosenTask;
     InputStream in;
@@ -109,7 +111,7 @@ public class MyFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_my, container, false);
+        view = inflater.inflate(R.layout.fragment_my, container, false);
 
         settingBt = view.findViewById(R.id.setting_bt);
         nicktv = view.findViewById(R.id.nick);
@@ -123,9 +125,7 @@ public class MyFragment extends Fragment {
         mRecyclerView = view.findViewById(R.id.profileRecyclerView);
         toptv[0] = view.findViewById(R.id.top1);    toptv[1] = view.findViewById(R.id.top2);    toptv[2] = view.findViewById(R.id.top3);    toptv[3] = view.findViewById(R.id.top4);    toptv[4] = view.findViewById(R.id.top5);
 
-        String token = gettoken.checklogin(getContext());
-
-        getProfile(api, token, view);
+        token = gettoken.checklogin(getContext());
 
         upLoadtv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -245,6 +245,13 @@ public class MyFragment extends Fragment {
         startActivityForResult(Intent.createChooser(intent, "Select File"), SELECT_FILE);
     }
 
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        System.out.println("여기실행");
+        getProfile(api, token, view);
+    }
 
     public void getProfile(RetrofitApi api, String token, View view){
         api.getMyProfile(token).enqueue(new Callback<MyProfile>() {
