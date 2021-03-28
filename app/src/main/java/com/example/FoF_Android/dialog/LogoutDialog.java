@@ -27,7 +27,7 @@ public class LogoutDialog extends Dialog {
     private Integer memeidx;
     private View.OnClickListener mPositiveListener;
     private View.OnClickListener mNegativeListener;
-
+    Integer type=0;
 
     TokenManager gettoken;
     @Override
@@ -42,15 +42,21 @@ public class LogoutDialog extends Dialog {
 
         setContentView(R.layout.dialog_delete);
 
-        TextView textView2=findViewById(R.id.textView2);
-        textView2.setText("잠시만 안녕");
-        TextView textView5=findViewById(R.id.textView5);
-        textView5.setText("해당계정을\n로그아웃하겠습니까?");
 
+        TextView textView2 = findViewById(R.id.textView2);
+        TextView textView5 = findViewById(R.id.textView5);
+        mPositiveButton = (Button) findViewById(R.id.delete);
 
+        if(type==0) {
+
+            textView2.setText("잠시만 안녕");
+
+            textView5.setText("해당계정을\n로그아웃하겠습니까?");
+
+            mPositiveButton.setText("확인");
+        }
         //셋팅
-        mPositiveButton=(Button)findViewById(R.id.delete);
-        mPositiveButton.setText("확인");
+
         mNegativeButton=(Button)findViewById(R.id.cancel);
 
         //클릭 리스너 셋팅 (클릭버튼이 동작하도록 만들어줌.)
@@ -72,9 +78,10 @@ public class LogoutDialog extends Dialog {
     }
 
     //생성자 생성
-    public LogoutDialog(Context context, Integer memeidx, View.OnClickListener mNegativeListener) {
+    public LogoutDialog(Integer type, Context context, Integer memeidx, View.OnClickListener mNegativeListener) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.memeidx=memeidx;
+        this.type=type;
         this.mNegativeListener=mNegativeListener;
     }
 

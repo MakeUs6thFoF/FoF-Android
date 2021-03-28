@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:clickable="true"
+    android:background="@color/white">
+
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/wrap"
+        android:layout_width="match_parent"
+        android:layout_height="76dp"
+        android:paddingBottom="12dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <FrameLayout
+            android:id="@+id/back"
+            android:layout_width="40dp"
+            android:layout_height="25dp"
+            android:layout_gravity="bottom"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+
+            <ImageButton
+                android:id="@+id/back_btn"
+                android:layout_width="18dp"
+                android:layout_height="18dp"
+                android:layout_gravity="bottom"
+                android:layout_marginLeft="20dp"
+                android:background="@drawable/btn_cancel"
+                android:clickable="false" />
+        </FrameLayout>
+
+
+        <TextView
+            style="@style/point_16dp"
+            android:id="@+id/title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent" />
+
+
+        <TextView
+            android:id="@+id/next"
+            style="@style/basic_16dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="완료"
+            android:layout_marginHorizontal="20dp"
+            android:textColor="@color/pink"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+
+    <View
+        android:id="@+id/view"
+        android:layout_width="match_parent"
+        android:layout_height="0.1px"
+        android:background="@color/lightgray"
+        app:layout_constraintTop_toBottomOf="@+id/wrap"
+        />
+</androidx.constraintlayout.widget.ConstraintLayout>

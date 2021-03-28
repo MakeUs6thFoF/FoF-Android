@@ -45,20 +45,25 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     TabLayout tabLayout;
     private RecyclerView recycle;
     RetrofitApi api;
+
     View view;
+
     List<Meme.Data> items;
     Integer cposition;
+
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     MemeAllAdapter adapter;
-    FrameLayout container;
-    FrameLayout pagercontainer;
+    FrameLayout container, pagercontainer;
+
     TokenManager gettoken;
     CustomSwipeableViewPager myviewpager;
     MemePagerAdapter padapter;
     GestureDetector gestureDetector;
+
     View.OnTouchListener gestureListener;
+
     private int mNumber = 0;
 
 
@@ -114,10 +119,12 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         {
             case 0 :
                 container.setVisibility(View.GONE);
+                adapter.notifyDataSetChanged();
                 pagercontainer.setVisibility(View.VISIBLE);
                 break;
             case 1 :
                 container.setVisibility(View.VISIBLE);
+                padapter.notifyDataSetChanged();
                 pagercontainer.setVisibility(View.GONE);
                 break;
         }
