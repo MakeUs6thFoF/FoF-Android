@@ -51,32 +51,33 @@ import static android.view.View.TEXT_ALIGNMENT_CENTER;
 import static com.example.FoF_Android.home.model.MemeCase.SMALL;
 
 public class MemePagerAdapter2 extends RecyclerView.Adapter<MemePagerAdapter2.ViewHolder> {
-    private List<Meme.Data> items;
     private Context context;
-    private MemeCase type;
-    private MemePagerAdapter2.OnItemClickListener mListener = null;
-    private MemePagerAdapter2.OnTouchListener gestureListener = null;
-    private OnItemClick mCallback;
-    private View.OnClickListener mPositiveListener;
-    private View.OnClickListener mNegativeListener;
-    Integer style, useridx;
-
-    ActivityOptionsCompat options;
-    TokenManager gettoken;
-    String token;
+    private List<Meme.Data> items;
     private DeleteDialog deleteDialog;
     private SelectDialog selectDialog;
     private ModifyDialog modifyDialog;
+    private View.OnClickListener mPositiveListener;
+    private View.OnClickListener mNegativeListener;
 
-    public void setOnItemClickListener(MemePagerAdapter2.OnItemClickListener listener) {this.mListener = listener;}
-    public void setOnTouchListener(MemePagerAdapter2.OnTouchListener gestureListener) {this.gestureListener = gestureListener;}
+
+
+    ImageButton copy,send;
+    FrameLayout report;
+    ToggleButton like_btn;
+    TokenManager gettoken;
+    String token;
+    Integer useridx;
+
+    private MemePagerAdapter.OnItemClickListener mListener = null;
+    private MemePagerAdapter.OnTouchListener gestureListener = null;
 
     public interface OnItemClickListener{
         void onItemClick(View v, String position);
     }
     public interface OnTouchListener{
-        void onTouch(View v, Integer position, MotionEvent event);
+        boolean onTouch(View v, Integer position, MotionEvent event);
     }
+    private OnItemClick mCallback;
 
     public MemePagerAdapter2(Context context,Integer UserIdx, List<Meme.Data> items,  OnItemClick listener)
     {
@@ -85,12 +86,12 @@ public class MemePagerAdapter2 extends RecyclerView.Adapter<MemePagerAdapter2.Vi
         this.items = items;
         this.useridx=UserIdx;
     }
+    public void setOnItemClickListener(MemePagerAdapter.OnItemClickListener listener) {this.mListener = listener;}
+    public void setOnTouchListener(MemePagerAdapter.OnTouchListener gestureListener) {this.gestureListener = gestureListener;}
 
     @Override
     public MemePagerAdapter2.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
-        style=R.layout.meme_rec_item;
-
-        View view = LayoutInflater.from(viewGroup.getContext()).inflate(style, viewGroup, false);
+        View view = LayoutInflater.from(viewGroup.getContext()).inflate(R.layout.meme_rec_item, viewGroup, false);
         return new MemePagerAdapter2.ViewHolder(view);
     }
 

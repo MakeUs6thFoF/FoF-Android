@@ -186,7 +186,7 @@ public class MyFragment extends Fragment {
         public void onClick(View v) {
             logoutDialog.dismiss();
             logoutDialog.dismiss();
-            String imgurl="";
+            String imgurl=Uri.parse("R.drawable.logo_big2").toString();
 
             api.patchprofileimg(gettoken.checklogin(getContext()),imgurl).enqueue(new Callback<SignUp>() {
                 @Override
@@ -415,8 +415,6 @@ public class MyFragment extends Fragment {
         }
     }
 
-
-
     @Override
     public void onRequestPermissionsResult(int requestCode, String[] permissions, int[] grantResults) {
         switch (requestCode) {
@@ -485,7 +483,7 @@ public class MyFragment extends Fragment {
     public View.OnClickListener mnewlistener= new View.OnClickListener() {
         @Override
         public void onClick(View v) {
-            profileImgDialog.dismiss();
+            logoutDialog.dismiss();
             Glide.with(getContext()).load(profileImage).error(R.drawable.logo_big2).into(profImage);
 
 

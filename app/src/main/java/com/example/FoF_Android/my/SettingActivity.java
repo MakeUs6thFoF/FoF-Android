@@ -4,6 +4,7 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageButton;
 import android.widget.LinearLayout;
@@ -11,6 +12,9 @@ import android.widget.Switch;
 
 import com.example.FoF_Android.Category.CategoryActivity;
 import com.example.FoF_Android.R;
+import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.dialog.LogoutDialog;
+import com.example.FoF_Android.signup.StartActivity;
 
 public class SettingActivity extends AppCompatActivity implements View.OnClickListener {
 
@@ -53,9 +57,16 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 startActivity(intent2);
                 break;
             case R.id.select_pw_layout:
-                Intent intent3 = new Intent(this, )
+//                Intent intent3 = new Intent(this, )
                 break;
             case R.id.select_logout_layout:
+                LogoutDialog logoutDialog = new LogoutDialog(0, this, mnegativtlistenr);
+                logoutDialog.setCancelable(true);
+                logoutDialog.getWindow().setGravity(Gravity.CENTER);
+
+                logoutDialog.show();
+
+
                 break;
             case R.id.select_withdrawal_layout:
                 break;
@@ -64,4 +75,13 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
                 break;
         }
     }
+    public View.OnClickListener mnegativtlistenr=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            TokenManager token=new TokenManager(SettingActivity.this);
+            token.logout();
+            Intent startintent=new Intent(SettingActivity.this, StartActivity.class);
+            startActivity(startintent);
+        }
+    };
 }

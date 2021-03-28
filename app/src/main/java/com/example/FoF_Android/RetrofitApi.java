@@ -126,6 +126,10 @@ public interface RetrofitApi {
     @GET("/user/meme?")
     Call<UploadLike> getUploadLike(@Header("x-access-token") String token, @Query("filter") String filter, @Query("page") Integer page, @Query("size") Integer size);
 
+    @GET("/user/tag/word/{word}")
+    Call<com.example.FoF_Android.make.HashSearch> getHashtag(@Header("x-access-token") String token, @Path("word") String tagName);
+
+
     @FormUrlEncoded
     @PATCH("/profile")
     Call<SignUp> postInfo(@Header("x-access-token") String token, @FieldMap HashMap<String, Object> param);
