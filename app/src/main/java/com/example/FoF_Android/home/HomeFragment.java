@@ -274,8 +274,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                 // right to left swipe
                 if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                     DetailFragment detail = new DetailFragment(items.get(cposition).getMemeIdx());
-                    detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
-                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
+                    detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition));
+                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
                     // detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
                     //detail.setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.image_shared_element_transition));
 

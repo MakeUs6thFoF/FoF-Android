@@ -6,8 +6,12 @@ import android.content.ClipData;
 import android.content.ClipboardManager;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
+import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
+import android.provider.MediaStore;
 import android.util.Log;
 import android.view.DragEvent;
 import android.view.GestureDetector;
@@ -32,6 +36,8 @@ import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
+import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.Target;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
@@ -44,11 +50,22 @@ import com.example.FoF_Android.dialog.ModifyDialog;
 import com.example.FoF_Android.dialog.ReportDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.myapplication;
 import com.example.FoF_Android.search.HashClickFragment;
 import com.example.FoF_Android.search.HashTag;
 import com.example.FoF_Android.search.HashTagAdapter;
 import com.example.FoF_Android.signup.SignUp;
 
+import java.io.BufferedInputStream;
+import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.net.HttpURLConnection;
+import java.net.URL;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -161,8 +178,8 @@ public class MemePagerAdapter extends PagerAdapter {
 
         Glide.with(context)
                 .load(items.get(position).getImageUrl())
-                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .error(R.drawable.placeholder)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(memeimg);
 
         copyright.setText(items.get(position).getCopyright());
@@ -176,11 +193,50 @@ public class MemePagerAdapter extends PagerAdapter {
         nick.setText(items.get(position).getNickname());
         Glide.with(context)
                 .load(items.get(position).getProfileImage())
-                .placeholder(R.drawable.logo_big2)
+                .error(R.drawable.logo_big2)
                 .into(profileimg);
-       // memeimg.setOnClickListener(MemePagerAdapter.this);
-        onclickbtn(position);
 
+        send.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent sharingIntent = new Intent(Intent.ACTION_SEND);
+                Bitmap drawable=null;
+                GifDrawable drawable1=null;
+                if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
+                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();}
+                else if(memeimg.getDrawable() instanceof GifDrawable)
+                    drawable1 = ((GifDrawable)memeimg.getDrawable());
+
+                Uri myurl=null;
+
+                if(drawable1!=null){
+                } else  myurl=getImageUri(context, drawable);
+                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+                Log.i("meme",drawable.toString());
+                //Uri screenshotUri = Uri.parse(name);
+                sharingIntent.setType("image/*");
+                sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
+                context.startActivity(Intent.createChooser(sharingIntent, "Share image using"));
+                //context.getContentResolver().delete(myurl,null,null);
+            }
+        });
+
+        copy.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+             /*   Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(position).getImageUrl()));
+                ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
+                Bitmap drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
+                Uri myurl=getImageUri(context, drawable);
+                Uri copyuri = Uri.parse(items.get(position).getImageUrl());
+                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+                Log.i("meme",drawable.toString());
+                ClipData clip = ClipData.newIntent("Intent",appIntent);
+                clipboard.setPrimaryClip(clip);
+
+                Toast.makeText(context, "복사하였습니다.", Toast.LENGTH_SHORT).show();*/
+            }
+        });
         container.addView(view);
 
         likebtnclick(position);
@@ -223,21 +279,66 @@ public class MemePagerAdapter extends PagerAdapter {
     }
 
 
-    public void onclickbtn(int position){
-        send.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                ClipboardManager clipboard = (ClipboardManager)context.getSystemService(Context.CLIPBOARD_SERVICE);
-
-                Uri myUri = Uri.parse(items.get(position).getImageUrl());
-
-                ClipData clip = ClipData.newUri(context.getContentResolver(),"URI" ,myUri);
-                clipboard.setPrimaryClip(clip);
-
-                Toast.makeText(context, "복사하였습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
+    private Uri getImageUri(Context context, Bitmap inImage) {
+        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
+        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
+        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
+        return Uri.parse(path);
     }
+
+    public static Bitmap getImage(String strUrl){
+        URL url = null;
+        HttpURLConnection conn = null;
+        InputStream is = null;
+        BufferedInputStream bis = null;
+        Bitmap bm = null;
+
+
+        try {
+            url = new URL(strUrl);
+            conn = (HttpURLConnection)url.openConnection();
+            conn.setDoInput(true);
+
+            conn.connect();
+
+            is = conn.getInputStream();
+            bis = new BufferedInputStream(is);
+
+            bm = BitmapFactory.decodeStream(bis);
+
+        } catch (Exception e) {
+            //throw e;
+            Log.i("meme", e.toString());
+            return null;
+        }finally{
+            try{
+                if(is != null) is.close();
+                if(bis != null) bis.close();
+            }catch(Exception e){}
+        }
+
+        return bm;
+    }
+
+
+
+    public static String saveBitmapToJpeg(Context context,Bitmap bitmap, String name){
+        File storage = context.getCacheDir(); // 이 부분이 임시파일 저장 경로
+        String fileName = name + ".jpg";  // 파일이름은 마음대로!
+        File tempFile = new File(storage,fileName);
+        try{
+            tempFile.createNewFile();  // 파일을 생성해주고
+            FileOutputStream out = new FileOutputStream(tempFile);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , out);  // 넘거 받은 bitmap을 jpeg(손실압축)으로 저장해줌
+            out.close(); // 마무리로 닫아줍니다.
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return tempFile.getAbsolutePath();   // 임시파일 저장경로를 리턴해주면 끝!
+    }
+
 
     public void selectbtnclick(int position){
         report.setOnClickListener(new View.OnClickListener() {

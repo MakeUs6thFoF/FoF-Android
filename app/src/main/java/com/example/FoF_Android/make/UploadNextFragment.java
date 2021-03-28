@@ -30,11 +30,13 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.dialog.DeleteDialog;
+import com.example.FoF_Android.dialog.LogoutDialog;
 import com.example.FoF_Android.dialog.model.CancelDialog;
 import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.signup.SignUp;
 
 import java.io.File;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -216,7 +218,7 @@ public class UploadNextFragment extends Fragment {
                 List<String> tmpList = new ArrayList<>();
                 for(String s : hashTagArray)
                     tmpList.add(s);
-                if(tmpList.size()==1) tmpList.set(0,"\""+tmpList.get(0)+"\"");
+
                 Log.i("Uploadnext", tmpList.toString());
 
                 doPost(titletxt,tmpList,imgurl,copytxt,categoryIdx,api);
@@ -247,9 +249,9 @@ public class UploadNextFragment extends Fragment {
     public void doPost(String title, List<String> hashtag, String imageUrl, String copyright, Integer categoryIdx, RetrofitApi api){
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-
+        List<String> test =new ArrayList<String>();
         uploadImg();
-        api.postMeme(token, title,imageUrl,copyright,hashtag,categoryIdx).enqueue(new Callback<SignUp>() {
+        api.postMeme(token, title,imageUrl,copyright,test,categoryIdx).enqueue(new Callback<SignUp>() {
             @Override
             public void onResponse(Call<SignUp> call, Response<SignUp> response) {
                 if (response.isSuccessful()){
@@ -259,6 +261,7 @@ public class UploadNextFragment extends Fragment {
                     else {
                      //   Toast.makeText(getContext(),"업로드 성공" , Toast.LENGTH_LONG).show();
                         //TODO 성공창 보여주기
+
                         FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                         fragmentManager.beginTransaction().replace(R.id.container,new UploadFragment()).commit();
                         //

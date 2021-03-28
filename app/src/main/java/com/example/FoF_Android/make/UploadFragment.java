@@ -17,6 +17,7 @@ import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,8 +29,10 @@ import android.widget.TextView;
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
+import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.dialog.DeleteDialog;
+import com.example.FoF_Android.dialog.LogoutDialog;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;
@@ -51,6 +54,7 @@ public class UploadFragment extends Fragment {
     boolean result;
     ByteArrayOutputStream stream;
     private int SELECT_FILE = 3;
+    private   LogoutDialog logoutDialog;
     private String userChoosenTask;
     public UploadFragment() {
         // Required empty public constructor
@@ -75,12 +79,14 @@ public class UploadFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DeleteDialog deleteDialog=new DeleteDialog(getContext(), 0, mNegativeListener);
-                //TODO dialog넣기 listener 포함
+                if(in!=null) {
+                    logoutDialog = new LogoutDialog(1, getContext(), mnegativtlistenr);
+                    logoutDialog.setCancelable(true);
+                    logoutDialog.getWindow().setGravity(Gravity.CENTER);
 
-                Drawable drawable = getResources().getDrawable(R.drawable.make_bg);
-                imageview.setImageDrawable(drawable);
-                in=null;
+                    logoutDialog.show();
+
+                }
             }
         });
         next.setOnClickListener(new View.OnClickListener() {
@@ -192,6 +198,7 @@ public class UploadFragment extends Fragment {
             stream = new ByteArrayOutputStream();
             bm.compress(Bitmap.CompressFormat.PNG, 100, stream);
             wrap.setVisibility(View.GONE);
+            image.setVisibility(View.VISIBLE);
             Glide.with(getContext())
                     .load(stream.toByteArray())
                  //   .placeholder(R.drawable.meme2)
@@ -199,6 +206,16 @@ public class UploadFragment extends Fragment {
           //  imageview.setImageBitmap(bm);
         }
     }
-
+    public View.OnClickListener mnegativtlistenr=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Drawable drawable = getResources().getDrawable(R.drawable.upload_bg);
+            wrap.setVisibility(View.VISIBLE);
+            imageview.setImageDrawable(drawable);
+            image.setVisibility(View.GONE);
+            in=null;
+            logoutDialog.dismiss();
+        }
+    };
 
 }
