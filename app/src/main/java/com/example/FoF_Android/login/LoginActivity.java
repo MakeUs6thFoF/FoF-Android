@@ -95,7 +95,6 @@ public class LoginActivity extends AppCompatActivity {
                         TokenManager token=new TokenManager(getBaseContext());
                         token.createLoginSession(login.getJwt(),login.getUserinfo().getIdx());
 
-
                         Intent intent = new Intent(LoginActivity.this, CategoryActivity.class);
                         startActivity(intent);
                         finish();

@@ -8,6 +8,8 @@ import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.dialog.model.Report;
 import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.login.Login;
+import com.example.FoF_Android.my.EmailAuth;
+import com.example.FoF_Android.my.MyInfo;
 import com.example.FoF_Android.my.MyProfile;
 import com.example.FoF_Android.my.UploadLike;
 import com.example.FoF_Android.search.CategoryMeme;
@@ -133,5 +135,12 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @PATCH("/profile")
     Call<SignUp> postInfo(@Header("x-access-token") String token, @FieldMap HashMap<String, Object> param);
+
+
+    @GET("/token/info")
+    Call<MyInfo> getMyInfo(@Header("x-access-token") String token);
+
+    @GET("/email/auth")
+    Call<EmailAuth> getEmailCode(@Header("x-access-token") String token);
 
 }
