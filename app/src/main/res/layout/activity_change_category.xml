@@ -8,7 +8,7 @@
     >
 
     <ImageButton
-        android:id="@+id/back"
+        android:id="@+id/backBt"
         android:background="@drawable/back"
         android:layout_width="10dp"
         android:layout_gravity="bottom"
