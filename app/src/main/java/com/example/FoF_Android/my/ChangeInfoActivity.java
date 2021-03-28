@@ -61,6 +61,7 @@ public class ChangeInfoActivity extends AppCompatActivity {
         });
     }
 
+
     public void changeInfo(RetrofitApi api){
         HashMap<String, Object> input = new HashMap<>();
         input.put("email", email_ed.getText().toString());
