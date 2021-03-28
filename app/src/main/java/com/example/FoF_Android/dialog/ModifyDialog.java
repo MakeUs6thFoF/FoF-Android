@@ -16,7 +16,7 @@ public class ModifyDialog extends Dialog {
     private Button mPositiveButton;
     private ImageButton mNegativeButton;
 
-    private View.OnClickListener mPositiveListener;
+    private View.OnClickListener mModifyListener;
     private View.OnClickListener mNegativeListener;
     private  TextView copyright;
     String copy;
@@ -45,8 +45,8 @@ public class ModifyDialog extends Dialog {
                 dismiss();
             }
         });
-        mPositiveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
+        mPositiveButton.setOnClickListener(mModifyListener);
+           /* @Override
             public void onClick(View view) {
                 if (isShowing()) {
                     Intent modifyintent=new Intent(getContext(), ModifyCopyrightActivity.class);
@@ -58,17 +58,18 @@ public class ModifyDialog extends Dialog {
 
                     dismiss();}
             }
-        });
+        });*/
 
         copyright=(TextView)findViewById(R.id.copyright);
         copyright.setText(copy);
     }
 
     //생성자 생성
-    public ModifyDialog(Context context, String copy, Integer memeIdx
+    public ModifyDialog(Context context, String copy, Integer memeIdx, View.OnClickListener mModifyListener
                  ) {
         super(context, android.R.style.Theme_Translucent_NoTitleBar);
         this.memeIdx=memeIdx;
         this.copy=copy;
+        this.mModifyListener=mModifyListener;
     }
 }

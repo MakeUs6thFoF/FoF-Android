@@ -16,6 +16,7 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.dialog.model.Copyright;
+import com.example.FoF_Android.make.UploadNextFragment;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -55,6 +56,10 @@ public class ModifyCopyrightActivity extends AppCompatActivity {
                                 Log.d("data.getUserId()", body.getMessage() + "");
                                 Log.e("patchData end", "======================================");
                                 Toast.makeText(ModifyCopyrightActivity.this, "저작권자를 수정하였습니다.", Toast.LENGTH_SHORT).show();
+
+                                Intent intent = new Intent();
+                                intent.putExtra("tagname", changecopy);
+                                setResult(UploadNextFragment.RESULT_CODE, intent);
                                 finish();
                             }
                         }
@@ -71,5 +76,9 @@ public class ModifyCopyrightActivity extends AppCompatActivity {
         });
 
 
-}
+}   @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+    }
 }
