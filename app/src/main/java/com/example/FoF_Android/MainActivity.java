@@ -61,15 +61,15 @@ public class MainActivity extends AppCompatActivity {
                         Log.i(TAG,"home");
                         break;
                     case R.id.navigation_search:
-                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container,searchFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).commit();
                         Log.i(TAG,"search");
                         break;
                     case R.id.navigation_my:
-                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container,myFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,myFragment).commit();
                         Log.i(TAG,"my");
                         break;
                     case R.id.navigation_make:
-                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container,makeFragment).commit();
+                        getSupportFragmentManager().beginTransaction().replace(R.id.container,makeFragment).commit();
                         Log.i(TAG,"make");
                         break;
                 }
@@ -86,7 +86,25 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        super.onBackPressed();
+
+        int count = getSupportFragmentManager().getBackStackEntryCount();
+        if(count == 0){
+            if (System.currentTimeMillis() > backKeyPressedTime + 2500) {
+                backKeyPressedTime = System.currentTimeMillis();
+                toast = Toast.makeText(this, "뒤로 가기 버튼을 한 번 더 누르시면 종료됩니다.", Toast.LENGTH_LONG);
+                toast.show();
+                return;
+            }
+
+            if (System.currentTimeMillis() <= backKeyPressedTime + 2500) {
+                super.onBackPressed();
+                toast.cancel();
+            }
+        }
+        else{
+            getSupportFragmentManager().popBackStack();
+        }
+
     }
 
     @Override
