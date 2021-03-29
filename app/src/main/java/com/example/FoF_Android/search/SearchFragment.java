@@ -68,15 +68,10 @@ public class SearchFragment extends Fragment {
         gettoken = new TokenManager(getContext());
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-    }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-
         view = inflater.inflate(R.layout.fragment_search, container, false);
         getHashTag(api, view);
         searchBt = view.findViewById(R.id.searchEdit);
