@@ -40,6 +40,7 @@ public class SearchFragment extends Fragment {
     Button searchBt;
     ImageButton searchIb;
     Fragment hashFragment;
+    View view;
 
     int tagIdx[] = new int[5];
     String tagName[] = new String[5];
@@ -68,10 +69,15 @@ public class SearchFragment extends Fragment {
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_search, container, false);
+        view = inflater.inflate(R.layout.fragment_search, container, false);
         getHashTag(api, view);
         searchBt = view.findViewById(R.id.searchEdit);
         searchIb = view.findViewById(R.id.searchIb);
@@ -83,7 +89,6 @@ public class SearchFragment extends Fragment {
             }
         });
 
-
         tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("감정"));
         tabLayout.addTab(tabLayout.newTab().setText("동물"));
@@ -92,9 +97,9 @@ public class SearchFragment extends Fragment {
         tabLayout.addTab(tabLayout.newTab().setText("텍스트"));
         tabLayout.addTab(tabLayout.newTab().setText("이모티콘"));
 
-
         viewPager = (NonSwipeViewPager)view.findViewById(R.id.viewPager);
         viewPager.setAdapter(new PagerAdapter(getFragmentManager()));
+        viewPager.setSaveEnabled(false);
         viewPager.setPagingEnabled(false);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -103,12 +108,14 @@ public class SearchFragment extends Fragment {
                 viewPager.setCurrentItem(tab.getPosition());
             }
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+            public void onTabUnselected(TabLayout.Tab tab) {
+
+            }
             @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) {
+                viewPager.setCurrentItem(tab.getPosition());
+            }
         });
-
-
         return view;
     }
 
