@@ -92,6 +92,7 @@ public class HashClickFragment extends Fragment {
 
     public void setRecyclerView(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
+
         api.getSearchMeme(token, mParam2, 1, 10).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {

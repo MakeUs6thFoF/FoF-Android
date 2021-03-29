@@ -162,7 +162,11 @@ public class MemePagerAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
                     if(mListener != null)
-                        mListener.onItemClick(v, array[finalI1]);
+                        if(finalI1!=0) mListener.onItemClick(v, array[finalI1]);
+                        else {
+                            String category=array[finalI1].replaceFirst("#","");
+                            mListener.onItemClick(v, category);
+                        }
                 }
             });
 
