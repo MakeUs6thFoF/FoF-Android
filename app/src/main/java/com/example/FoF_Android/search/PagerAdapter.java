@@ -20,6 +20,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         fragments.add(new FeelingFragment(2));
         fragments.add(new FeelingFragment(5));
         fragments.add(new FeelingFragment(1));
+        System.out.println("테스트");
     }
 
 
