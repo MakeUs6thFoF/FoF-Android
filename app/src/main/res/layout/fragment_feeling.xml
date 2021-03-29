@@ -22,6 +22,7 @@
                 android:layout_marginTop="15dp"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
+                android:transitionName="example_transition"
                 tools:src="@tools:sample/avatars"/>
             <TextView
                 android:id="@+id/ranktv"
