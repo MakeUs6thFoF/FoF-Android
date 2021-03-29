@@ -34,7 +34,7 @@ import retrofit2.Response;
  * Use the {@link Search2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Search2Fragment extends Fragment {
+public class Search2Fragment extends Fragment implements {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -148,54 +148,7 @@ public class Search2Fragment extends Fragment {
                     }
                 });
                 mRecyclerView.addOnScrollListener(scrollListener);
-
-                //스크롤 처리
-                /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
-                    @Override
-                    public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                        super.onScrollStateChanged(recyclerView, newState);
-                    }
-
-                    @Override
-                    public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                        super.onScrolled(recyclerView, dx, dy);
-                        int visibleItemCount = layoutManager.getChildCount();
-                        int totalItemCount = layoutManager.getItemCount();
-                        int[] firstVisibleItems = null;
-                        int pastVisibleItems = 0;
-
-                        firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
-                        if(firstVisibleItems != null && firstVisibleItems.length > 0)
-                            pastVisibleItems = firstVisibleItems[0];
-
-                        if((visibleItemCount + pastVisibleItems) >= totalItemCount && !isLoading)
-                        {
-                            isLoading = true;
-                            api.getSearchMeme(token, mParam1, getPage(), 10).enqueue(new Callback<MemeSearch>() {
-                                @Override
-                                public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
-                                    MemeSearch next_body = response.body();
-                                    for(int i=0; i< next_body.getData().size(); i++)
-                                    {
-                                        mList.add(next_body.getData().get(i));
-                                    }
-                                    mAdapter.notifyItemInserted(mList.size()-1);
-                                    mAdapter.notifyDataSetChanged();
-                                }
-
-                                @Override
-                                public void onFailure(Call<MemeSearch> call, Throwable t) {
-
-                                }
-                            });
-                        }
-                        else
-                            isLoading = false;
-
-                        // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
-
-                    }
-                });*/
+                
             }
 
             @Override
