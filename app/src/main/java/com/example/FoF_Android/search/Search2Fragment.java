@@ -5,6 +5,7 @@ import android.os.Bundle;
 import androidx.annotation.NonNull;
 import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
@@ -13,6 +14,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
@@ -123,8 +125,32 @@ public class Search2Fragment extends Fragment {
                     }
                 });
 
+                EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
+                    @Override
+                    public void onRefresh(int pageNumber) {
+                        api.getSearchMeme(token, mParam1, getPage(), 10).enqueue(new Callback<MemeSearch>() {
+                            @Override
+                            public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
+                                MemeSearch next_body = response.body();
+                                for(int i=0; i< next_body.getData().size(); i++)
+                                {
+                                    mList.add(next_body.getData().get(i));
+                                }
+                                mAdapter.notifyItemInserted(mList.size()-1);
+                                mAdapter.notifyDataSetChanged();
+                            }
+
+                            @Override
+                            public void onFailure(Call<MemeSearch> call, Throwable t) {
+
+                            }
+                        });
+                    }
+                });
+                mRecyclerView.addOnScrollListener(scrollListener);
+
                 //스크롤 처리
-                mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+                /*mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
                     @Override
                     public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
                         super.onScrollStateChanged(recyclerView, newState);
@@ -135,17 +161,41 @@ public class Search2Fragment extends Fragment {
                         super.onScrolled(recyclerView, dx, dy);
                         int visibleItemCount = layoutManager.getChildCount();
                         int totalItemCount = layoutManager.getItemCount();
-                        int pastVisibleItems;
                         int[] firstVisibleItems = null;
+                        int pastVisibleItems = 0;
+
+                        firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
+                        if(firstVisibleItems != null && firstVisibleItems.length > 0)
+                            pastVisibleItems = firstVisibleItems[0];
+
+                        if((visibleItemCount + pastVisibleItems) >= totalItemCount && !isLoading)
+                        {
+                            isLoading = true;
+                            api.getSearchMeme(token, mParam1, getPage(), 10).enqueue(new Callback<MemeSearch>() {
+                                @Override
+                                public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
+                                    MemeSearch next_body = response.body();
+                                    for(int i=0; i< next_body.getData().size(); i++)
+                                    {
+                                        mList.add(next_body.getData().get(i));
+                                    }
+                                    mAdapter.notifyItemInserted(mList.size()-1);
+                                    mAdapter.notifyDataSetChanged();
+                                }
+
+                                @Override
+                                public void onFailure(Call<MemeSearch> call, Throwable t) {
+
+                                }
+                            });
+                        }
+                        else
+                            isLoading = false;
 
                         // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
-                        if(!isLoading){
-                            firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
-                            if(firstVisibleItems != null && firstVisibleItems.length > 0)
-                                pastVisibleItems = firstVisibleItems[0];
-                        }
+
                     }
-                });
+                });*/
             }
 
             @Override
