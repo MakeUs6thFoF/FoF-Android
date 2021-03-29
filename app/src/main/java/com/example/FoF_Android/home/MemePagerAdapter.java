@@ -83,7 +83,7 @@ public class MemePagerAdapter extends PagerAdapter {
     private ModifyDialog modifyDialog;
     private View.OnClickListener mPositiveListener;
     private View.OnClickListener mNegativeListener;
-
+    Integer thisposition;
     ImageButton copy,send;
     FrameLayout report;
     ToggleButton like_btn;
@@ -353,6 +353,7 @@ public class MemePagerAdapter extends PagerAdapter {
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                thisposition=position;
                 selectDialog = new SelectDialog(context,items.get(position).getUserIdx(),items.get(position).getMemeIdx(),mPositiveListener); // 왼쪽 버튼 이벤트
                 calldialog(selectDialog);
             }
@@ -398,9 +399,13 @@ public class MemePagerAdapter extends PagerAdapter {
         };
         mNegativeListener = new View.OnClickListener() {
             public void onClick(View v) {
+               // Log.i("test",items.get(position).getMemeIdx().toString());
                 deleteDialog.dismiss();
-                deletememe(position);
+                deletememe(thisposition);
+                boolean remove = items.remove(thisposition);
+                Log.i("Mane"," "+remove);
                 notifyDataSetChanged();
+
             }
         };
 
@@ -423,5 +428,8 @@ public class MemePagerAdapter extends PagerAdapter {
 
             }
         });
+    }
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
     }
 }

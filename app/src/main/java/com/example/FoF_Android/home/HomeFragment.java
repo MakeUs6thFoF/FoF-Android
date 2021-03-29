@@ -45,18 +45,19 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     TabLayout tabLayout;
     private RecyclerView recycle;
     RetrofitApi api;
-
-    View view;
+    Integer tabid=0;
+    View view1;
     List<Meme.Data> pitems;
     List<Meme.Data> items;
     Integer cposition;
+    Integer viewitem;
 
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
     MemeAllAdapter adapter;
     FrameLayout container, pagercontainer;
-
+    ViewGroup view;
     TokenManager gettoken;
     CustomSwipeableViewPager myviewpager;
     MemePagerAdapter padapter;
@@ -79,17 +80,14 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        ViewGroup view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
+        view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         recycle = view.findViewById((R.id.recycler));
+        myviewpager=view.findViewById(R.id.myviewpager);
         gettoken=new TokenManager(getContext());
 
-        myviewpager=view.findViewById(R.id.myviewpager);
-        initPagerUI();
-        initUI();
 
         myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
-
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -112,21 +110,23 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     }
 
     public void setCurrentTabFragment(int position, ViewGroup view){
-        adapter.notifyDataSetChanged();
-        padapter.notifyDataSetChanged();
+
         pagercontainer=(FrameLayout)view.findViewById(R.id.pagercontainer);
         container=(FrameLayout)view.findViewById(R.id.container);
       //  container.setVisibility(View.GONE);
         switch (position)
         {
             case 0 :
+                tabid=0;
                 container.setVisibility(View.GONE);
-                adapter.notifyDataSetChanged();
+               // initPagerUI();
                 pagercontainer.setVisibility(View.VISIBLE);
                 break;
             case 1 :
+                tabid=1;
+                viewitem = myviewpager.getCurrentItem();
                 container.setVisibility(View.VISIBLE);
-                padapter.notifyDataSetChanged();
+               // initUI();
                 pagercontainer.setVisibility(View.GONE);
                 break;
         }
@@ -137,25 +137,6 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         adapter = new MemeAllAdapter(items,getContext());
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
-/*
-        recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
-
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-
-                int lastPosition = ((LinearLayoutManager) recyclerView.getLayoutManager()).findLastVisibleItemPosition();
-                int totalCount = recyclerView.getAdapter().getItemCount();
-
-                if(lastPosition == totalCount){
-                    //아이템 추가
-                }
-            }
-        });*/
         recycle.setAdapter(adapter);
         adapter.setOnItemClickListener(new MemeAllAdapter.OnItemClickListener() {
             @Override
@@ -164,7 +145,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                 DetailFragment detail = new DetailFragment(item.getMemeIdx());
                 getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
                         .setReorderingAllowed(true)
-                        .addToBackStack(null).add(R.id.container, detail).commit();
+                        .addToBackStack(null).replace(R.id.container, detail).commit();
             }
         });
 
@@ -202,7 +183,6 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         api = client.getRetrofit().create(RetrofitApi.class);
         String token = gettoken.checklogin(getContext());
         Integer idx= gettoken.checkIdx(getContext());
-
         System.out.println("확인"+token);
         Call<MemeResponse> call = api.getdata(token,"recommend",1,20);
         call.enqueue(new Callback<MemeResponse>() {
@@ -232,7 +212,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                         @Override
                         public boolean onTouch(View v, Integer position, MotionEvent event) {
                             cposition=position;
-                            view=v;
+                            view1=v;
                           return gestureDetector.onTouchEvent(event);
                         }
                     });
@@ -281,8 +261,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                     // detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
                     //detail.setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.image_shared_element_transition));
 
-                    getFragmentManager().beginTransaction().setReorderingAllowed(true).addSharedElement(view.findViewById(R.id.imageView),ViewCompat.getTransitionName(view.findViewById(R.id.imageView)))
-                            .addToBackStack(null).add(R.id.container, detail).commit();
+                    getFragmentManager().beginTransaction().setReorderingAllowed(true).addSharedElement(view1.findViewById(R.id.imageView),ViewCompat.getTransitionName(view.findViewById(R.id.imageView)))
+                            .addToBackStack(null).replace(R.id.container, detail).commit();
 
 
                 } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
@@ -301,5 +281,16 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(tabid!=3) {setCurrentTabFragment(tabid,view);
+            TabLayout.Tab tab=tabLayout.getTabAt(tabid);
+            tab.select();
+        }
+        initPagerUI();
+        initUI();
+        if(viewitem!=null)Log.i("test",viewitem.toString());
 
-}
+
+}}

@@ -40,6 +40,7 @@ public class UploadHashtag extends AppCompatActivity {
     List<UpHashSearch.Data> hashlist = new ArrayList<>();
     LinearLayout Tag;
     Integer i=0;
+    Integer k=0;
     String tagname="";
     TextView btn[] = new TextView[10];
     @Override
@@ -50,6 +51,7 @@ public class UploadHashtag extends AppCompatActivity {
         Tag=findViewById(R.id.Tag);
         next=findViewById(R.id.next);
         hashtag.setText("#");
+
         hashtag.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -67,7 +69,14 @@ public class UploadHashtag extends AppCompatActivity {
                         if(response.isSuccessful()){
                             UpHashSearch tag = response.body();
                             List<UpHashSearch.Data> items=tag.getData();
-                        Log.i("Upload",tag.getMessage());
+                            UpHashSearch type =new UpHashSearch();
+                            UpHashSearch.Data item=type.new Data();
+                            String hashtype = hashtag.getText().toString().replaceFirst("#","");
+                            if(!hashtype.replace(" ","").equals("")){
+                                item.setTagName(hashtype); item.setTagIdx(0);
+                                items.add(0,item);
+                            }
+                            Log.i("Upload",tag.getMessage());
                         if(tag!=null){
                             RecyclerView mRecyclerView = findViewById(R.id.hashtag_recycler);
                             LinearLayoutManager mLinearLayoutmanager = new LinearLayoutManager(UploadHashtag.this);
@@ -75,10 +84,11 @@ public class UploadHashtag extends AppCompatActivity {
                             madapter = new HashTagAdapter( items,UploadHashtag.this);
                             mRecyclerView.setAdapter(madapter);
 
+
                             madapter.setOnItemClickListener(new com.example.FoF_Android.make.HashTagAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int position) {
-                                    if(i<7){
+                                    if(k<7){
                                         hashtag.setText("#");
                                         hashtag.setSelection(hashtag.length());
                                         String name="#"+tag.getData().get(position).getTagName();
@@ -91,12 +101,23 @@ public class UploadHashtag extends AppCompatActivity {
                                         btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
                                         btn[i].setBackgroundResource(R.color.green);
                                         btn[i].setIncludeFontPadding(false);
-                                        btn[i].setPadding(5,8,5,0);
+                                        btn[i].setPadding(8,8,8,0);
                                         btn[i].setTextAppearance(R.style.basic_12dp_black);
                                         btn[i].setId(i);
                                         Tag.addView(btn[i]);
-                                        tagname=tagname+name+" ";
-                                        i=i+1;}
+                                        k=k+1;
+                                        i=i+1;
+                                    for(int j=0;j<i;j++){
+                                        int finalI = j;
+                                        btn[j].setOnClickListener(new View.OnClickListener() {
+                                            @Override
+                                            public void onClick(View v) {
+                                                Tag.removeView(btn[finalI]);
+                                                btn[finalI].setText("");
+                                                k--;
+                                            }
+                                        });
+                                    }}
                                     else Toast.makeText(UploadHashtag.this, "해시태그는 최대 6개까지만 가능합니다", Toast.LENGTH_SHORT).show();
                                 }
                             });}}else  Log.i("Upload",response.message());
@@ -121,6 +142,8 @@ public class UploadHashtag extends AppCompatActivity {
         @Override
         public void onClick(View v) {
             Intent intent = new Intent();
+            for(int j=0;j<i;j++)
+                    tagname=tagname+btn[j].getText()+" ";
             intent.putExtra("tagname", tagname);
             setResult(UploadNextFragment.RESULT_CODE, intent);
             finish();

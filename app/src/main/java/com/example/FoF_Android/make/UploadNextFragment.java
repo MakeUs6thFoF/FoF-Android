@@ -3,6 +3,7 @@ package com.example.FoF_Android.make;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.Gravity;
@@ -33,6 +34,7 @@ import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
+import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.LogoutDialog;
 import com.example.FoF_Android.dialog.UploadSuccessDialog;
@@ -59,17 +61,18 @@ public class UploadNextFragment extends Fragment {
     String titles[] = new String[7];
     int titleIdx[] = new int[7];
     private int SELECT_FILE = 3;
-    HashTagEditTextView hashtag;
+    EditText hashtag;
     EditText title;
     EditText copyright;
     CognitoCachingCredentialsProvider credentialsProvider;
     AmazonS3 s3;
+    LogoutDialog logoutDialog;
     TransferUtility transferUtility;
     CancelDialog canceldialog;
     Integer useridx;
     String token;
     TokenManager gettoken;
-
+    FrameLayout back;
     //카테고리
     RadioButton togBt1;
     RadioButton togBt2;
@@ -84,7 +87,6 @@ public class UploadNextFragment extends Fragment {
     String gethashtag;
     private RadioGroup line1;
     private RadioGroup line2;
-    FrameLayout back;
     TextView next;
 
     HashMap<String, Integer> titleHash = new HashMap<String, Integer>();
@@ -115,7 +117,7 @@ public class UploadNextFragment extends Fragment {
         title=view.findViewById(R.id.title);
         copyright=view.findViewById(R.id.copyright);
         hashtag=view.findViewById(R.id.hashtag);
-        back=view.findViewById(R.id.back);
+
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
         getCategory(api);
@@ -124,7 +126,17 @@ public class UploadNextFragment extends Fragment {
         token = gettoken.checklogin(getContext());
         useridx=gettoken.checkIdx(getContext());
 
+        back=view.findViewById(R.id.back);
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                logoutDialog = new LogoutDialog(1, getContext(), mnegativtlistenr);
+                logoutDialog.setCancelable(true);
+                logoutDialog.getWindow().setGravity(Gravity.CENTER);
 
+                logoutDialog.show();
+            }
+        });
         line1=view.findViewById(R.id.line1);
         line2=view.findViewById(R.id.line2);
 
@@ -139,7 +151,7 @@ public class UploadNextFragment extends Fragment {
                 if(hasFocus){
                 Intent hashintent = new Intent(getActivity(), UploadHashtag.class);
 
-                startActivityForResult(Intent.createChooser(hashintent, "Select File"), SELECT_FILE);
+                startActivityForResult(hashintent, SELECT_FILE);
             }}
         });
 
@@ -196,6 +208,18 @@ public class UploadNextFragment extends Fragment {
             }
         });
     }
+    public String[] getInsertTag(){
+        String[] temp = hashtag.getText().toString().split("#");
+        if(temp.length > 0) {
+            String[] result = new String[temp.length - 1];
+            for (int i = 0; i < result.length; i++) {
+                result[i] = temp[i + 1].trim();
+            }
+            return result;
+        }else{
+            return temp;
+        }
+    }
     public void setUpload(ViewGroup view){
         next=view.findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -210,8 +234,8 @@ public class UploadNextFragment extends Fragment {
 
                 String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+useridx.toString()+f.getName();
 
-                if(hashtag.getInsertTag()!=null)
-                    hashTagArray = hashtag.getInsertTag();
+                if(getInsertTag()!=null)
+                    hashTagArray = getInsertTag();
 
                 String selectedResult ="";
                 Integer categoryIdx=0;
@@ -236,8 +260,11 @@ public class UploadNextFragment extends Fragment {
                     tmpList.add(s);
 
                 Log.i("Uploadnext", tmpList.toString());
-
-                doPost(titletxt,tmpList,imgurl,copytxt,categoryIdx,api);
+                if (titletxt==null)Toast.makeText(getContext(), "제목을 적어주세요", Toast.LENGTH_LONG).show();
+                else if (copytxt==null)Toast.makeText(getContext(), "저작권자를 적어주세요", Toast.LENGTH_LONG).show();
+                else if(tmpList.size()<2)Toast.makeText(getContext(), "해시태그값은 최소 두개 이상 적어주세요", Toast.LENGTH_LONG).show();
+                else if(categoryIdx==null) Toast.makeText(getContext(), "카테고리를 선택해주세요", Toast.LENGTH_LONG).show();
+                else doPost(titletxt,tmpList,imgurl,copytxt,categoryIdx,api);
 
             }
 
@@ -308,4 +335,14 @@ public class UploadNextFragment extends Fragment {
 
 
     }
+    public View.OnClickListener mnegativtlistenr=new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Drawable drawable = getResources().getDrawable(R.drawable.upload_bg);
+            logoutDialog.dismiss();
+            FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+            fragmentManager.beginTransaction().remove(UploadNextFragment.this).commit();
+            fragmentManager.popBackStack();
+        }
+    };
 }
