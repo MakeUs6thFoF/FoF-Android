@@ -7,6 +7,7 @@
     android:layout_height="match_parent"
     tools:context=".search.SearchFragment">
 
+    
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/topLayout"
         android:layout_width="match_parent"
@@ -55,7 +56,7 @@
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
-    
+
     <com.google.android.material.tabs.TabLayout
         android:id="@+id/searchTabLayout"
         android:layout_width="match_parent"

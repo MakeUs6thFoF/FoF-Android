@@ -1,7 +1,10 @@
 package com.example.FoF_Android.search;
 
+import android.content.res.ColorStateList;
+import android.graphics.Color;
 import android.os.Bundle;
 
+import androidx.core.view.ViewCompat;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
@@ -36,7 +39,7 @@ public class SearchHashFragment extends Fragment implements View.OnClickListener
 
     private EditText searchEdit;
     private ImageButton searchIb;
-    private TextView diamond1; private TextView diamond2; private TextView diamond3; private TextView diamond4; private TextView diamond5; private TextView diamond6; private TextView diamond7; private TextView diamond8;
+    private TextView diamond[] = new TextView[8];
 
     RetrofitApi api;
     TokenManager gettoken;
@@ -87,9 +90,10 @@ public class SearchHashFragment extends Fragment implements View.OnClickListener
         searchIb = view.findViewById(R.id.searchIb);
         searchEdit = view.findViewById(R.id.searchEdit);
         // 임시로 하드코딩
-        diamond1 = view.findViewById(R.id.diamond1); diamond2 = view.findViewById(R.id.diamond2); diamond3 = view.findViewById(R.id.diamond3); diamond4 = view.findViewById(R.id.diamond4);
-        diamond5 = view.findViewById(R.id.diamond5); diamond6 = view.findViewById(R.id.diamond6); diamond7 = view.findViewById(R.id.diamond7); diamond8 = view.findViewById(R.id.diamond8);
-        diamond1.setOnClickListener(this);
+        diamond[0] = view.findViewById(R.id.diamond1); diamond[1] = view.findViewById(R.id.diamond2); diamond[2] = view.findViewById(R.id.diamond3); diamond[3] = view.findViewById(R.id.diamond4);
+        diamond[4] = view.findViewById(R.id.diamond5); diamond[5] = view.findViewById(R.id.diamond6); diamond[6] = view.findViewById(R.id.diamond7); diamond[7] = view.findViewById(R.id.diamond8);
+        diamond[0].setOnClickListener(this);  diamond[1].setOnClickListener(this);  diamond[2].setOnClickListener(this); diamond[3].setOnClickListener(this);
+        diamond[4].setOnClickListener(this);  diamond[5].setOnClickListener(this);  diamond[6].setOnClickListener(this); diamond[7].setOnClickListener(this);
 
         searchIb.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,8 +112,8 @@ public class SearchHashFragment extends Fragment implements View.OnClickListener
                 RandomTag body = response.body();
                 List<RandomTag.Data> mList = body.getData();
                 //하드코딩->변경예정
-                diamond1.setText(mList.get(0).tagName); diamond2.setText(mList.get(1).tagName); diamond3.setText(mList.get(2).tagName); diamond4.setText(mList.get(3).tagName);
-                diamond5.setText(mList.get(4).tagName); diamond6.setText(mList.get(5).tagName); diamond7.setText(mList.get(6).tagName); diamond8.setText(mList.get(7).tagName);
+                diamond[0].setText(mList.get(0).tagName); diamond[1].setText(mList.get(1).tagName); diamond[2].setText(mList.get(2).tagName); diamond[3].setText(mList.get(3).tagName);
+                diamond[4].setText(mList.get(4).tagName); diamond[5].setText(mList.get(5).tagName); diamond[6].setText(mList.get(6).tagName); diamond[7].setText(mList.get(7).tagName);
             }
 
             @Override
@@ -121,31 +125,14 @@ public class SearchHashFragment extends Fragment implements View.OnClickListener
 
     @Override
     public void onClick(View v) {
-        switch(v.getId()){
-            case R.id.diamond1:
-                searchEdit.setText(diamond1.getText().toString());
-                break;
-            case R.id.diamond2:
-                searchEdit.setText(diamond2.getText().toString());
-                break;
-            case R.id.diamond3:
-                searchEdit.setText(diamond3.getText().toString());
-                break;
-            case R.id.diamond4:
-                searchEdit.setText(diamond4.getText().toString());
-                break;
-            case R.id.diamond5:
-                searchEdit.setText(diamond5.getText().toString());
-                break;
-            case R.id.diamond6:
-                searchEdit.setText(diamond6.getText().toString());
-                break;
-            case R.id.diamond7:
-                searchEdit.setText(diamond7.getText().toString());
-                break;
-            case R.id.diamond8:
-                searchEdit.setText(diamond8.getText().toString());
-                break;
+        for(int i=0; i<8; i++) {
+            if (v.getId() == diamond[i].getId()) {
+                searchEdit.setText(diamond[i].getText().toString());
+                ViewCompat.setBackgroundTintList(diamond[i], ColorStateList.valueOf(Color.parseColor("#07C87B")));
+            }
+            else{
+                ViewCompat.setBackgroundTintList(diamond[i], ColorStateList.valueOf(Color.parseColor("#F1F4F9")));
+            }
         }
     }
 }
