@@ -294,7 +294,13 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
         }
+        myviewpager.postDelayed(new Runnable() {
 
+            @Override
+            public void run() {
+                if(viewitem!=null)myviewpager.setCurrentItem(viewitem);
+            }
+        }, 100);
         if(viewitem!=null)Log.i("test",viewitem.toString());
 
 
