@@ -28,6 +28,9 @@ public class MainActivity extends AppCompatActivity {
     Fragment makeFragment;
     TokenManager tokenManager;
 
+    private long backKeyPressedTime = 0;
+    private Toast toast;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,19 +58,18 @@ public class MainActivity extends AppCompatActivity {
                 switch (item.getItemId()) {
                     case R.id.navigation_home:
                         getSupportFragmentManager().beginTransaction().replace(R.id.container, homeFragment).commit();
-
                         Log.i(TAG,"home");
                         break;
                     case R.id.navigation_search:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,searchFragment).commit();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container,searchFragment).commit();
                         Log.i(TAG,"search");
                         break;
                     case R.id.navigation_my:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,myFragment).commit();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container,myFragment).commit();
                         Log.i(TAG,"my");
                         break;
                     case R.id.navigation_make:
-                        getSupportFragmentManager().beginTransaction().replace(R.id.container,makeFragment).commit();
+                        getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.container,makeFragment).commit();
                         Log.i(TAG,"make");
                         break;
                 }
@@ -84,8 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-         super.onBackPressed();
-
+        super.onBackPressed();
     }
 
     @Override
