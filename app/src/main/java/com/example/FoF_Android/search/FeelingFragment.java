@@ -48,8 +48,6 @@ public class FeelingFragment extends Fragment {
     List<String> imageUrl = new ArrayList<>();
     List<CategoryMeme.Data.MemeList> mList = new ArrayList<>();
 
-
-
     public FeelingFragment(int idx) {
         CategoryIdx = idx;
     }
