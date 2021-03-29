@@ -19,6 +19,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.viewpager.widget.ViewPager;
 import androidx.viewpager2.widget.ViewPager2;
 
 import com.example.FoF_Android.HttpClient;
@@ -51,7 +52,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     List<Meme.Data> items;
     Integer cposition;
     Integer viewitem;
-
+    Integer i=1;
+    Integer j=1;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -86,6 +88,29 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         gettoken=new TokenManager(getContext());
 
         myviewpager=view.findViewById(R.id.myviewpager);
+        myviewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                Log.i("main","현재위치"+position);
+                if(position==9) initPagerUI(i++);
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+        recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
+            @Override
+            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
+                super.onScrolled(recyclerView, dx, dy);
+            }
+        });
         myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -118,7 +143,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             case 0 :
                 tabid=0;
                 container.setVisibility(View.GONE);
-                initPagerUI();
+                initPagerUI(i);
                 pagercontainer.setVisibility(View.VISIBLE);
                 myviewpager.postDelayed(new Runnable() {
 
@@ -184,13 +209,13 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         });
 
     }
-    private void initPagerUI() {
+    private void initPagerUI(int i) {
         HttpClient client=new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
         String token = gettoken.checklogin(getContext());
         Integer idx= gettoken.checkIdx(getContext());
         System.out.println("확인"+token);
-        Call<MemeResponse> call = api.getdata(token,"recommend",1,20);
+        Call<MemeResponse> call = api.getdata(token,"recommend",i,10);
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
@@ -223,7 +248,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                         }
                     });
                     myviewpager.setOnTouchListener(gestureListener);
-                    myviewpager.setOffscreenPageLimit(5);
+                    myviewpager.setOffscreenPageLimit(10);
                     myviewpager.setAdapter(padapter);
 
                     // setupCurrentIndicator(0);
@@ -290,6 +315,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     @Override
     public void onResume() {
         super.onResume();
+
+        i=1;
         if(tabid!=3) {setCurrentTabFragment(tabid,view);
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
