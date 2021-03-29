@@ -5,6 +5,7 @@ import android.media.session.MediaSession;
 import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
 import androidx.viewpager.widget.PagerAdapter;
 import androidx.viewpager.widget.ViewPager;
 
@@ -40,11 +41,13 @@ public class FeelingFragment extends Fragment {
     TokenManager gettoken;
     int CategoryIdx;
     ViewPager imageViewPager;
-
+    View view;
+    UltraViewPager ultraViewPager;
 
     int memeIdx[] = new int[5];
     List<String> imageUrl = new ArrayList<>();
-    int view[] = new int[5];
+    List<CategoryMeme.Data.MemeList> mList = new ArrayList<>();
+
 
 
     public FeelingFragment(int idx) {
@@ -63,25 +66,33 @@ public class FeelingFragment extends Fragment {
                              Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_feeling, container, false);
+        ultraViewPager = (UltraViewPager)view.findViewById(R.id.ultra_viewpager);
         getRank(api, view);
-
         return view;
+    }
+
+    @Override
+    public void onResume() {
+        super.onResume();
     }
 
     public void getRank(RetrofitApi api, View innerview){
         String token = gettoken.checklogin(getContext());
         imageUrl.clear();
+        mList.clear();
+        FragmentManager manager = getFragmentManager();
         api.getRank(token, CategoryIdx).enqueue(new Callback<CategoryMeme>() {
             @Override
             public void onResponse(Call<CategoryMeme> call, Response<CategoryMeme> response) {
                 CategoryMeme ctm = response.body();
                 for(int i=0; i< ctm.getData().getMemeList().size(); i++){
+                    if(i >= 5)
+                        break;
                     memeIdx[i] = ctm.getData().getMemeList().get(i).getMemeIdx();
-                    imageUrl.add(ctm.getData().getMemeList().get(i).getImageUrl());
-                    view[i] = ctm.getData().getMemeList().get(i).getView();
-                    UltraViewPager ultraViewPager = (UltraViewPager)innerview.findViewById(R.id.ultra_viewpager);
+                    mList.add(ctm.getData().getMemeList().get(i));
+
                     ultraViewPager.setScrollMode(UltraViewPager.ScrollMode.HORIZONTAL);
-                    PagerAdapter adapter = new RankPagerAdapter(true, imageUrl);
+                    PagerAdapter adapter = new RankPagerAdapter(true, mList, manager);
                     ultraViewPager.setBackgroundResource(R.drawable.backgroundgra);
                     ultraViewPager.setAdapter(adapter);
                     ultraViewPager.setMultiScreen(0.6f);
@@ -99,7 +110,9 @@ public class FeelingFragment extends Fragment {
                     ultraViewPager.getIndicator().setGravity(Gravity.CENTER_HORIZONTAL | Gravity.BOTTOM);
                     ultraViewPager.getIndicator().build();
                     ultraViewPager.setInfiniteLoop(false);
+
                     adapter.notifyDataSetChanged();
+
                 }
 
             }
