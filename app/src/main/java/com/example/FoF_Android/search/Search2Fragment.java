@@ -34,7 +34,7 @@ import retrofit2.Response;
  * Use the {@link Search2Fragment#newInstance} factory method to
  * create an instance of this fragment.
  */
-public class Search2Fragment extends Fragment implements {
+public class Search2Fragment extends Fragment {
 
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
@@ -148,7 +148,7 @@ public class Search2Fragment extends Fragment implements {
                     }
                 });
                 mRecyclerView.addOnScrollListener(scrollListener);
-                
+
             }
 
             @Override
