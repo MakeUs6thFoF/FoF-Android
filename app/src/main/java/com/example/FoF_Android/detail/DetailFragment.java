@@ -270,9 +270,14 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
     }
 public void newhash(){
-    HashClickFragment hashclick= HashClickFragment.newInstance(array[position]);
-    hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
-    getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).replace(R.id.container, hashclick).commit();
+        String hashsearch="";
+        if(position!=0) hashsearch=array[position];
+        else {
+            hashsearch=array[position].replaceFirst("#","");
+        }
+        HashClickFragment hashclick= HashClickFragment.newInstance(hashsearch);
+        hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+        getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).replace(R.id.container, hashclick).commit();
 
 }
 

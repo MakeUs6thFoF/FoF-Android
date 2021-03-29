@@ -50,10 +50,7 @@ import com.example.FoF_Android.dialog.ModifyDialog;
 import com.example.FoF_Android.dialog.ReportDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
-import com.example.FoF_Android.myapplication;
-import com.example.FoF_Android.search.HashClickFragment;
-import com.example.FoF_Android.search.HashTag;
-import com.example.FoF_Android.search.HashTagAdapter;
+
 import com.example.FoF_Android.signup.SignUp;
 
 import java.io.BufferedInputStream;
@@ -66,6 +63,7 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.List;
 
 import de.hdodenhof.circleimageview.CircleImageView;
@@ -84,6 +82,8 @@ public class MemePagerAdapter extends PagerAdapter {
     private View.OnClickListener mPositiveListener;
     private View.OnClickListener mNegativeListener;
     Integer thisposition;
+    private long baseId = 0;
+    private ArrayList<View> views = new ArrayList<View>();
     ImageButton copy,send;
     FrameLayout report;
     ToggleButton like_btn;
@@ -91,9 +91,6 @@ public class MemePagerAdapter extends PagerAdapter {
     String token;
     Integer useridx;
     View.OnClickListener mModifyListener;
-    private static final int SWIPE_MIN_DISTANCE = 120;
-    private static final int SWIPE_MAX_OFF_PATH = 250;
-    private static final int SWIPE_THRESHOLD_VELOCITY = 200;
 
     private MemePagerAdapter.OnItemClickListener mListener = null;
     private MemePagerAdapter.OnTouchListener gestureListener = null;
@@ -136,8 +133,7 @@ public class MemePagerAdapter extends PagerAdapter {
         String hashtag=items.get(position).getTag();
         if(hashtag!=null){
         String[] array = hashtag.split(",");
-        //     next= (View)view.findViewById(R.id.next);
-        //   prev= (View)view.findViewById(R.id.prev);
+
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, LayoutParams.MATCH_PARENT);
         params.width=pixelw;
@@ -162,7 +158,11 @@ public class MemePagerAdapter extends PagerAdapter {
                 @Override
                 public void onClick(View v) {
                     if(mListener != null)
-                        mListener.onItemClick(v, array[finalI1]);
+                        if(finalI1!=0) mListener.onItemClick(v, array[finalI1]);
+                        else {
+                            String category=array[finalI1].replaceFirst("#","");
+                            mListener.onItemClick(v, category);
+                        }
                 }
             });
 
@@ -264,21 +264,6 @@ public class MemePagerAdapter extends PagerAdapter {
 
     }
 
-
-    @Override
-    public int getCount() {
-        return items.size();
-    }
-
-    @Override
-    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
-        container.removeView((View)object);
-    }
-
-    @Override
-    public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
-        return (view == (View)o);
-    }
 
     public void calldialog(Dialog reportDialog){
         reportDialog.setCancelable(true);
@@ -403,7 +388,9 @@ public class MemePagerAdapter extends PagerAdapter {
                 deleteDialog.dismiss();
                 deletememe(thisposition);
                 boolean remove = items.remove(thisposition);
+
                 Log.i("Mane"," "+remove);
+                Toast.makeText(context,"삭제되었습니다." , Toast.LENGTH_LONG).show();
                 notifyDataSetChanged();
 
             }
@@ -429,7 +416,34 @@ public class MemePagerAdapter extends PagerAdapter {
             }
         });
     }
-    public int getItemPosition(Object object) {
-        return POSITION_NONE;
+
+    //this is called when notifyDataSetChanged() is called
+    @Override
+    public int getItemPosition (Object object)
+    {
+        int index = views.indexOf (object);
+        if (index == -1)
+            return POSITION_NONE;
+        else
+            return index;
     }
+
+
+
+
+    @Override
+    public int getCount() {
+        return items.size();
+    }
+
+    @Override
+    public void destroyItem(@NonNull ViewGroup container, int position, @NonNull Object object) {
+        container.removeView((View)object);
+    }
+
+    @Override
+    public boolean isViewFromObject(@NonNull View view, @NonNull Object o) {
+        return (view == (View)o);
+    }
+
 }
