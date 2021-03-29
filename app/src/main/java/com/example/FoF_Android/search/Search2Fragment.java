@@ -163,4 +163,6 @@ public class Search2Fragment extends Fragment {
         page++;
         return page;
     }
+
+
 }
