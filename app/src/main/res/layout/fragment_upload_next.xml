@@ -166,7 +166,7 @@
             android:layout_height="wrap_content"
             android:text="해시태그" />
 
-        <com.example.FoF_Android.make.HashTagEditTextView
+        <EditText
             style="@style/basic_16dp"
             android:id="@+id/hashtag"
             android:layout_width="match_parent"

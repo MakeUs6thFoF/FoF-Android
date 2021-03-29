@@ -91,6 +91,7 @@ public class MemePagerAdapter extends PagerAdapter {
     String token;
     Integer useridx;
     View.OnClickListener mModifyListener;
+
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -181,6 +182,26 @@ public class MemePagerAdapter extends PagerAdapter {
                 .error(R.drawable.placeholder)
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
                 .into(memeimg);
+
+        mNegativeListener = new View.OnClickListener() {
+            public void onClick(View v) {
+
+                deleteDialog.dismiss();
+                deletememe(position);
+                items.remove(position);
+                notifyDataSetChanged();
+            }
+        };
+        mPositiveListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                selectDialog.dismiss();
+                Log.i("test",items.get(position).getTag()+position);
+                deleteDialog= new DeleteDialog(context,items.get(position).getMemeIdx(),mNegativeListener);
+                deleteDialog.setCancelable(true);
+                deleteDialog.getWindow().setGravity(Gravity.CENTER);
+                deleteDialog.show();
+            }
+        };
 
         copyright.setText(items.get(position).getCopyright());
         copyright.setOnClickListener(new View.OnClickListener() {
@@ -387,22 +408,8 @@ public class MemePagerAdapter extends PagerAdapter {
                 }
 
         });
-        mPositiveListener = new View.OnClickListener() {
-            public void onClick(View v) {
-                selectDialog.dismiss();
-                deleteDialog= new DeleteDialog(context,items.get(position).getMemeIdx(),mNegativeListener);
-                deleteDialog.setCancelable(true);
-                deleteDialog.getWindow().setGravity(Gravity.CENTER);
-                deleteDialog.show();
-            }
-        };
-        mNegativeListener = new View.OnClickListener() {
-            public void onClick(View v) {
-                deleteDialog.dismiss();
-                deletememe(position);
-                notifyDataSetChanged();
-            }
-        };
+
+
 
     }
     public void deletememe( int position){

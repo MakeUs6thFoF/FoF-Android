@@ -124,7 +124,12 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             }
         });
 
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
 
+            }
+        });
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

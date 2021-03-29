@@ -59,7 +59,7 @@ public class UploadNextFragment extends Fragment {
     String titles[] = new String[7];
     int titleIdx[] = new int[7];
     private int SELECT_FILE = 3;
-    HashTagEditTextView hashtag;
+    EditText hashtag;
     EditText title;
     EditText copyright;
     CognitoCachingCredentialsProvider credentialsProvider;
@@ -196,6 +196,18 @@ public class UploadNextFragment extends Fragment {
             }
         });
     }
+    public String[] getInsertTag(){
+        String[] temp = hashtag.getText().toString().split("#");
+        if(temp.length > 0) {
+            String[] result = new String[temp.length - 1];
+            for (int i = 0; i < result.length; i++) {
+                result[i] = temp[i + 1].trim();
+            }
+            return result;
+        }else{
+            return temp;
+        }
+    }
     public void setUpload(ViewGroup view){
         next=view.findViewById(R.id.next);
         next.setOnClickListener(new View.OnClickListener() {
@@ -210,8 +222,8 @@ public class UploadNextFragment extends Fragment {
 
                 String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+useridx.toString()+f.getName();
 
-                if(hashtag.getInsertTag()!=null)
-                    hashTagArray = hashtag.getInsertTag();
+                if(getInsertTag()!=null)
+                    hashTagArray = getInsertTag();
 
                 String selectedResult ="";
                 Integer categoryIdx=0;
