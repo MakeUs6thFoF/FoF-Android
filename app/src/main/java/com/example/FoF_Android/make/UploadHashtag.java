@@ -69,6 +69,13 @@ public class UploadHashtag extends AppCompatActivity {
                         if(response.isSuccessful()){
                             UpHashSearch tag = response.body();
                             List<UpHashSearch.Data> items=tag.getData();
+                            UpHashSearch type =new UpHashSearch();
+                            UpHashSearch.Data item=type.new Data();
+                            String hashtype = hashtag.getText().toString().replaceFirst("#","");
+                            if(!hashtype.replace(" ","").equals("")){
+                                item.setTagName(hashtype); item.setTagIdx(0);
+                                items.add(0,item);
+                            }
                             Log.i("Upload",tag.getMessage());
                         if(tag!=null){
                             RecyclerView mRecyclerView = findViewById(R.id.hashtag_recycler);
@@ -94,7 +101,7 @@ public class UploadHashtag extends AppCompatActivity {
                                         btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
                                         btn[i].setBackgroundResource(R.color.green);
                                         btn[i].setIncludeFontPadding(false);
-                                        btn[i].setPadding(5,8,5,0);
+                                        btn[i].setPadding(8,8,8,0);
                                         btn[i].setTextAppearance(R.style.basic_12dp_black);
                                         btn[i].setId(i);
                                         Tag.addView(btn[i]);

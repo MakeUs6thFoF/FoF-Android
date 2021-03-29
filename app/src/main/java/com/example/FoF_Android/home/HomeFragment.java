@@ -83,9 +83,10 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         recycle = view.findViewById((R.id.recycler));
+        myviewpager=view.findViewById(R.id.myviewpager);
         gettoken=new TokenManager(getContext());
 
-        myviewpager=view.findViewById(R.id.myviewpager);
+
         myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -118,21 +119,14 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             case 0 :
                 tabid=0;
                 container.setVisibility(View.GONE);
-                //initPagerUI();
+               // initPagerUI();
                 pagercontainer.setVisibility(View.VISIBLE);
-                myviewpager.postDelayed(new Runnable() {
-
-                    @Override
-                    public void run() {
-                        if(viewitem!=null)myviewpager.setCurrentItem(viewitem);
-                    }
-                }, 100);
                 break;
             case 1 :
                 tabid=1;
                 viewitem = myviewpager.getCurrentItem();
                 container.setVisibility(View.VISIBLE);
-                //initUI();
+               // initUI();
                 pagercontainer.setVisibility(View.GONE);
                 break;
         }

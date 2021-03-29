@@ -127,7 +127,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         back.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                fragmentManager.beginTransaction().remove(DetailFragment.this).commit();
+                fragmentManager.popBackStack();
             }
         });
         copy.setOnClickListener(new View.OnClickListener() {
@@ -184,7 +186,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 Intent modifyintent = new Intent(getContext(), ModifyCopyrightActivity.class);
 
                 modifyintent.putExtra("memeIdx", items.get(position).getMemeIdx());
-                startActivityForResult(Intent.createChooser(modifyintent, "Select File"), SELECT_FILE);
+                startActivityForResult(modifyintent, SELECT_FILE);
                 // Intent intent = new Intent(    , Register.class);
 
                 modifyDialog.dismiss();
@@ -288,29 +290,33 @@ public void newhash(){
                     RecyclerView similar = view.findViewById(R.id.similar);
                     StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                     similar.setLayoutManager(layoutManager);
-                    items = response.body().getdata().getData();
-                    detail = response.body().getdata().getDetail();
+                    if(response.body().getdata()!=null){
+                        items = response.body().getdata().getData();
+                        detail = response.body().getdata().getDetail();
 
-                    Log.i("TAG", "onResponse: " + detail.getMemeTitle());
-                    SimilarAdapter adaptersim = new SimilarAdapter(getContext(), items);
-                    adaptersim.setOnItemClickListener(new SimilarAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View v, int position) {
+                        Log.i("TAG", "onResponse: " + detail.getMemeTitle());
+                        SimilarAdapter adaptersim = new SimilarAdapter(getContext(), items);
+                        adaptersim.setOnItemClickListener(new SimilarAdapter.OnItemClickListener() {
+                            @Override
+                            public void onItemClick(View v, int position) {
 
-                            DetailFragment detail = new DetailFragment(position);
+                                DetailFragment detail = new DetailFragment(position);
 
-                            detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
-                            detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
+                                detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
+                                detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
 
-                            getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
-                                    .setReorderingAllowed(true)
-                                    .addToBackStack(null).add(R.id.container, detail).commit();
+                                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
+                                        .setReorderingAllowed(true)
+                                        .addToBackStack(null).add(R.id.container, detail).commit();
                         }
                     });
                     similar.setAdapter(adaptersim);
 
                     setUI();
                     // setupCurrentIndicator(0);
+                        }else     {getActivity().getSupportFragmentManager().popBackStack();
+
+                        Toast.makeText(getContext(), "밈이 삭제됐어요", Toast.LENGTH_SHORT).show();}
                 } else
                     Log.i("TAG", "onResponse: " + response.code());
             }

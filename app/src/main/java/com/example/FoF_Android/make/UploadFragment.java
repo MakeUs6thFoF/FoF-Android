@@ -25,6 +25,7 @@ import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.FoF_Android.R;
@@ -54,7 +55,7 @@ public class UploadFragment extends Fragment {
     boolean result;
     ByteArrayOutputStream stream;
     private int SELECT_FILE = 3;
-    private   LogoutDialog logoutDialog;
+    private LogoutDialog logoutDialog;
     private String userChoosenTask;
     public UploadFragment() {
         // Required empty public constructor
@@ -79,7 +80,7 @@ public class UploadFragment extends Fragment {
         cancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(in!=null) {
+                if(wrap.getVisibility()==View.GONE) {
                     logoutDialog = new LogoutDialog(1, getContext(), mnegativtlistenr);
                     logoutDialog.setCancelable(true);
                     logoutDialog.getWindow().setGravity(Gravity.CENTER);
@@ -92,14 +93,15 @@ public class UploadFragment extends Fragment {
         next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                if(in!=null){
+                if(wrap.getVisibility()==View.GONE){
                 Log.i("dkdk", f.getName());
                 UploadNextFragment detail = new UploadNextFragment(f);
                 getFragmentManager().beginTransaction()
                         .setReorderingAllowed(true)
                         .addToBackStack(null).add(R.id.container, detail).commit();
 
-            }}
+            }else Toast.makeText(getContext(), "사진을 업로드해 주세요", Toast.LENGTH_SHORT).show();
+            }
         });
 
         image=(Button)view.findViewById(R.id.image_btn);
