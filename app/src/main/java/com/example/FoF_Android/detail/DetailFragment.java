@@ -41,6 +41,7 @@ import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
 import com.example.FoF_Android.detail.model.Similar;
+import com.example.FoF_Android.dialog.ModifyCopyrightActivity;
 import com.example.FoF_Android.dialog.ModifyDialog;
 import com.example.FoF_Android.home.HashClickFragment;
 import com.example.FoF_Android.home.MemeAllAdapter;
@@ -59,9 +60,11 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
+import static com.example.FoF_Android.make.UploadNextFragment.RESULT_CODE;
 
 public class DetailFragment extends Fragment implements OnBackPressed {
     RetrofitApi api;
+    private int SELECT_FILE = 3;
     RecyclerView similar;
     private ModifyDialog modifyDialog;
     private SelectDialog selectDialog;
@@ -79,7 +82,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     Integer position=0;
     Uri myurl=null;
     private Integer i=0;
-
+    View.OnClickListener mModifyListener;
     String[] array;
     public DetailFragment(int i) {
         this.i=i;
@@ -167,10 +170,21 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         copyright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifyDialog = new ModifyDialog(getContext(),detail.getCopyright(),detail.getMemeIdx()); // 왼쪽 버튼 이벤트
+                modifyDialog = new ModifyDialog(getContext(),detail.getCopyright(),detail.getMemeIdx(),mModifyListener); // 왼쪽 버튼 이벤트
                 calldialog(modifyDialog);
             }
         });
+          mModifyListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent modifyintent = new Intent(getContext(), ModifyCopyrightActivity.class);
+
+                modifyintent.putExtra("memeIdx", items.get(position).getMemeIdx());
+                startActivityForResult(Intent.createChooser(modifyintent, "Select File"), SELECT_FILE);
+                // Intent intent = new Intent(    , Register.class);
+
+                modifyDialog.dismiss();
+            }};
+
         report.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -389,4 +403,13 @@ public void newhash(){
             }
         });
     }
-}
+    @Override
+    public void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if(requestCode == 3 && resultCode == RESULT_CODE) {
+            String testResult = data.getStringExtra("tagname");
+            copyright.setText("(C) "+testResult+" all rights rserved.");
+        }
+
+
+    }}

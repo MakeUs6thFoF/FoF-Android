@@ -90,7 +90,7 @@ public class MemePagerAdapter extends PagerAdapter {
     TokenManager gettoken;
     String token;
     Integer useridx;
-
+    View.OnClickListener mModifyListener;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -186,10 +186,22 @@ public class MemePagerAdapter extends PagerAdapter {
         copyright.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                modifyDialog = new ModifyDialog(context,items.get(position).getCopyright(),items.get(position).getMemeIdx()); // 왼쪽 버튼 이벤트
-                calldialog(modifyDialog);
+               // modifyDialog = new ModifyDialog(context,items.get(position).getCopyright(),items.get(position).getMemeIdx(),mModifyListener); // 왼쪽 버튼 이벤트
+                //calldialog(modifyDialog);
             }
         });
+
+        mModifyListener = new View.OnClickListener() {
+            public void onClick(View v) {
+                Intent modifyintent=new Intent(context, ModifyCopyrightActivity.class);
+
+                modifyintent.putExtra("memeIdx",items.get(position).getMemeIdx());
+                context.startActivity(modifyintent);
+                // Intent intent = new Intent(    , Register.class);
+
+                modifyDialog.dismiss();
+            }
+        };
         nick.setText(items.get(position).getNickname());
         Glide.with(context)
                 .load(items.get(position).getProfileImage())
@@ -391,8 +403,8 @@ public class MemePagerAdapter extends PagerAdapter {
                 notifyDataSetChanged();
             }
         };
-    }
 
+    }
     public void deletememe( int position){
         RetrofitApi api = HttpClient.getRetrofit().create(RetrofitApi.class);
         gettoken=new TokenManager(context);

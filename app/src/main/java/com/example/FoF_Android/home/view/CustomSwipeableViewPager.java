@@ -9,6 +9,8 @@ import android.view.View;
 import androidx.core.view.GestureDetectorCompat;
 import androidx.viewpager.widget.ViewPager;
 
+import static androidx.viewpager.widget.PagerAdapter.POSITION_NONE;
+
 public class CustomSwipeableViewPager extends ViewPager {
 
 
@@ -74,5 +76,8 @@ public class CustomSwipeableViewPager extends ViewPager {
             return false;
         }
     };
+    public int getItemPosition(Object object) {
+        return POSITION_NONE;
+    }
 
 }
