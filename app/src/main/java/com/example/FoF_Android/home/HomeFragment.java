@@ -83,10 +83,9 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         recycle = view.findViewById((R.id.recycler));
-        myviewpager=view.findViewById(R.id.myviewpager);
         gettoken=new TokenManager(getContext());
 
-
+        myviewpager=view.findViewById(R.id.myviewpager);
         myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -113,20 +112,27 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
         pagercontainer=(FrameLayout)view.findViewById(R.id.pagercontainer);
         container=(FrameLayout)view.findViewById(R.id.container);
-      //  container.setVisibility(View.GONE);
+        //  container.setVisibility(View.GONE);
         switch (position)
         {
             case 0 :
                 tabid=0;
                 container.setVisibility(View.GONE);
-               // initPagerUI();
+                initPagerUI();
                 pagercontainer.setVisibility(View.VISIBLE);
+                myviewpager.postDelayed(new Runnable() {
+
+                    @Override
+                    public void run() {
+                        if(viewitem!=null)myviewpager.setCurrentItem(viewitem);
+                    }
+                }, 100);
                 break;
             case 1 :
                 tabid=1;
                 viewitem = myviewpager.getCurrentItem();
                 container.setVisibility(View.VISIBLE);
-               // initUI();
+                initUI();
                 pagercontainer.setVisibility(View.GONE);
                 break;
         }
@@ -194,7 +200,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                     Log.i("TAG", "onResponse: "+pitems.size());
 
                     padapter=new MemePagerAdapter(getContext(),idx,pitems,HomeFragment.this::onClick);
-                  //  myviewpager.setOnDragListener();
+                    //  myviewpager.setOnDragListener();
                     padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
                         @Override
                         public void onItemClick(View v, String position) {
@@ -207,13 +213,13 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
                     gestureDetector = new GestureDetector(getContext(), new MyGestureDetector());
 
-            
+
                     padapter.setOnTouchListener(new MemePagerAdapter.OnTouchListener() {
                         @Override
                         public boolean onTouch(View v, Integer position, MotionEvent event) {
                             cposition=position;
                             view1=v;
-                          return gestureDetector.onTouchEvent(event);
+                            return gestureDetector.onTouchEvent(event);
                         }
                     });
                     myviewpager.setOnTouchListener(gestureListener);
@@ -266,7 +272,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
 
                 } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                  //  Toast.makeText(getContext(), "Right Swipe"+cposition, Toast.LENGTH_SHORT).show();
+                    //  Toast.makeText(getContext(), "Right Swipe"+cposition, Toast.LENGTH_SHORT).show();
                 }
             } catch (Exception e) {
                 // nothing
@@ -288,9 +294,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
         }
-        initPagerUI();
-        initUI();
+
         if(viewitem!=null)Log.i("test",viewitem.toString());
 
 
-}}
+    }}
