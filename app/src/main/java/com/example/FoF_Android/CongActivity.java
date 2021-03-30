@@ -24,6 +24,7 @@ public class CongActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent loginintent = new Intent(CongActivity.this, LoginActivity.class);
                 startActivity(loginintent);
+                finish();
             }
         });
 
