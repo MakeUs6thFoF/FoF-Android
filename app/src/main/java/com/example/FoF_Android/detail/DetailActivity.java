@@ -153,20 +153,20 @@ public class DetailActivity extends AppCompatActivity  {
         TokenManager gettoken = new TokenManager(DetailActivity.this);
         String token = gettoken.checklogin(DetailActivity.this);
         System.out.println("확인" + token);
-        Call<Detail> call = api.getsimilar(token, i);
+        Call<Detail> call = api.getdetail(token, i);
         call.enqueue(new Callback<Detail>() {
             @Override
             public void onResponse(Call<Detail> call, Response<Detail> response) {
                 if (response.isSuccessful()) {
-                    RecyclerView similar =findViewById(R.id.similar);
-                    StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                    similar.setLayoutManager(layoutManager);
-                    items = response.body().getdata().getData();
+                    //RecyclerView similar =findViewById(R.id.similar);
+                   // StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                   // similar.setLayoutManager(layoutManager);
+                   // items = response.body().getdata().getData();
                     detail = response.body().getdata().getDetail();
 
                     Log.i("TAG", "onResponse: " + detail.getMemeTitle());
-                    SimilarAdapter adaptersim = new SimilarAdapter(DetailActivity.this, items);
-                    similar.setAdapter(adaptersim);
+                   // SimilarAdapter adaptersim = new SimilarAdapter(DetailActivity.this, items);
+                    //similar.setAdapter(adaptersim);
                     setUI();
                     // setupCurrentIndicator(0);
                 } else

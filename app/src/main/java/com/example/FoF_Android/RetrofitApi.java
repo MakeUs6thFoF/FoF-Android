@@ -2,6 +2,7 @@ package com.example.FoF_Android;
 
 import com.example.FoF_Android.Category.Category;
 
+import com.example.FoF_Android.detail.model.Similar;
 import com.example.FoF_Android.dialog.model.Copyright;
 import com.example.FoF_Android.detail.model.Detail;
 import com.example.FoF_Android.detail.model.Like;
@@ -94,10 +95,12 @@ public interface RetrofitApi {
     @PATCH("/meme/{memeidx}/copyright")
     Call<Copyright> modifycopy(@Header("x-access-token") String token, @Path("memeidx") Integer memeidx, @Field("copyright") String copyright);
 
-
     @GET("/meme/{memeidx}")
-    Call<Detail> getsimilar(@Header("x-access-token") String token,
+    Call<Detail> getdetail(@Header("x-access-token") String token,
                             @Path("memeidx") Integer memeidx);
+    @GET("/meme/{memeidx}/similar?")
+    Call<Similar> getsimilar(@Header("x-access-token") String token,
+                             @Path("memeidx") Integer memeidx, @Query("page") Integer page, @Query("size") Integer size);
     @DELETE("/meme/{memeidx}")
     Call<SignUp> deleteMeme(@Header("x-access-token") String token,
                             @Path("memeidx") Integer memeidx);
