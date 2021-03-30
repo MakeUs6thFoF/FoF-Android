@@ -135,10 +135,10 @@ public class MemePagerAdapter extends PagerAdapter {
         String[] array = hashtag.split(",");
 
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, LayoutParams.MATCH_PARENT);
-        params.width=pixelw;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
+     //   params.width=pixelw;
         params.height=pixelh;
-        params.rightMargin=4;
+        params.rightMargin=8;
         params.gravity=Gravity.CENTER;
         for (int i = 0; i < array.length; i++) {
             btn[i] = new TextView(context);
@@ -147,10 +147,10 @@ public class MemePagerAdapter extends PagerAdapter {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(0,pixelb,0,0);
+            btn[i].setPadding(30,pixelb,30,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
-            if (i < 4) {
+            if (i < 5) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
             int finalI1 = i;
@@ -239,10 +239,11 @@ public class MemePagerAdapter extends PagerAdapter {
                // Bitmap drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
             //    Uri myurl=getImageUri(context, drawable);
                 Uri copyuri = Uri.parse(items.get(position).getImageUrl());
-
+                Bitmap drawable=null;
+                drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
                 //  String name=saveBitmapToJpeg(context,drawable,"임시");
-
-
+                Uri myurl=null;
+                myurl=getImageUri(context, drawable);
                 Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });

@@ -149,12 +149,12 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent appIntent = new Intent(Intent.ACTION_VIEW, Uri.parse(items.get(position).getImageUrl()));
-                ClipboardManager clipboard = (ClipboardManager)getContext().getSystemService(Context.CLIPBOARD_SERVICE);
-                ClipData clip = ClipData.newIntent("Intent",appIntent);
-                clipboard.setPrimaryClip(clip);
+                Uri copyuri = Uri.parse(items.get(position).getImageUrl());
                 Bitmap drawable=null;
                 drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
+                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+                Uri myurl=null;
+                myurl=getImageUri(getContext(), drawable);
                 Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -248,10 +248,10 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         int pixelw = (int) (66 * factor + 0.5f);
         int pixelh = (int) (26 * factor + 0.5f);
 
-        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(pixelw, ViewGroup.LayoutParams.MATCH_PARENT);
-        params.width=pixelw;
+        LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
+      //  params.width=pixelw;
         params.height=pixelh;
-        params.rightMargin=4;
+        params.rightMargin=8;
         params.gravity= Gravity.CENTER;
 
         for (int i = 0; i < array.length; i++) {
@@ -261,7 +261,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(0,8,0,0);
+            btn[i].setPadding(30,8,30,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
             if (i < 4) {
