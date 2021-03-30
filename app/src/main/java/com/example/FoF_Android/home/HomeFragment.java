@@ -372,7 +372,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     public void onResume() {
         super.onResume();
         if(pitems!=null) setPageradapter(pitems);
-        else initPagerUI(i);
+        else {i=1; initPagerUI(i);}
         if(tabid!=3) {setCurrentTabFragment(tabid,view);
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
