@@ -41,6 +41,7 @@ import com.example.FoF_Android.dialog.LogoutDialog;
 import com.example.FoF_Android.dialog.ProfileImgDialog;
 import com.example.FoF_Android.make.RealPathUtil;
 import com.example.FoF_Android.make.Utility;
+import com.example.FoF_Android.search.EndlessScrollListener;
 import com.example.FoF_Android.search.HashSearch;
 import com.example.FoF_Android.search.HashSearchAdapter;
 import com.example.FoF_Android.search.HashTagAdapter;
@@ -79,6 +80,8 @@ public class MyFragment extends Fragment {
     private int uploadpage = 0;
     private boolean isLoading = false;
     private int SELECT_FILE = 3;
+    private List<UploadLike.Data> uploadList;
+    private List<UploadLike.Data> likeList;
     RetrofitApi api;
     TokenManager gettoken;
     String token;
@@ -295,14 +298,14 @@ public class MyFragment extends Fragment {
         }
     }
     public void getUploadData(RetrofitApi api, String token, View view){
-        uploadpage=1;
-        api.getUploadLike(token, "uploaded", uploadpage, 10).enqueue(new Callback<UploadLike>() {
+        uploadpage=0;
+        api.getUploadLike(token, "uploaded", getPage(0), 10).enqueue(new Callback<UploadLike>() {
             @Override
             public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
                 UploadLike body = response.body();
-                List<UploadLike.Data> mList = body.getData();
+                uploadList = body.getData();
 
-                mAdapter = new UploadLikeAdapter(mList, getContext());
+                mAdapter = new UploadLikeAdapter(uploadList, getContext());
                 // 먼저 업로드로 리사이클러뷰를 세팅
                 setUploadData(mAdapter);
             }
@@ -329,28 +332,27 @@ public class MyFragment extends Fragment {
             }
         });
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+            public void onRefresh(int pageNumber) {
+                api.getUploadLike(token, "uploaded", getPage(0), 10).enqueue(new Callback<UploadLike>() {
+                    @Override
+                    public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
+                        UploadLike body = response.body();
+                        for(int i=0; i < body.getData().size(); i++)
+                            uploadList.add(body.getData().get(i));
+                        mAdapter.notifyItemInserted(uploadList.size()-1);
+                        mAdapter.notifyDataSetChanged();
+                    }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int pastVisibleItems;
-                int[] firstVisibleItems = null;
+                    @Override
+                    public void onFailure(Call<UploadLike> call, Throwable t) {
 
-                // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
-                if(!isLoading){
-                    firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
-                    if(firstVisibleItems != null && firstVisibleItems.length > 0)
-                        pastVisibleItems = firstVisibleItems[0];
-                }
+                    }
+                });
             }
         });
+        mRecyclerView.addOnScrollListener(scrollListener);
     }
 
     public void getLikeData(RetrofitApi api, String token, View view){
@@ -359,8 +361,8 @@ public class MyFragment extends Fragment {
             @Override
             public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
                 UploadLike body = response.body();
-                List<UploadLike.Data> mList = body.getData();
-                mAdapter2 = new UploadLikeAdapter(mList, getContext());
+                likeList = body.getData();
+                mAdapter2 = new UploadLikeAdapter(likeList, getContext());
             }
 
             @Override
@@ -385,28 +387,27 @@ public class MyFragment extends Fragment {
             }
         });
 
-        mRecyclerView.addOnScrollListener(new RecyclerView.OnScrollListener() {
+        EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
             @Override
-            public void onScrollStateChanged(@NonNull RecyclerView recyclerView, int newState) {
-                super.onScrollStateChanged(recyclerView, newState);
-            }
+            public void onRefresh(int pageNumber) {
+                api.getUploadLike(token, "favorite", getPage(1), 10).enqueue(new Callback<UploadLike>() {
+                    @Override
+                    public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
+                        UploadLike body = response.body();
+                        for(int i=0; i < body.getData().size(); i++)
+                            likeList.add(body.getData().get(i));
+                        mAdapter2.notifyItemInserted(likeList.size()-1);
+                        mAdapter2.notifyDataSetChanged();
+                    }
 
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-                int visibleItemCount = layoutManager.getChildCount();
-                int totalItemCount = layoutManager.getItemCount();
-                int pastVisibleItems;
-                int[] firstVisibleItems = null;
+                    @Override
+                    public void onFailure(Call<UploadLike> call, Throwable t) {
 
-                // 스크롤시 로딩 구현예정 ( 이미지 많이 등록 후 실험 )
-                if(!isLoading){
-                    firstVisibleItems = layoutManager.findFirstVisibleItemPositions(firstVisibleItems);
-                    if(firstVisibleItems != null && firstVisibleItems.length > 0)
-                        pastVisibleItems = firstVisibleItems[0];
-                }
+                    }
+                });
             }
         });
+        mRecyclerView.addOnScrollListener(scrollListener);
     }
 
     public int getPage(int flag){
