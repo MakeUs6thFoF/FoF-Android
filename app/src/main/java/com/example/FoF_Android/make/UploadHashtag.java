@@ -83,8 +83,8 @@ public class UploadHashtag extends AppCompatActivity {
                             mRecyclerView.setLayoutManager(mLinearLayoutmanager);
                             madapter = new HashTagAdapter( items,UploadHashtag.this);
                             mRecyclerView.setAdapter(madapter);
-
-
+                            float factor = getResources().getDisplayMetrics().density;
+                            int pixelh = (int) (26 * factor + 0.5f);
                             madapter.setOnItemClickListener(new com.example.FoF_Android.make.HashTagAdapter.OnItemClickListener() {
                                 @Override
                                 public void onItemClick(View v, int position) {
@@ -94,6 +94,7 @@ public class UploadHashtag extends AppCompatActivity {
                                         String name="#"+tag.getData().get(position).getTagName();
                                         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
                                         params.rightMargin=4;
+                                        params.height=pixelh;
                                         params.gravity= Gravity.CENTER;
                                         btn[i] = new TextView(UploadHashtag.this);
                                         btn[i].setLayoutParams(params);
