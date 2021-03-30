@@ -209,7 +209,8 @@ public class UploadNextFragment extends Fragment {
         });
     }
     public String[] getInsertTag(){
-        String[] temp = hashtag.getText().toString().split("#");
+        String hashstring=hashtag.getText().toString().replace(" ","");
+        String[] temp = hashstring.split("#");
         if(temp.length > 0) {
             String[] result = new String[temp.length - 1];
             for (int i = 0; i < result.length; i++) {
