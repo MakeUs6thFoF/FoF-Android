@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
-class EndlessScrollListener extends RecyclerView.OnScrollListener {
+public class EndlessScrollListener extends RecyclerView.OnScrollListener {
     private boolean isLoading;
     private boolean hasMorePages;
     private int pageNumber = 0;
