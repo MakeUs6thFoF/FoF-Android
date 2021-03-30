@@ -252,7 +252,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                  items = response.body().getItems();
                  setadapter(items);
                 // 먼저 업로드로 리사이클러뷰를 세팅
-                initUI();
+               // initUI();
             }
             @Override
             public void onFailure(Call<MemeResponse> call, Throwable t) {

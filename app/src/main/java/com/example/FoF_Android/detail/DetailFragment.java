@@ -280,21 +280,21 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
 
     }
-public void newhash(){
-        String hashsearch="";
-        if(position!=0) hashsearch=array[position];
-        else {
-            hashsearch=array[position].replaceFirst("#","");
-        }
-        HashClickFragment hashclick= HashClickFragment.newInstance(hashsearch);
-        hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
-        getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).replace(R.id.container, hashclick).commit();
+    public void newhash(){
+            String hashsearch="";
+            if(position!=0) hashsearch=array[position];
+            else {
+                hashsearch=array[position].replaceFirst("#","");
+            }
+            HashClickFragment hashclick= HashClickFragment.newInstance(hashsearch);
+            hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+            getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).replace(R.id.container, hashclick).commit();
 
-}
+    }
 
     public void setDetailUI( int i) {
         HttpClient client = new HttpClient();
-         api = client.getRetrofit().create(RetrofitApi.class);
+        api = client.getRetrofit().create(RetrofitApi.class);
         TokenManager gettoken = new TokenManager(getContext());
         String token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
@@ -305,12 +305,8 @@ public void newhash(){
                 if (response.isSuccessful()) {
                     if(response.body().getdata()!=null){
                         detail = response.body().getdata().getDetail();
-
                         Log.i("TAG", "onResponse: " + detail.getMemeTitle());
-
-
-                    setUI();
-
+                        setUI();
                         }else     {getActivity().getSupportFragmentManager().popBackStack();
 
                         Toast.makeText(getContext(), "밈이 삭제됐어요", Toast.LENGTH_SHORT).show();}
@@ -346,7 +342,7 @@ public void newhash(){
             public void onResponse(Call<Similar> call, Response<Similar> response) {
                 items = response.body().getdata();
                 setSimilarAdapter(items);
-                plustSimilar();
+               // plustSimilar();
                 // 먼저 업로드로 리사이클러뷰를 세팅
             }
             @Override

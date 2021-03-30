@@ -17,6 +17,8 @@ import com.example.FoF_Android.R;
 import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.DetailFragment;
+import com.example.FoF_Android.detail.model.Similar;
+import com.example.FoF_Android.search.EndlessScrollListener;
 import com.example.FoF_Android.search.HashSearch;
 import com.example.FoF_Android.search.HashTagAdapter;
 import com.example.FoF_Android.search.MemeSearch;
@@ -33,12 +35,13 @@ public class HashClickFragment extends Fragment {
     private int page = 0;
     ImageView hashImage;
     TextView hashText;
+    private static final int MAX_SIZE = 20;
     TextView hashCnt;
     TokenManager gettoken;
-    RetrofitApi api;
+    RetrofitApi api;    String token;
     HashSearchAdapter mAdapter;
     RecyclerView mRecyclerView;
-    int memeCount;
+    int memeCount;    Integer j=0;
 
     List<MemeSearch.Data> memeList = new ArrayList<>();
 
@@ -70,8 +73,12 @@ public class HashClickFragment extends Fragment {
         if (getArguments() != null) {
 
             mParam2 = getArguments().getString(ARG_PARAM2);
-            api = HttpClient.getRetrofit().create(RetrofitApi.class);
-            gettoken = new TokenManager(getContext());
+            gettoken=new TokenManager(getContext());
+            token = gettoken.checklogin(getContext());
+            //   System.out.println("확인" + token);
+
+            HttpClient client = new HttpClient();
+            api = client.getRetrofit().create(RetrofitApi.class);
         }
     }
 
@@ -89,32 +96,23 @@ public class HashClickFragment extends Fragment {
 
         return view;
     }
-
+    public int getPage(int flag){
+        j ++;
+        return j;
+    }
     public void setRecyclerView(RetrofitApi api, View view){
-        String token = gettoken.checklogin(getContext());
+       token = gettoken.checklogin(getContext());
 
-        api.getSearchMeme(token, mParam2, 1, 50).enqueue(new Callback<MemeSearch>() {
+        api.getSearchMeme(token, mParam2,  getPage(0), 50).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
                 MemeSearch body = response.body();
                 memeList = body.getData();
                 memeCount = body.getData().size();
                 hashCnt.setText(String.valueOf(memeCount)+" 게시물"); //TODO 페이지네이션을 하면 게시물 숫자가 안맞음...
-                mAdapter = new HashSearchAdapter(memeList, getContext());
-                StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                mRecyclerView.setLayoutManager(layoutManager);
-                mRecyclerView.setAdapter(mAdapter);
-
-                mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
-                    @Override
-                    public void onItemClick(View v, int position) {
-                        MemeSearch.Data item = mAdapter.getItem(position);
-                        DetailFragment detail = new DetailFragment(item.getMemeIdx());
-                        getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
-                                .setReorderingAllowed(true)
-                                .addToBackStack(null).replace(R.id.container, detail).commit();
-                    }
-                });
+                if(memeCount==50)  hashCnt.setText(String.valueOf(memeCount)+"+ 게시물");
+                setAdapter(memeList);
+                plushashtag();
             }
 
             @Override
@@ -123,10 +121,51 @@ public class HashClickFragment extends Fragment {
             }
         });
 
+}
+public  void plushashtag(){
+    setAdapter(memeList);
+    EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
+        @Override
+        public void onRefresh(int pageNumber) {
+            Call<MemeSearch> call = api.getSearchMeme(token, mParam2, getPage(0), MAX_SIZE); //page설정
+            call.enqueue(new Callback<MemeSearch>() {
+                @Override
+                public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
+                    if (response.isSuccessful()) {
+                        List<MemeSearch.Data> plusrecycler = response.body().getData();
+                        memeList.addAll(plusrecycler);
+                        mAdapter.notifyItemInserted(memeList.size() - 1);
+                        mAdapter.notifyDataSetChanged();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<MemeSearch> call, Throwable t) {
+                }
+            });
+        }
+    });
+    mRecyclerView.addOnScrollListener(scrollListener);
+}
 
 
-    }public int getPage(){
-        page++;
-        return page;
+
+public void setAdapter(List<MemeSearch.Data> pmemeList){
+
+        mAdapter = new HashSearchAdapter(pmemeList, getContext());
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        mRecyclerView.setLayoutManager(layoutManager);
+        mRecyclerView.setAdapter(mAdapter);
+
+        mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, int position) {
+                MemeSearch.Data item = mAdapter.getItem(position);
+                DetailFragment detail = new DetailFragment(item.getMemeIdx());
+                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
+                        .setReorderingAllowed(true)
+                        .addToBackStack(null).replace(R.id.container, detail).commit();
+            }
+        });
     }
 }
