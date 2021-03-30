@@ -1,13 +1,18 @@
 package com.example.FoF_Android.signup;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.recyclerview.widget.LinearLayoutManager;
 
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -28,13 +33,20 @@ public class SignUpActivity extends AppCompatActivity {
     Button signup_btn;
     TextView tv_email_check;
     TextView tv_pswd_check;
+    LinearLayout pswd_check;
+    TextView minimum_check;
+    TextView lower_check;
+    TextView number_check;
+    TextView special_check;
     TextView login_link;
     EditText ed_email;
     EditText ed_pswd;
     EditText ed_nick;
     Pattern pattern= Patterns.EMAIL_ADDRESS;
-    String pswd_pattern="^[A-Za-z0-9_@./#&+-]*.{8,20}$"; //수정해야함
+    String pswd_pattern="^[a-z0-9~`!@#$%\\^&*()-_]*.{8,20}$"; //수정해야함
     RetrofitApi api;
+
+    boolean flag1, flag2, flag3, flag4;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,6 +60,13 @@ public class SignUpActivity extends AppCompatActivity {
         ed_email = findViewById(R.id.ed_email);
         ed_pswd = findViewById(R.id.ed_pswd);
         ed_nick = findViewById(R.id.ed_nick);
+        pswd_check = findViewById(R.id.pswd_check);
+        minimum_check = findViewById(R.id.minimum_check);
+        lower_check = findViewById(R.id.lower_check);
+        number_check = findViewById(R.id.number_check);
+        special_check = findViewById(R.id.special_check);
+
+        flag1 = false; flag2 = false; flag3 = false; flag4 = false;
 
         api = HttpClient.getRetrofit().create(RetrofitApi.class);
 
@@ -65,32 +84,101 @@ public class SignUpActivity extends AppCompatActivity {
                 String pswd = ed_pswd.getText().toString();
                 String nickname = ed_nick.getText().toString();
 
-
-                if (!pattern.matcher(email).matches()) ;
-                else {
-                    tv_email_check.setVisibility(View.GONE);
+                if (pattern.matcher(email).matches() && (flag1 && flag2 && flag3 && flag4)){
                     doSignUp(email, pswd, nickname, api);
                 }
-                //TODO 데이터 전달
+                else {
+                    Toast.makeText(getApplicationContext(), "양식을 다시 한번 확인해주세요", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
+
+
         ed_email.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                String email = ed_email.getText().toString();
-                if (!pattern.matcher(email).matches()) tv_email_check.setVisibility(View.VISIBLE);
-                else {
+            public void onFocusChange(View view, boolean hasFocus) {
+                if(hasFocus){
+                    ed_email.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) { }
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            String text = s.toString();
+                            if (!pattern.matcher(text).matches()) tv_email_check.setVisibility(View.VISIBLE);
+                            else {
+                                tv_email_check.setVisibility(View.GONE);
+                            }
+                        }
+                        @Override
+                        public void afterTextChanged(Editable s) { }
+                    });
+                }
+                else{
                     tv_email_check.setVisibility(View.GONE);
                 }
             }
         });
+
         ed_pswd.setOnFocusChangeListener(new View.OnFocusChangeListener() {
             @Override
-            public void onFocusChange(View view, boolean b) {
-                String email = ed_email.getText().toString();
-                if (!pattern.matcher(pswd_pattern).matches()) tv_pswd_check.setVisibility(View.VISIBLE);
-                else {
-                    tv_pswd_check.setVisibility(View.GONE);
+            public void onFocusChange(View v, boolean hasFocus) {
+                if(hasFocus){
+                    pswd_check.setVisibility(View.VISIBLE);
+                    ed_pswd.addTextChangedListener(new TextWatcher() {
+                        @Override
+                        public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+                        }
+                        @Override
+                        public void onTextChanged(CharSequence s, int start, int before, int count) {
+                            String text = s.toString();
+                            if (!Pattern.matches(pswd_pattern,text))
+                                tv_pswd_check.setVisibility(View.VISIBLE);
+                            else
+                                tv_pswd_check.setVisibility(View.GONE);
+
+                            if (s.length() >= 8) {
+                                minimum_check.setTextColor(Color.BLACK);
+                                flag1 = true;
+                            } else {
+                                minimum_check.setTextColor(Color.GRAY);
+                                flag1 = false;
+                            }
+
+                            if (Pattern.matches("^.*[a-z].*$", s.toString())) {
+                                lower_check.setTextColor(Color.BLACK);
+                                flag2 = true;
+                            } else {
+                                lower_check.setTextColor(Color.GRAY);
+                                flag2 = false;
+                            }
+
+                            if (Pattern.matches("^.*[0-9].*$", s.toString())) {
+                                number_check.setTextColor(Color.BLACK);
+                                flag3 = true;
+                            } else {
+                                number_check.setTextColor(Color.GRAY);
+                                flag3 = false;
+                            }
+
+                            if (Pattern.matches("^.*[~`!@#$%\\^&*()-].*$", s.toString())) {
+                                special_check.setTextColor(Color.BLACK);
+                                flag4 = true;
+                            } else {
+                                special_check.setTextColor(Color.GRAY);
+                                flag4 = false;
+                            }
+                        }
+
+                        @Override
+                        public void afterTextChanged(Editable s) {
+
+                        }
+                    });
+                }
+                else{
+                    System.out.println("여기반짝");
+                    pswd_check.setVisibility(View.GONE);
                 }
             }
         });
@@ -108,7 +196,7 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     SignUp signup = response.body();
                     int flag = signup.getCode();
-                    if(flag == 20){
+                    if(flag == 200){
                         Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(SignUpActivity.this, CongActivity.class);
                         startActivity(intent);
