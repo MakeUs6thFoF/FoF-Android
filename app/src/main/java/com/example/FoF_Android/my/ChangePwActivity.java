@@ -138,15 +138,24 @@ public class ChangePwActivity extends AppCompatActivity {
                     SignUp body = response.body();
                     if(body.getCode() == 305){
                         Toast.makeText(getApplicationContext(), "비밀번호는 6~20자리로 입력해주세요",Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
                     }
-                    else if(body.getCode() == 304)
+                    else if(body.getCode() == 304){
                         Toast.makeText(getApplicationContext(), "비밀번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show();
-                    else if(body.getCode() == 403)
+                        System.out.println(body.getCode());
+                    }
+                    else if(body.getCode() == 403){
                         Toast.makeText(getApplicationContext(), "로그인이 되어 있지 않습니다", Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
+                    }
                     else {
                         Toast.makeText(getApplicationContext(), "비밀번호를 변경하였습니다", Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
                         finish();
                     }
+                }
+                else{
+                    System.out.println(response.message());
                 }
             }
 
