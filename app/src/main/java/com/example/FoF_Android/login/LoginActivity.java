@@ -18,6 +18,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import com.example.FoF_Android.Category.CategoryActivity;
+import com.example.FoF_Android.GuestPwActivity;
 import com.example.FoF_Android.HttpClient;
 import com.example.FoF_Android.PasswordActivity;
 import com.example.FoF_Android.R;
@@ -50,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
         pswd_link.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent pswdintent = new Intent(LoginActivity.this, PasswordActivity.class);
+                Intent pswdintent = new Intent(LoginActivity.this, GuestPwActivity.class);
                 startActivity(pswdintent);
             }
         });
