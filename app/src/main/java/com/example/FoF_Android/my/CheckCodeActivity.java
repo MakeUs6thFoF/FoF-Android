@@ -25,6 +25,8 @@ public class CheckCodeActivity extends AppCompatActivity {
     TokenManager gettoken;
     String token;
     int code;
+    int islogin;
+    String guestEmail;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -32,6 +34,9 @@ public class CheckCodeActivity extends AppCompatActivity {
         setContentView(R.layout.activity_check_code);
 
         code = getIntent().getIntExtra("code", 1);
+        islogin = getIntent().getIntExtra("islogin", 0);
+        guestEmail = getIntent().getStringExtra("guestEmail");
+        System.out.println("여기반짝확인"+guestEmail);
 
         code_et = findViewById(R.id.et_code);
         back_bt = findViewById(R.id.backBt);
@@ -43,6 +48,10 @@ public class CheckCodeActivity extends AppCompatActivity {
                 if (Integer.parseInt(code_et.getText().toString()) == code){
                     Toast.makeText(getApplicationContext(), "인증이 완료되었습니다.", Toast.LENGTH_SHORT).show();
                     Intent intent = new Intent(getApplicationContext(), ChangePwActivity.class);
+                    intent.putExtra("isguest", islogin);
+                    if(guestEmail != null){
+                        intent.putExtra("guestEmail", guestEmail);
+                    }
                     startActivity(intent);
                     finish();
                 }

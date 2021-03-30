@@ -154,4 +154,8 @@ public interface RetrofitApi {
     @FormUrlEncoded
     @PATCH("/password")
     Call<SignUp> postPw(@Header("x-access-token") String token, @Field("password") String password);
+
+    @FormUrlEncoded
+    @PATCH("/guest/password")
+    Call<SignUp> postPwGuest(@Field("email") String email, @Field("password") String password);
 }

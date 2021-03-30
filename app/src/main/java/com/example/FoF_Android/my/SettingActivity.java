@@ -82,7 +82,9 @@ public class SettingActivity extends AppCompatActivity implements View.OnClickLi
             TokenManager token=new TokenManager(SettingActivity.this);
             token.logout();
             Intent startintent=new Intent(SettingActivity.this, StartActivity.class);
+            startintent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK | Intent.FLAG_ACTIVITY_NEW_TASK);
             startActivity(startintent);
+            finish();
         }
     };
 }

@@ -56,6 +56,8 @@ public class GuestPwActivity extends AppCompatActivity {
                     if(body.getCode() == 200){
                         Toast.makeText(getApplicationContext(), "인증번호를 발송했습니다", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(getApplicationContext(), CheckCodeActivity.class);
+                        intent.putExtra("islogin",2); //2면 게스트 1이면 로그인
+                        intent.putExtra("guestEmail", et_email.getText().toString());
                         intent.putExtra("code", body.getNumber());
                         startActivity(intent);
                         finish();

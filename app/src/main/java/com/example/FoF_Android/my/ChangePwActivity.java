@@ -39,6 +39,8 @@ public class ChangePwActivity extends AppCompatActivity {
     RetrofitApi api;
     TokenManager gettoken;
     String token;
+    String guestEmail;
+    int islogin;
     boolean flag1, flag2, flag3, flag4;
 
     @Override
@@ -49,6 +51,7 @@ public class ChangePwActivity extends AppCompatActivity {
         api = HttpClient.getRetrofit().create(RetrofitApi.class);
         gettoken=new TokenManager(getApplicationContext());
         token = gettoken.checklogin(getApplicationContext());
+        islogin = getIntent().getIntExtra("isguest", 0);
 
         minimum_checktv = findViewById(R.id.minimum_check);
         lower_checktv = findViewById(R.id.lower_check);
@@ -59,6 +62,7 @@ public class ChangePwActivity extends AppCompatActivity {
         set_bt = findViewById(R.id.set_bt);
 
         flag1 = false; flag2 = false; flag3 = false; flag4 = false;
+        guestEmail = getIntent().getStringExtra("guestEmail");
 
         pw_et.addTextChangedListener(new TextWatcher() {
             @Override
@@ -115,7 +119,10 @@ public class ChangePwActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 if(flag1 && flag2 && flag3 && flag4){
-                    postPw(api);
+                    if(islogin == 1)
+                        postPw(api);
+                    else
+                        postPwGuest(api);
                 }
                 else
                     Toast.makeText(getApplicationContext(), "네 조건을 모두 만족해서 작성해주세요", Toast.LENGTH_SHORT).show();
@@ -155,7 +162,43 @@ public class ChangePwActivity extends AppCompatActivity {
                     }
                 }
                 else{
-                    System.out.println(response.message());
+                    Toast.makeText(getApplicationContext(), "서버와의 연결이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<SignUp> call, Throwable t) {
+                Toast.makeText(getApplicationContext(), "서버와의 연결이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
+            }
+        });
+    }
+
+    public void postPwGuest(RetrofitApi api){
+        api.postPwGuest(guestEmail, pw_et.getText().toString()).enqueue(new Callback<SignUp>() {
+            @Override
+            public void onResponse(Call<SignUp> call, Response<SignUp> response) {
+                if(response.isSuccessful()){
+                    SignUp body = response.body();
+                    if(body.getCode() == 305){
+                        Toast.makeText(getApplicationContext(), "비밀번호는 6~20자리로 입력해주세요",Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
+                    }
+                    else if(body.getCode() == 304){
+                        Toast.makeText(getApplicationContext(), "비밀번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
+                    }
+                    else if(body.getCode() == 403){
+                        Toast.makeText(getApplicationContext(), "로그인이 되어 있지 않습니다", Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
+                    }
+                    else {
+                        Toast.makeText(getApplicationContext(), "비밀번호를 변경하였습니다", Toast.LENGTH_SHORT).show();
+                        System.out.println(body.getCode());
+                        finish();
+                    }
+                }
+                else{
+                    Toast.makeText(getApplicationContext(), "서버와의 연결이 원활하지 않습니다", Toast.LENGTH_SHORT).show();
                 }
             }
 

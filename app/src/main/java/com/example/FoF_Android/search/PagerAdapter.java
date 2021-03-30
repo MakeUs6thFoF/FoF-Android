@@ -14,10 +14,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
 
     public PagerAdapter(FragmentManager fm){
         super(fm);
-        fragments.add(new FeelingFragment(4)); // 1이모티콘 2클립 3동물 4감정 5밈 6상황
-        fragments.add(new FeelingFragment(3));  // 4 3 6 2 5 1 원래순서
-        fragments.add(new FeelingFragment(6));
+        fragments.add(new FeelingFragment(4)); // 1이모티콘 2클립 3동물 4감정 5인물 6텍스트 7만화
+        fragments.add(new FeelingFragment(3));  // 4 3 7 6 2 5 1 원래순서
+        fragments.add(new FeelingFragment(7));
         fragments.add(new FeelingFragment(2));
+        fragments.add(new FeelingFragment(6));
         fragments.add(new FeelingFragment(5));
         fragments.add(new FeelingFragment(1));
         System.out.println("테스트");
