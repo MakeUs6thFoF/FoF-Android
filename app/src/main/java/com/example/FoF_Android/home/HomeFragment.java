@@ -55,7 +55,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     Integer cposition;
     Integer viewitem;
     Integer i=1 ,j=0;
-    private static final int MAX_SIZE = 10;
+    private static final int MAX_SIZE = 9;
+    private static final int ALL_MAX_SIZE = 10;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -105,11 +106,12 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             @Override
             public void onPageSelected(int position) {
                 Log.i("main","현재위치"+position);
-                if(plusitem!=null) {if((position-1)%MAX_SIZE==0 && plusitem.size()==MAX_SIZE) {initPagerUI(++i);Log.i("1","여기"+i);}
-                else if(plusitem.size()!=MAX_SIZE) ;//i--;
+                if(plusitem!=null) {
+                    if(((position) % MAX_SIZE == MAX_SIZE-1 )&& (plusitem.size() == MAX_SIZE)) {initPagerUI(++i);Log.i("test1","여기"+i);}
+                    else if(plusitem.size()!=MAX_SIZE) ;//i--;
                 }
                 else if (i==1){if((position-1)%MAX_SIZE==0) initPagerUI(++i);
-                    Log.i("2","여기"+i);}
+                    Log.i("test2","여기"+i);}
 
                 viewitem = position;
             }
@@ -221,7 +223,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
             @Override
             public void onRefresh(int pageNumber) {
-                Call<MemeResponse> call = api.getdata(token, "all", getPage(0), MAX_SIZE); //page설정
+                Call<MemeResponse> call = api.getdata(token, "all", getPage(0), ALL_MAX_SIZE); //page설정
                 call.enqueue(new Callback<MemeResponse>() {
                      @Override
                      public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
@@ -246,13 +248,13 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         api = client.getRetrofit().create(RetrofitApi.class);
         String token = gettoken.checklogin(getContext());
         j=0;
-        api.getdata(token, "all", getPage(0), MAX_SIZE).enqueue(new Callback<MemeResponse>() {
+        api.getdata(token, "all", getPage(0), ALL_MAX_SIZE).enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                  items = response.body().getItems();
                  setadapter(items);
                 // 먼저 업로드로 리사이클러뷰를 세팅
-               // initUI();
+                initUI();
             }
             @Override
             public void onFailure(Call<MemeResponse> call, Throwable t) {
@@ -317,12 +319,13 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             }
         });
         myviewpager.setOnTouchListener(gestureListener);
-        myviewpager.setOffscreenPageLimit(10);
+        myviewpager.setOffscreenPageLimit(12);
         myviewpager.setAdapter(padapter);
     }
 
     private void pluspager( int index, List<Meme.Data> plusitems) {
             pitems.addAll(index,plusitems);
+            Log.i("tag","호출되는 곳");
             padapter.notifyDataSetChanged();
     }
 
@@ -369,7 +372,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     public void onResume() {
         super.onResume();
         if(pitems!=null) setPageradapter(pitems);
-        else initPagerUI(i);
+        else {i=1; initPagerUI(i);}
         if(tabid!=3) {setCurrentTabFragment(tabid,view);
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
