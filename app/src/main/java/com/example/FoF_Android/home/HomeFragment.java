@@ -32,6 +32,9 @@ import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.home.view.CustomSwipeableViewPager;
 import com.example.FoF_Android.home.view.DragLayout;
 import com.example.FoF_Android.home.view.StackPageTransformer;
+import com.example.FoF_Android.my.UploadLike;
+import com.example.FoF_Android.my.UploadLikeAdapter;
+import com.example.FoF_Android.search.EndlessScrollListener;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -48,12 +51,11 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     RetrofitApi api;
     Integer tabid=0;
     View view1;
-    List<Meme.Data> pitems;
-    List<Meme.Data> items;
+    List<Meme.Data> pitems, items;
     Integer cposition;
     Integer viewitem;
-    Integer i=1;
-    Integer j=1;
+    Integer i=1 ,j=0;
+    private static final int MAX_SIZE = 10;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -64,9 +66,9 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     CustomSwipeableViewPager myviewpager;
     MemePagerAdapter padapter;
     GestureDetector gestureDetector;
-
+    List<Meme.Data> plusitem;
     View.OnTouchListener gestureListener;
-
+    String token;
     private int mNumber = 0;
 
 
@@ -76,6 +78,12 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        gettoken=new TokenManager(getContext());
+        token = gettoken.checklogin(getContext());
+        System.out.println("확인" + token);
+
+        HttpClient client = new HttpClient();
+        api = client.getRetrofit().create(RetrofitApi.class);
     }
 
 
@@ -85,9 +93,9 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         recycle = view.findViewById((R.id.recycler));
-        gettoken=new TokenManager(getContext());
+       myviewpager=view.findViewById(R.id.myviewpager);
 
-        myviewpager=view.findViewById(R.id.myviewpager);
+       // initUI();
         myviewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -97,7 +105,13 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             @Override
             public void onPageSelected(int position) {
                 Log.i("main","현재위치"+position);
-                if(position==9) initPagerUI(i++);
+                if(plusitem!=null) {if((position-1)%MAX_SIZE==0 && plusitem.size()==MAX_SIZE) {initPagerUI(++i);Log.i("1","여기"+i);}
+                else if(plusitem.size()!=MAX_SIZE) ;//i--;
+                }
+                else if (i==1){if((position-1)%MAX_SIZE==0) initPagerUI(++i);
+                    Log.i("2","여기"+i);}
+
+                viewitem = position;
             }
 
             @Override
@@ -105,12 +119,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
             }
         });
-        recycle.addOnScrollListener(new RecyclerView.OnScrollListener() {
-            @Override
-            public void onScrolled(@NonNull RecyclerView recyclerView, int dx, int dy) {
-                super.onScrolled(recyclerView, dx, dy);
-            }
-        });
+
         myviewpager.setPageTransformer(true, new StackPageTransformer(myviewpager));
         tabLayout =view.findViewById(R.id.tabLayout) ;
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
@@ -143,7 +152,6 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             case 0 :
                 tabid=0;
                 container.setVisibility(View.GONE);
-                initPagerUI(i);
                 pagercontainer.setVisibility(View.VISIBLE);
                 myviewpager.postDelayed(new Runnable() {
 
@@ -152,12 +160,12 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                         if(viewitem!=null)myviewpager.setCurrentItem(viewitem);
                     }
                 }, 100);
+
                 break;
             case 1 :
                 tabid=1;
-                viewitem = myviewpager.getCurrentItem();
+
                 container.setVisibility(View.VISIBLE);
-                initUI();
                 pagercontainer.setVisibility(View.GONE);
                 break;
         }
@@ -181,24 +189,24 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         });
 
 
-    }
+ }  /*
     private void initUI() {
         String token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
 
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
-        Call<MemeResponse> call = api.getdata(token, "all",1, 20); //page설정
+        Call<MemeResponse> call = api.getdata(token, "all", 1, MAX_SIZE); //page설정
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                 if (response.isSuccessful()) {
                     items = response.body().getItems();
                     setadapter(items);
-                    Log.i("TAG", "onResponse: " + response.code());
+                    Log.i("TAG", "onResponse4: " + response.code());
 
                 } else
-                    Log.i("TAG", "onResponse: " + response.code());
+                    Log.i("TAG", "onResponse5: " + response.code());
             }
 
             @Override
@@ -207,54 +215,70 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
             }
         });
+    }*/
+    private void initUI() {
+        setadapter(items);
+        EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
+            @Override
+            public void onRefresh(int pageNumber) {
+                Call<MemeResponse> call = api.getdata(token, "all", getPage(0), MAX_SIZE); //page설정
+                call.enqueue(new Callback<MemeResponse>() {
+                     @Override
+                     public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
+                         if (response.isSuccessful()) {
+                             List<Meme.Data> plusrecycler = response.body().getItems();
+                             items.addAll(plusrecycler);
+                             adapter.notifyItemInserted(items.size() - 1);
+                             adapter.notifyDataSetChanged();
+                         }
+                     }
 
+                     @Override
+                     public void onFailure(Call<MemeResponse> call, Throwable t) {
+                     }
+                });
+            }
+        });
+        recycle.addOnScrollListener(scrollListener);
     }
-    private void initPagerUI(int i) {
+    public void getUploadData(){
         HttpClient client=new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
         String token = gettoken.checklogin(getContext());
-        Integer idx= gettoken.checkIdx(getContext());
-        System.out.println("확인"+token);
-        Call<MemeResponse> call = api.getdata(token,"recommend",i,10);
+        j=0;
+        api.getdata(token, "all", getPage(0), MAX_SIZE).enqueue(new Callback<MemeResponse>() {
+            @Override
+            public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
+                 items = response.body().getItems();
+                 setadapter(items);
+                // 먼저 업로드로 리사이클러뷰를 세팅
+                initUI();
+            }
+            @Override
+            public void onFailure(Call<MemeResponse> call, Throwable t) {
+            }
+        });
+    }
+    public int getPage(int flag){
+            j ++;
+            return j;
+    }
+
+    private void initPagerUI(int i) {
+        Call<MemeResponse> call = api.getdata(token,"recommend",i,MAX_SIZE);
         call.enqueue(new Callback<MemeResponse>() {
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                 if(response.isSuccessful()){
-                    pitems = response.body().getItems();
 
-                    Log.i("TAG", "onResponse: "+pitems.size());
+                    plusitem = response.body().getItems();
 
-                    padapter=new MemePagerAdapter(getContext(),idx,pitems,HomeFragment.this::onClick);
-                    //  myviewpager.setOnDragListener();
-                    padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
-                        @Override
-                        public void onItemClick(View v, String position) {
-
-                            HashClickFragment hashclick= HashClickFragment.newInstance(position);
-                            hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
-                            getActivity().getSupportFragmentManager().beginTransaction().add(R.id.container, hashclick).addToBackStack(null).commit();
-                        }
-                    });
-
-                    gestureDetector = new GestureDetector(getContext(), new MyGestureDetector());
-
-
-                    padapter.setOnTouchListener(new MemePagerAdapter.OnTouchListener() {
-                        @Override
-                        public boolean onTouch(View v, Integer position, MotionEvent event) {
-                            cposition=position;
-                            view1=v;
-                            return gestureDetector.onTouchEvent(event);
-                        }
-                    });
-                    myviewpager.setOnTouchListener(gestureListener);
-                    myviewpager.setOffscreenPageLimit(10);
-                    myviewpager.setAdapter(padapter);
-
-                    // setupCurrentIndicator(0);
+                    Log.i("TAG", "onResponse3: "+i);
+                    if(i==1)  {pitems=plusitem; setPageradapter(plusitem);}
+                    else pluspager(pitems.size(), plusitem);
                 }
                 else
-                    Log.i("TAG", "onResponse: "+response.code());
+                    Log.i("TAG", "onResponse1: "+response.code());
             }
 
             @Override
@@ -265,6 +289,41 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         });
 
 
+    }
+    public  void setPageradapter(List<Meme.Data> pitems){
+
+        Integer idx= gettoken.checkIdx(getContext());
+        padapter=new MemePagerAdapter(getContext(),idx,pitems,HomeFragment.this::onClick);
+        //  myviewpager.setOnDragListener();
+        padapter.setOnItemClickListener(new MemePagerAdapter.OnItemClickListener() {
+            @Override
+            public void onItemClick(View v, String position) {
+
+                HashClickFragment hashclick= HashClickFragment.newInstance(position);
+                hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+                getActivity().getSupportFragmentManager().beginTransaction().add(R.id.container, hashclick).addToBackStack(null).commit();
+            }
+        });
+
+        gestureDetector = new GestureDetector(getContext(), new MyGestureDetector());
+
+
+        padapter.setOnTouchListener(new MemePagerAdapter.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, Integer position, MotionEvent event) {
+                cposition=position;
+                view1=v;
+                return gestureDetector.onTouchEvent(event);
+            }
+        });
+        myviewpager.setOnTouchListener(gestureListener);
+        myviewpager.setOffscreenPageLimit(10);
+        myviewpager.setAdapter(padapter);
+    }
+
+    private void pluspager( int index, List<Meme.Data> plusitems) {
+            pitems.addAll(index,plusitems);
+            padapter.notifyDataSetChanged();
     }
 
     @Override
@@ -288,17 +347,11 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
                 if(e1.getY() - e2.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
                     DetailFragment detail = new DetailFragment(pitems.get(cposition).getMemeIdx());
                     detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition));
-                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
-                    // detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
-                    //detail.setSharedElementReturnTransition(TransitionInflater.from(getActivity()).inflateTransition(R.transition.image_shared_element_transition));
+                    //detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade));
 
                     getFragmentManager().beginTransaction().setReorderingAllowed(true).addSharedElement(view1.findViewById(R.id.imageView),ViewCompat.getTransitionName(view.findViewById(R.id.imageView)))
                             .addToBackStack(null).replace(R.id.container, detail).commit();
-
-
-                } else if (e2.getY() - e1.getY() > SWIPE_MIN_DISTANCE && Math.abs(velocityY) > SWIPE_THRESHOLD_VELOCITY) {
-                    //  Toast.makeText(getContext(), "Right Swipe"+cposition, Toast.LENGTH_SHORT).show();
-                }
+                    }
             } catch (Exception e) {
                 // nothing
             }
@@ -315,20 +368,17 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     @Override
     public void onResume() {
         super.onResume();
-
-        i=1;
+        if(pitems!=null) setPageradapter(pitems);
+        else initPagerUI(i);
         if(tabid!=3) {setCurrentTabFragment(tabid,view);
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
         }
-        myviewpager.postDelayed(new Runnable() {
-
-            @Override
-            public void run() {
-                if(viewitem!=null)myviewpager.setCurrentItem(viewitem);
-            }
-        }, 100);
-        if(viewitem!=null)Log.i("test",viewitem.toString());
+        getUploadData();
+        Log.i("test",i.toString());
 
 
-    }}
+    }
+
+
+}

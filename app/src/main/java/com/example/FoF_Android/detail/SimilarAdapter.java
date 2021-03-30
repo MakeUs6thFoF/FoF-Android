@@ -14,6 +14,7 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.request.target.Target;
 import com.example.FoF_Android.R;
 import com.example.FoF_Android.detail.model.Detail;
+import com.example.FoF_Android.detail.model.Similar;
 import com.example.FoF_Android.home.MemeAllAdapter;
 
 import java.util.List;
@@ -21,7 +22,7 @@ import java.util.List;
 import de.hdodenhof.circleimageview.CircleImageView;
 
 public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHolder> {
-    private List<Detail.Data.Similar> items;
+    private List<Similar.Data> items;
     private Context context;
     private SimilarAdapter.OnItemClickListener mListener = null;
 
@@ -29,7 +30,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
         void onItemClick(View v, int position);
     }
 
-    public SimilarAdapter(Context applicationContext, List<Detail.Data.Similar> itemArrayList) {
+    public SimilarAdapter(Context applicationContext, List<Similar.Data> itemArrayList) {
         this.context = applicationContext;
         this.items = itemArrayList;
     }
@@ -77,7 +78,7 @@ public class SimilarAdapter extends RecyclerView.Adapter<SimilarAdapter.ViewHold
                 public void onClick(View v) {
                     int pos = getAdapterPosition();
                     if (pos != RecyclerView.NO_POSITION) {
-                        Detail.Data.Similar clickedDataItem = items.get(pos);
+                        Similar.Data clickedDataItem = items.get(pos);
 
                         if (pos != RecyclerView.NO_POSITION) {
                             if (mListener != null)

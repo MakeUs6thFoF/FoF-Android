@@ -93,13 +93,13 @@ public class HashClickFragment extends Fragment {
     public void setRecyclerView(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
 
-        api.getSearchMeme(token, mParam2, 1, 10).enqueue(new Callback<MemeSearch>() {
+        api.getSearchMeme(token, mParam2, 1, 50).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
                 MemeSearch body = response.body();
                 memeList = body.getData();
                 memeCount = body.getData().size();
-                hashCnt.setText(String.valueOf(memeCount)+" 게시물");
+                hashCnt.setText(String.valueOf(memeCount)+" 게시물"); //TODO 페이지네이션을 하면 게시물 숫자가 안맞음...
                 mAdapter = new HashSearchAdapter(memeList, getContext());
                 StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
                 mRecyclerView.setLayoutManager(layoutManager);

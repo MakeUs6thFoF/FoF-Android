@@ -49,7 +49,9 @@ import com.example.FoF_Android.home.OnBackPressed;
 import com.example.FoF_Android.dialog.DeleteDialog;
 import com.example.FoF_Android.dialog.SelectDialog;
 import com.example.FoF_Android.home.model.Meme;
+import com.example.FoF_Android.home.model.MemeResponse;
 import com.example.FoF_Android.make.UploadNextFragment;
+import com.example.FoF_Android.search.EndlessScrollListener;
 import com.example.FoF_Android.signup.SignUp;
 
 import java.io.ByteArrayOutputStream;
@@ -66,10 +68,11 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     RetrofitApi api;
     private int SELECT_FILE = 3;
     RecyclerView similar;
+    private static final int MAX_SIZE = 20;
     private ModifyDialog modifyDialog;
     private SelectDialog selectDialog;
     private DeleteDialog deleteDialog;
-    List<Detail.Data.Similar> items;
+    List<Similar.Data> items;
     Detail.Data.memeDetail detail;
     ImageView memeimg;
     TextView title, copyright;
@@ -82,20 +85,34 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     Integer position=0;
     Uri myurl=null;
     private Integer i=0;
+    Integer j=0;
+    SimilarAdapter adaptersim;
     View.OnClickListener mModifyListener;
     String[] array;
+
     public DetailFragment(int i) {
         this.i=i;
     }
 
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        gettoken=new TokenManager(getContext());
+        token = gettoken.checklogin(getContext());
+     //   System.out.println("확인" + token);
+
+        HttpClient client = new HttpClient();
+        api = client.getRetrofit().create(RetrofitApi.class);
+    }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
 
         ViewGroup view = (ViewGroup) inflater.inflate(R.layout.meme_detail, container, false);
         initUI(view);
+        setDetailUI(i);
+        setSimilarUI();
         onclick();
-        similarUI(view, i);
         btnclick(i);
         send.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,10 +126,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 else if(memeimg.getDrawable() instanceof GifDrawable)
                     drawable1 = ((GifDrawable)memeimg.getDrawable());
 
-
-
                 if(drawable1!=null){
-
                     // myurl=getImageUri(context,);
                 } else  myurl=getImageUri(getContext(), drawable);
                 //  String name=saveBitmapToJpeg(context,drawable,"임시");
@@ -215,9 +229,6 @@ public class DetailFragment extends Fragment implements OnBackPressed {
     }
 
     public void setUI(){
-
-       // nick.setText(detail.getNickname());
-
         Glide.with(getContext())
                 .load(detail.getImageUrl())
                 .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).placeholder(R.drawable.placeholder)
@@ -281,44 +292,25 @@ public void newhash(){
 
 }
 
-    public void similarUI(View view, int i) {
+    public void setDetailUI( int i) {
         HttpClient client = new HttpClient();
          api = client.getRetrofit().create(RetrofitApi.class);
         TokenManager gettoken = new TokenManager(getContext());
         String token = gettoken.checklogin(getContext());
         System.out.println("확인" + token);
-        Call<Detail> call = api.getsimilar(token, i);
+        Call<Detail> call = api.getdetail(token, i);
         call.enqueue(new Callback<Detail>() {
             @Override
             public void onResponse(Call<Detail> call, Response<Detail> response) {
                 if (response.isSuccessful()) {
-                    RecyclerView similar = view.findViewById(R.id.similar);
-                    StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
-                    similar.setLayoutManager(layoutManager);
                     if(response.body().getdata()!=null){
-                        items = response.body().getdata().getData();
                         detail = response.body().getdata().getDetail();
 
                         Log.i("TAG", "onResponse: " + detail.getMemeTitle());
-                        SimilarAdapter adaptersim = new SimilarAdapter(getContext(), items);
-                        adaptersim.setOnItemClickListener(new SimilarAdapter.OnItemClickListener() {
-                            @Override
-                            public void onItemClick(View v, int position) {
 
-                                DetailFragment detail = new DetailFragment(position);
-
-                                detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
-                                detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
-
-                                getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
-                                        .setReorderingAllowed(true)
-                                        .addToBackStack(null).add(R.id.container, detail).commit();
-                        }
-                    });
-                    similar.setAdapter(adaptersim);
 
                     setUI();
-                    // setupCurrentIndicator(0);
+
                         }else     {getActivity().getSupportFragmentManager().popBackStack();
 
                         Toast.makeText(getContext(), "밈이 삭제됐어요", Toast.LENGTH_SHORT).show();}
@@ -344,6 +336,74 @@ public void newhash(){
         super.onDestroy();
     }
 
+    public void setSimilarUI(){
+        HttpClient client=new HttpClient();
+        api = client.getRetrofit().create(RetrofitApi.class);
+        String token = gettoken.checklogin(getContext());
+        j=0;
+        api.getsimilar(token, i, getPage(0), MAX_SIZE).enqueue(new Callback<Similar>() {
+            @Override
+            public void onResponse(Call<Similar> call, Response<Similar> response) {
+                items = response.body().getdata();
+                setSimilarAdapter(items);
+                plustSimilar();
+                // 먼저 업로드로 리사이클러뷰를 세팅
+            }
+            @Override
+            public void onFailure(Call<Similar> call, Throwable t) {
+            }
+        });
+
+    }
+    public int getPage(int flag){
+        j ++;
+        return j;
+    }
+    public void plustSimilar(){
+        setSimilarAdapter(items);
+        EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
+            @Override
+            public void onRefresh(int pageNumber) {
+                Call<Similar> call = api.getsimilar(token, i, getPage(0), MAX_SIZE); //page설정
+                call.enqueue(new Callback<Similar>() {
+                    @Override
+                    public void onResponse(Call<Similar> call, Response<Similar> response) {
+                        if (response.isSuccessful()) {
+                            List<Similar.Data> plusrecycler = response.body().getdata();
+                            items.addAll(plusrecycler);
+                            adaptersim.notifyItemInserted(items.size() - 1);
+                            adaptersim.notifyDataSetChanged();
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<Similar> call, Throwable t) {
+                    }
+                });
+            }
+        });
+        similar.addOnScrollListener(scrollListener);
+    }
+    public void setSimilarAdapter(List<Similar.Data> pitems){
+        adaptersim = new SimilarAdapter(getContext(), pitems);
+        StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+        similar.setLayoutManager(layoutManager);
+        similar.setAdapter(adaptersim);
+           adaptersim.setOnItemClickListener(new SimilarAdapter.OnItemClickListener() {
+                @Override
+                public void onItemClick(View v, int position) {
+
+                    DetailFragment detail = new DetailFragment(position);
+
+                    detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
+                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
+
+                    getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
+                            .setReorderingAllowed(true)
+                            .addToBackStack(null).add(R.id.container, detail).commit();
+            }
+        });
+    }
 
 
     public void btnclick( int position){
@@ -428,4 +488,6 @@ public void newhash(){
         }
 
 
-    }}
+    }
+
+}
