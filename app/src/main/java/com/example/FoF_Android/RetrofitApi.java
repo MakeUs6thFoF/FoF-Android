@@ -148,6 +148,10 @@ public interface RetrofitApi {
     Call<EmailAuth> getEmailCode(@Header("x-access-token") String token);
 
     @FormUrlEncoded
+    @POST("/email/guest/auth")
+    Call<EmailAuth> getGuestEmailCode(@Field("email") String email);
+
+    @FormUrlEncoded
     @PATCH("/password")
     Call<SignUp> postPw(@Header("x-access-token") String token, @Field("password") String password);
 }
