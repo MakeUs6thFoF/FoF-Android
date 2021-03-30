@@ -22,6 +22,7 @@ import com.example.FoF_Android.RetrofitApi;
 import com.example.FoF_Android.TokenManager;
 import com.example.FoF_Android.detail.DetailFragment;
 import com.example.FoF_Android.detail.model.Detail;
+import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
 
@@ -49,6 +50,7 @@ public class Search2Fragment extends Fragment {
     TokenManager gettoken;
     MemeSearchAdapter mAdapter;
     RecyclerView mRecyclerView;
+    private TabLayout tabLayout;
     private EditText searchEdit;
     private ImageButton searchIb;
     private List<MemeSearch.Data> mList;
@@ -96,6 +98,11 @@ public class Search2Fragment extends Fragment {
                 getFragmentManager().beginTransaction().replace(R.id.container, Search2Fragment.newInstance(searchEdit.getText().toString())).commit();
             }
         });
+
+        tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout2);
+        tabLayout.addTab(tabLayout.newTab().setText("이미지"));
+        tabLayout.addTab(tabLayout.newTab().setText("영상"));
+
         mRecyclerView = view.findViewById(R.id.hashtag_recycler2);
         loadFirstPost(api, view);
         return view;
@@ -156,10 +163,6 @@ public class Search2Fragment extends Fragment {
 
             }
         });
-    }
-
-    public void loadMorePost(RetrofitApi api, View view){
-
     }
 
     public int getPage(){
