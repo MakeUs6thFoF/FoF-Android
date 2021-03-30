@@ -264,7 +264,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             btn[i].setPadding(30,8,30,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
-            if (i < 4) {
+            if (i < 5) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
             int finalI = i;
