@@ -87,9 +87,10 @@ public class SearchFragment extends Fragment {
         tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout);
         tabLayout.addTab(tabLayout.newTab().setText("감정"));
         tabLayout.addTab(tabLayout.newTab().setText("동물"));
-        tabLayout.addTab(tabLayout.newTab().setText("상황"));
+        tabLayout.addTab(tabLayout.newTab().setText("만화"));
         tabLayout.addTab(tabLayout.newTab().setText("클립"));
         tabLayout.addTab(tabLayout.newTab().setText("텍스트"));
+        tabLayout.addTab(tabLayout.newTab().setText("인물"));
         tabLayout.addTab(tabLayout.newTab().setText("이모티콘"));
 
         viewPager = (NonSwipeViewPager)view.findViewById(R.id.viewPager);
