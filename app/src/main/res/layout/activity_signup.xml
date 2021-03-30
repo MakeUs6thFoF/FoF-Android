@@ -105,12 +105,12 @@
             android:visibility="visible" />
 
         <TextView
-            android:id="@+id/capital_check"
+            android:id="@+id/lower_check"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             style="@style/basic_12dp"
             android:layout_marginEnd="5dp"
-            android:text="대문자1개"
+            android:text="소문자1개"
             android:visibility="visible" />
 
         <TextView
@@ -121,6 +121,16 @@
             android:layout_marginEnd="5dp"
             android:text="숫자1개"
             android:visibility="visible" />
+
+        <TextView
+            android:id="@+id/special_check"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            style="@style/basic_12dp"
+            android:layout_marginEnd="5dp"
+            android:text="특수문자1개"
+            android:visibility="visible" />
+
     </LinearLayout>
 
     <EditText
