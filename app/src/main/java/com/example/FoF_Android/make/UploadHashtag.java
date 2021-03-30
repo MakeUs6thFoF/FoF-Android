@@ -143,7 +143,8 @@ public class UploadHashtag extends AppCompatActivity {
         public void onClick(View v) {
             Intent intent = new Intent();
             for(int j=0;j<i;j++)
-                    tagname=tagname+btn[j].getText()+" ";
+                    tagname=tagname+btn[j].getText().toString().replace(" ","")+" ";
+
             intent.putExtra("tagname", tagname);
             setResult(UploadNextFragment.RESULT_CODE, intent);
             finish();
