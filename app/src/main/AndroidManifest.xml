@@ -14,7 +14,8 @@
         android:roundIcon="@mipmap/ic_launcher_fof_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".my.ChangePwActivity"></activity>
+        <activity android:name=".GuestPwActivity"></activity>
+        <activity android:name=".my.ChangePwActivity" />
         <activity android:name=".my.CheckCodeActivity" />
         <activity android:name=".my.ChangeInfoActivity" />
         <activity android:name=".my.ChangeCategoryActivity" />
