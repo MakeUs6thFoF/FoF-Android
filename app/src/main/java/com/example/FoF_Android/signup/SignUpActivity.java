@@ -9,6 +9,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.FoF_Android.CongActivity;
 import com.example.FoF_Android.HttpClient;
@@ -107,10 +108,42 @@ public class SignUpActivity extends AppCompatActivity {
                 if (response.isSuccessful()){
                     SignUp signup = response.body();
                     int flag = signup.getCode();
-                    System.out.println("확인"+signup.getCode());
-                    Intent intent = new Intent(SignUpActivity.this, CongActivity.class);
-                    startActivity(intent);
-                    finish();
+                    if(flag == 20){
+                        Toast.makeText(getApplicationContext(), "회원가입에 성공했습니다", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(SignUpActivity.this, CongActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                    else if(flag == 301){
+                        Toast.makeText(getApplicationContext(), "이메일을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 302){
+                        Toast.makeText(getApplicationContext(), "이메일은 30자리 미만으로 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 303){
+                        Toast.makeText(getApplicationContext(), "이메일 형식을 정확하게 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 304){
+                        Toast.makeText(getApplicationContext(), "비밀번호를 다시 확인해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 305){
+                        Toast.makeText(getApplicationContext(), "비밀번호는 6~20자리를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 306){
+                        Toast.makeText(getApplicationContext(), "닉네임을 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 307){
+                        Toast.makeText(getApplicationContext(), "닉네임은 최대 20자리를 입력해주세요", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 308){
+                        Toast.makeText(getApplicationContext(), "중복된 이메일입니다", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 309){
+                        Toast.makeText(getApplicationContext(), "중복된 닉네임입니다", Toast.LENGTH_SHORT).show();
+                    }
+                    else if(flag == 310){
+                        Toast.makeText(getApplicationContext(), "타입을 다시 한 번 확인해주세요", Toast.LENGTH_SHORT).show();
+                    }
                 }
                 else
                     System.out.println(response.toString());
