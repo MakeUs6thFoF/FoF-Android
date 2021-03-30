@@ -104,7 +104,7 @@ public class Search2Fragment extends Fragment {
     public void loadFirstPost(RetrofitApi api, View view){
         String token = gettoken.checklogin(getContext());
         page=0;
-        api.getSearchMeme(token, mParam1, getPage(), 10).enqueue(new Callback<MemeSearch>() {
+        api.getSearchMeme(token, mParam1, getPage(), 8).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
                 MemeSearch body = response.body();
@@ -128,7 +128,7 @@ public class Search2Fragment extends Fragment {
                 EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
                     @Override
                     public void onRefresh(int pageNumber) {
-                        api.getSearchMeme(token, mParam1, getPage(), 10).enqueue(new Callback<MemeSearch>() {
+                        api.getSearchMeme(token, mParam1, getPage(), 8).enqueue(new Callback<MemeSearch>() {
                             @Override
                             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
                                 MemeSearch next_body = response.body();
