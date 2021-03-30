@@ -81,6 +81,7 @@ public class PasswordActivity extends AppCompatActivity {
                 if(response.isSuccessful()){
                     EmailAuth body = response.body();
                     Intent intent = new Intent(getApplicationContext(), CheckCodeActivity.class);
+                    intent.putExtra("islogin", 1);
                     intent.putExtra("code", body.getNumber());
                     startActivity(intent);
                     finish();
