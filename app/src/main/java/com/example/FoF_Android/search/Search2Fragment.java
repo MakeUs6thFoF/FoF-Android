@@ -99,10 +99,6 @@ public class Search2Fragment extends Fragment {
             }
         });
 
-        tabLayout = (TabLayout)view.findViewById(R.id.searchTabLayout2);
-        tabLayout.addTab(tabLayout.newTab().setText("이미지"));
-        tabLayout.addTab(tabLayout.newTab().setText("영상"));
-
         mRecyclerView = view.findViewById(R.id.hashtag_recycler2);
         loadFirstPost(api, view);
         return view;
