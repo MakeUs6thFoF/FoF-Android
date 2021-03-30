@@ -66,7 +66,7 @@
         app:tabMaxWidth="0dp"
         app:tabMode="auto"
         app:layout_constraintTop_toTopOf="parent"
-        android:layout_marginTop="140dp"
+        android:layout_marginTop="120dp"
         >
     </com.google.android.material.tabs.TabLayout>
 
@@ -74,7 +74,7 @@
         android:id="@+id/hashtag_recycler2"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:layout_marginTop="187dp"
+        android:layout_marginTop="167dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
