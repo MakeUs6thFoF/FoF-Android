@@ -238,13 +238,15 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         float factor = getContext().getResources().getDisplayMetrics().density;
 
-        int pixelw = (int) (66 * factor + 0.5f);
+        int pixelw = (int) (16 * factor + 0.5f);
         int pixelh = (int) (26 * factor + 0.5f);
+        int pixelb = (int) (4 * factor + 0.5f);
+        int pixelp=(int) (12 * factor + 0.5f);
 
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(ViewGroup.LayoutParams.WRAP_CONTENT, ViewGroup.LayoutParams.MATCH_PARENT);
       //  params.width=pixelw;
         params.height=pixelh;
-        params.rightMargin=8;
+        params.rightMargin=pixelb;
         params.gravity= Gravity.CENTER;
 
         for (int i = 0; i < array.length; i++) {
@@ -254,10 +256,12 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(30,8,30,0);
+            btn[i].setPadding(pixelw,pixelb,pixelw,0);
+            if(array[i].length()>4)    btn[i].setPadding(pixelb*2,pixelb,pixelb*2,0);
+            else if(array[i].length()>3)    btn[i].setPadding(pixelp,pixelb,pixelp,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
-            if (i < 5) {
+            if (i < 4) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
             int finalI = i;
@@ -335,7 +339,9 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             public void onResponse(Call<Similar> call, Response<Similar> response) {
                 items = response.body().getdata();
                 setSimilarAdapter(items);
-               // plustSimilar();
+                similar.setHasFixedSize(true);
+                similar.setItemViewCacheSize(20);
+                plustSimilar();
                 // 먼저 업로드로 리사이클러뷰를 세팅
             }
             @Override

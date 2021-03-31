@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     Integer viewitem;
     Integer i=1 ,j=0;
     private static final int MAX_SIZE = 9;
-    private static final int ALL_MAX_SIZE = 10;
+    private static final int ALL_MAX_SIZE = 5;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -181,33 +181,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         });
 
 
- }  /*
-    private void initUI() {
-        String token = gettoken.checklogin(getContext());
-        System.out.println("확인" + token);
-
-        HttpClient client = new HttpClient();
-        api = client.getRetrofit().create(RetrofitApi.class);
-        Call<MemeResponse> call = api.getdata(token, "all", 1, MAX_SIZE); //page설정
-        call.enqueue(new Callback<MemeResponse>() {
-            @Override
-            public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
-                if (response.isSuccessful()) {
-                    items = response.body().getItems();
-                    setadapter(items);
-                    Log.i("TAG", "onResponse4: " + response.code());
-
-                } else
-                    Log.i("TAG", "onResponse5: " + response.code());
-            }
-
-            @Override
-            public void onFailure(Call<MemeResponse> call, Throwable t) {
-                Log.d("MainActivity", t.toString());
-
-            }
-        });
-    }*/
+ }
     private void initUI() {
         setadapter(items);
         EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
@@ -243,6 +217,8 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                  items = response.body().getItems();
                  setadapter(items);
+                recycle.setHasFixedSize(true);
+                recycle.setItemViewCacheSize(20);
                 // 먼저 업로드로 리사이클러뷰를 세팅
                 initUI();
             }

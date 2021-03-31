@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.util.Log;
 import android.view.Gravity;
@@ -26,6 +27,7 @@ import android.widget.ToggleButton;
 import androidx.annotation.NonNull;
 import androidx.viewpager.widget.PagerAdapter;
 
+import com.FoF.FoF_Android.make.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
@@ -52,6 +54,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -112,9 +115,11 @@ public class MemePagerAdapter extends PagerAdapter {
 
         float factor = context.getResources().getDisplayMetrics().density;
         Log.i("HomeFragmet","useridx="+useridx+"memeuseridx="+items.get(position).getUserIdx());
-        int pixelw = (int) (66 * factor + 0.5f);
+        int pixelw = (int) (16 * factor + 0.5f);
         int pixelh = (int) (26 * factor + 0.5f);
         int pixelb = (int) (4 * factor + 0.5f);
+        int pixelp=(int) (12 * factor + 0.5f);
+
         LinearLayout Tag= (LinearLayout)view.findViewById(R.id.Tag);
         LinearLayout Tag2= (LinearLayout)view.findViewById(R.id.Tag2);
         TextView btn[] = new TextView[30];
@@ -127,7 +132,7 @@ public class MemePagerAdapter extends PagerAdapter {
         LinearLayout.LayoutParams params = new LinearLayout.LayoutParams(LayoutParams.WRAP_CONTENT, LayoutParams.MATCH_PARENT);
      //   params.width=pixelw;
         params.height=pixelh;
-        params.rightMargin=8;
+        params.rightMargin=pixelb;
         params.gravity=Gravity.CENTER;
         for (int i = 0; i < array.length; i++) {
             btn[i] = new TextView(context);
@@ -136,10 +141,12 @@ public class MemePagerAdapter extends PagerAdapter {
             btn[i].setTextAlignment(TEXT_ALIGNMENT_CENTER);
             btn[i].setBackgroundResource(R.color.white);
             btn[i].setIncludeFontPadding(false);
-            btn[i].setPadding(30,pixelb,30,0);
+            btn[i].setPadding(pixelw,pixelb,pixelw,0);
+            if(array[i].length()>4)    btn[i].setPadding(pixelb*2,pixelb,pixelb*2,0);
+            else if(array[i].length()>3)    btn[i].setPadding(pixelp,pixelb,pixelp,0);
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
-            if (i < 5) {
+            if (i < 4) {
                 Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
             int finalI1 = i;
@@ -225,14 +232,11 @@ public class MemePagerAdapter extends PagerAdapter {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               // Bitmap drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-            //    Uri myurl=getImageUri(context, drawable);
-                Uri copyuri = Uri.parse(items.get(position).getImageUrl());
+                Utility.checkPermission(context);
                 Bitmap drawable=null;
                 drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-                //  String name=saveBitmapToJpeg(context,drawable,"임시");
-                Uri myurl=null;
-                myurl=getImageUri(context, drawable);
+                saveBitmaptoJpeg(drawable,"FOF",items.get(position).getCopyright()+items.get(position).getImageUrl());
+
                 Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -269,6 +273,22 @@ public class MemePagerAdapter extends PagerAdapter {
         String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
         return Uri.parse(path);
     }
+    public static void saveBitmaptoJpeg(Bitmap bitmap,String folder, String name){
+         String ex_storage = Environment.getExternalStorageDirectory().getAbsolutePath(); // Get Absolute Path in External Sdcard
+
+         String foler_name = "/"+folder+"/";
+         String file_name = name;
+         String string_path = ex_storage+foler_name; File file_path; try{
+             file_path = new File(string_path);
+             if(!file_path.isDirectory()){ file_path.mkdirs();
+             } FileOutputStream out = new FileOutputStream(string_path+file_name);
+             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); out.close();
+         }catch(FileNotFoundException exception){ Log.e("FileNotFoundException", exception.getMessage());
+         }catch(IOException exception){
+             Log.e("IOException", exception.getMessage());
+         }
+    }
+
 
     public static Bitmap getImage(String strUrl){
         URL url = null;
@@ -305,23 +325,6 @@ public class MemePagerAdapter extends PagerAdapter {
     }
 
 
-
-    public static String saveBitmapToJpeg(Context context,Bitmap bitmap, String name){
-        File storage = context.getCacheDir(); // 이 부분이 임시파일 저장 경로
-        String fileName = name + ".jpg";  // 파일이름은 마음대로!
-        File tempFile = new File(storage,fileName);
-        try{
-            tempFile.createNewFile();  // 파일을 생성해주고
-            FileOutputStream out = new FileOutputStream(tempFile);
-            bitmap.compress(Bitmap.CompressFormat.JPEG, 90 , out);  // 넘거 받은 bitmap을 jpeg(손실압축)으로 저장해줌
-            out.close(); // 마무리로 닫아줍니다.
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return tempFile.getAbsolutePath();   // 임시파일 저장경로를 리턴해주면 끝!
-    }
 
 
     public void selectbtnclick(int position){

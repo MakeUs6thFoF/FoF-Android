@@ -40,7 +40,7 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface RetrofitApi {
-    String URL = "https://test.fofapp.shop";
+    String URL = "https://prod.fofapp.shop";
 
     @FormUrlEncoded
     @POST("/signup")

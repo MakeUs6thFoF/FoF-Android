@@ -107,9 +107,11 @@ public class HashClickFragment extends Fragment {
                 MemeSearch body = response.body();
                 memeList = body.getData();
                 memeCount = body.getData().size();
-                hashCnt.setText(String.valueOf(memeCount)+" 게시물"); //TODO 페이지네이션을 하면 게시물 숫자가 안맞음...
+                hashCnt.setText(String.valueOf(memeCount)+" 게시물");
                 if(memeCount==50)  hashCnt.setText(String.valueOf(memeCount)+"+ 게시물");
                 setAdapter(memeList);
+                mRecyclerView.setHasFixedSize(true);
+                mRecyclerView.setItemViewCacheSize(20);
                 plushashtag();
             }
 
