@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.example.FoF_Android">
+    package="com.FoF.FoF_Android">
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
@@ -14,34 +14,34 @@
         android:roundIcon="@mipmap/ic_launcher_fof_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.AppCompat.Light.NoActionBar">
-        <activity android:name=".GuestPwActivity"></activity>
-        <activity android:name=".my.ChangePwActivity" />
-        <activity android:name=".my.CheckCodeActivity" />
-        <activity android:name=".my.ChangeInfoActivity" />
-        <activity android:name=".my.ChangeCategoryActivity" />
-        <activity android:name=".my.SettingActivity" />
-        <activity android:name=".CongActivity" />
-        <activity android:name=".PasswordActivity" />
-        <activity android:name=".Category.CategoryActivity" />
-        <activity android:name=".login.LoginActivity" />
-        <activity android:name=".signup.SignUpActivity" />
+        <activity android:name="com.FoF.FoF_Android.GuestPwActivity"></activity>
+        <activity android:name="com.FoF.FoF_Android.my.ChangePwActivity" />
+        <activity android:name="com.FoF.FoF_Android.my.CheckCodeActivity" />
+        <activity android:name="com.FoF.FoF_Android.my.ChangeInfoActivity" />
+        <activity android:name="com.FoF.FoF_Android.my.ChangeCategoryActivity" />
+        <activity android:name="com.FoF.FoF_Android.my.SettingActivity" />
+        <activity android:name="com.FoF.FoF_Android.CongActivity" />
+        <activity android:name="com.FoF.FoF_Android.PasswordActivity" />
+        <activity android:name="com.FoF.FoF_Android.Category.CategoryActivity" />
+        <activity android:name="com.FoF.FoF_Android.login.LoginActivity" />
+        <activity android:name="com.FoF.FoF_Android.signup.SignUpActivity" />
 
         <service
             android:name="com.amazonaws.mobileconnectors.s3.transferutility.TransferService"
             android:enabled="true" />
 
-        <activity android:name=".signup.StartActivity" />
-        <activity android:name=".MainActivity">
+        <activity android:name="com.FoF.FoF_Android.signup.StartActivity" />
+        <activity android:name="com.FoF.FoF_Android.MainActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".dialog.ModifyCopyrightActivity" />
+        <activity android:name="com.FoF.FoF_Android.dialog.ModifyCopyrightActivity" />
         <activity android:name=".detail.DetailActivity" />
-        <activity android:name=".make.UploadHashtag" />
-        <activity android:name=".my.WithdrawalActivity" />
+        <activity android:name="com.FoF.FoF_Android.make.UploadHashtag" />
+        <activity android:name="com.FoF.FoF_Android.my.WithdrawalActivity" />
     </application>
 
 </manifest>
