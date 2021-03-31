@@ -14,7 +14,6 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
     private int pastVisibleItems;
 
 
-
     public EndlessScrollListener(RefreshList refreshList) {
         this.isLoading = false;
         this.hasMorePages = true;
@@ -42,6 +41,7 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
                         refreshList.onRefresh(pageNumber);
                     }
                 }, 200);
+                notifyMorePages();
             }
         } else {
             isLoading = false;
@@ -56,7 +56,6 @@ public class EndlessScrollListener extends RecyclerView.OnScrollListener {
         isRefreshing = false;
         pageNumber = pageNumber + 1;
     }
-
 
 
     public interface RefreshList {
