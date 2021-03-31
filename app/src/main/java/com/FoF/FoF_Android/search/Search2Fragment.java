@@ -111,8 +111,11 @@ public class Search2Fragment extends Fragment {
                 //init addapter
                 mAdapter = new MemeSearchAdapter(mList, getContext());
                 StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
+                mRecyclerView.setHasFixedSize(true);
+                mRecyclerView.setItemViewCacheSize(20);
                 mRecyclerView.setLayoutManager(layoutManager);
                 mRecyclerView.setAdapter(mAdapter);
+
                 mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
                     @Override
                     public void onItemClick(View v, int position) {
@@ -127,6 +130,7 @@ public class Search2Fragment extends Fragment {
                 EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
                     @Override
                     public void onRefresh(int pageNumber) {
+                        System.out.println("페이지테스트"+page);
                         api.getSearchMeme(token, mParam1, getPage(), 8).enqueue(new Callback<MemeSearch>() {
                             @Override
                             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
@@ -145,6 +149,7 @@ public class Search2Fragment extends Fragment {
                             }
                         });
                     }
+
                 });
                 mRecyclerView.addOnScrollListener(scrollListener);
 
