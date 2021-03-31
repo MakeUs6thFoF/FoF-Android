@@ -129,7 +129,7 @@ public class MyFragment extends Fragment {
         upLoadtv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setUploadData(mAdapter);
+                setUploadData();
                 upLoadtv.setTextColor(Color.BLACK);
                 upLoadtv2.setTextColor(Color.BLACK);
                 liketv.setTextColor(Color.GRAY);
@@ -150,7 +150,7 @@ public class MyFragment extends Fragment {
         liketv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                setLikeData(mAdapter2);
+                getLikeData(api, token);
                 upLoadtv.setTextColor(Color.GRAY);
                 upLoadtv2.setTextColor(Color.GRAY);
                 liketv.setTextColor(Color.BLACK);
@@ -265,8 +265,8 @@ public class MyFragment extends Fragment {
                 List<MyProfile.Data.Insight> mList = body.getdata().getInsight();
 
                 setProfile(profileImage, nickName, acceptedLike, uploadCnt, likeCnt, mList, view);
-                getUploadData(api, token, view);
-                getLikeData(api, token, view);
+                getUploadData(api, token);
+
             }
 
             @Override
@@ -293,17 +293,17 @@ public class MyFragment extends Fragment {
             stream=null;
         }
     }
-    public void getUploadData(RetrofitApi api, String token, View view){
+    public void getUploadData(RetrofitApi api, String token){
         uploadpage=0;
-        api.getUploadLike(token, "uploaded", getPage(0), 10).enqueue(new Callback<UploadLike>() {
+        api.getUploadLike(token, "uploaded", getPage(0), 4).enqueue(new Callback<UploadLike>() {
             @Override
             public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
                 UploadLike body = response.body();
                 uploadList = body.getData();
-
                 mAdapter = new UploadLikeAdapter(uploadList, getContext());
                 // 먼저 업로드로 리사이클러뷰를 세팅
-                setUploadData(mAdapter);
+                setUploadData();
+                setUploadData();
             }
 
             @Override
@@ -313,7 +313,7 @@ public class MyFragment extends Fragment {
         });
     }
 
-    public void setUploadData(UploadLikeAdapter mAdapter){
+    public void setUploadData(){
         layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -327,11 +327,11 @@ public class MyFragment extends Fragment {
                         .addToBackStack(null).replace(R.id.container, detail).commit();
             }
         });
-
         EndlessScrollListener scrollListener = new EndlessScrollListener(new EndlessScrollListener.RefreshList() {
             @Override
             public void onRefresh(int pageNumber) {
-                api.getUploadLike(token, "uploaded", getPage(0), 10).enqueue(new Callback<UploadLike>() {
+                System.out.println("업로드 테스트"+uploadpage);
+                api.getUploadLike(token, "uploaded", getPage(0), 4).enqueue(new Callback<UploadLike>() {
                     @Override
                     public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
                         UploadLike body = response.body();
@@ -343,7 +343,6 @@ public class MyFragment extends Fragment {
 
                     @Override
                     public void onFailure(Call<UploadLike> call, Throwable t) {
-
                     }
                 });
             }
@@ -351,14 +350,15 @@ public class MyFragment extends Fragment {
         mRecyclerView.addOnScrollListener(scrollListener);
     }
 
-    public void getLikeData(RetrofitApi api, String token, View view){
-        likepage = 1;
-        api.getUploadLike(token, "favorite", likepage, 10).enqueue(new Callback<UploadLike>() {
+    public void getLikeData(RetrofitApi api, String token){
+        likepage = 0;
+        api.getUploadLike(token, "favorite", getPage(1), 10).enqueue(new Callback<UploadLike>() {
             @Override
             public void onResponse(Call<UploadLike> call, Response<UploadLike> response) {
                 UploadLike body = response.body();
                 likeList = body.getData();
                 mAdapter2 = new UploadLikeAdapter(likeList, getContext());
+                setLikeData();
             }
 
             @Override
@@ -368,14 +368,14 @@ public class MyFragment extends Fragment {
         });
     }
 
-    public void setLikeData(UploadLikeAdapter mAdapter){
+    public void setLikeData(){
         layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-        mAdapter.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
+        mRecyclerView.setAdapter(mAdapter2);
+        mAdapter2.setOnItemClickListener(new HashTagAdapter.OnItemClickListener() {
             @Override
             public void onItemClick(View v, int position) {
-                UploadLike.Data item = mAdapter.getItem(position);
+                UploadLike.Data item = mAdapter2.getItem(position);
                 DetailFragment detail = new DetailFragment(item.getMemeIdx());
                 getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
                         .setReorderingAllowed(true)
