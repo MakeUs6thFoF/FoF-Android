@@ -15,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.FoF.FoF_Android.HttpClient;
@@ -46,7 +47,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     Integer viewitem;
     Integer i=1 ,j=0;
     private static final int MAX_SIZE = 9;
-    private static final int ALL_MAX_SIZE = 5;
+    private static final int ALL_MAX_SIZE = 10;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
     private static final int SWIPE_THRESHOLD_VELOCITY = 200;
@@ -85,7 +86,14 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
         recycle = view.findViewById((R.id.recycler));
        myviewpager=view.findViewById(R.id.myviewpager);
-
+        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                getUploadData();
+                mSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
        // initUI();
         myviewpager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -165,7 +173,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
 
     public void setadapter(List<Meme.Data> items) {
-        adapter = new MemeAllAdapter(items,getContext());
+
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);
@@ -216,6 +224,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                  items = response.body().getItems();
+                adapter = new MemeAllAdapter(items,getContext());
                  setadapter(items);
                 recycle.setHasFixedSize(true);
                 recycle.setItemViewCacheSize(20);

@@ -16,8 +16,10 @@ import com.bumptech.glide.request.target.Target;
 import com.FoF.FoF_Android.R;
 import com.FoF.FoF_Android.home.model.Meme;
 import com.FoF.FoF_Android.home.model.MemeCase;
+import com.facebook.shimmer.ShimmerFrameLayout;
 
 import java.util.List;
+import java.util.logging.Handler;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 
@@ -28,6 +30,7 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
     private Context context;
     private MemeCase type;
     private MemeAllAdapter.OnItemClickListener mListener = null;
+
     Integer style;
 
     ActivityOptionsCompat options;
@@ -45,21 +48,29 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
     @Override
     public MemeAllAdapter.ViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
         if(type== SMALL) style=R.layout.meme_rec_item;
-        else style=R.layout.meme_all_item;
+        else style=R.layout.meme_all_item_shimmer;
         View view = LayoutInflater.from(viewGroup.getContext()).inflate(style, viewGroup, false);
         return new ViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(MemeAllAdapter.ViewHolder viewHolder, int i) {
+     /*   viewHolder.frameLayout.startShimmer();
+        viewHolder.frameLayout.postDelayed(new Runnable() {
+           @Override
+           public void run() {
 
 
+           }
+       },3000);*/
       //  viewHolder.bind(items.get(i), listener);
-            Glide.with(context)
-                    .load(items.get(i).getImageUrl())
-                    .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
-                 //   .error(R.drawable.meme2)
-                    .into(viewHolder.memeimg);
+        viewHolder.frameLayout.setVisibility(View.GONE);
+        viewHolder.memeimg.setVisibility(View.VISIBLE);
+        Glide.with(context)
+                .load(items.get(i).getImageUrl()).placeholder(R.color.skyblue)
+                .override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL)
+                .error(R.drawable.placeholder)
+                .into(viewHolder.memeimg);
     }
 
     @Override
@@ -70,13 +81,13 @@ public class MemeAllAdapter extends RecyclerView.Adapter<MemeAllAdapter.ViewHold
     public class ViewHolder extends RecyclerView.ViewHolder {
         private ImageView memeimg;
         private CircleImageView profileimg;
-
+        ShimmerFrameLayout frameLayout;
         private TextView copyright;
 
 
         public ViewHolder(View view) {
             super(view);
-
+            frameLayout=(ShimmerFrameLayout)view.findViewById(R.id.framelayout) ;
             memeimg = (ImageView) view.findViewById(R.id.imageView);
             profileimg = (CircleImageView) view.findViewById(R.id.imageView2);
             copyright = (TextView) view.findViewById(R.id.copyright);

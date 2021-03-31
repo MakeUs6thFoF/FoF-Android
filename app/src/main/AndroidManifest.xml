@@ -39,7 +39,6 @@
             </intent-filter>
         </activity>
         <activity android:name="com.FoF.FoF_Android.dialog.ModifyCopyrightActivity" />
-        <activity android:name=".detail.DetailActivity" />
         <activity android:name="com.FoF.FoF_Android.make.UploadHashtag" />
         <activity android:name="com.FoF.FoF_Android.my.WithdrawalActivity" />
     </application>
