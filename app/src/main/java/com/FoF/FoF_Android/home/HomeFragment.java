@@ -46,7 +46,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     Integer cposition;
     Integer viewitem;
     Integer i=1 ,j=0;
-    private static final int MAX_SIZE = 9;
+    private static final int MAX_SIZE = 15;
     private static final int ALL_MAX_SIZE = 10;
     private static final int SWIPE_MIN_DISTANCE = 120;
     private static final int SWIPE_MAX_OFF_PATH = 250;
@@ -138,7 +138,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             }
         });
 
-
+      //  getContext().getContentResolver().delete(myurl,null,null);
         return view;
     }
 
@@ -173,7 +173,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
 
     public void setadapter(List<Meme.Data> items) {
-
+        adapter = new MemeAllAdapter(items,getContext());
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);
         recycle.setLayoutManager(layoutManager);
         recycle.setAdapter(adapter);
@@ -224,7 +224,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             @Override
             public void onResponse(Call<MemeResponse> call, Response<MemeResponse> response) {
                  items = response.body().getItems();
-                adapter = new MemeAllAdapter(items,getContext());
+
                  setadapter(items);
                 recycle.setHasFixedSize(true);
                 recycle.setItemViewCacheSize(20);
@@ -347,12 +347,16 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     public void onResume() {
         super.onResume();
         if(pitems!=null) setPageradapter(pitems);
-        else {i=1; initPagerUI(i);}
+        else {i=1;
+
+        initPagerUI(i);
+        }
         if(tabid!=3) {setCurrentTabFragment(tabid,view);
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);
             tab.select();
         }
-        getUploadData();
+
+         getUploadData();
         Log.i("test",i.toString());
 
 

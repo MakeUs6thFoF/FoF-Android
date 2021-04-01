@@ -25,10 +25,13 @@ import android.widget.Toast;
 import android.widget.ToggleButton;
 
 import androidx.annotation.NonNull;
+import androidx.core.content.FileProvider;
 import androidx.viewpager.widget.PagerAdapter;
 
 import com.FoF.FoF_Android.make.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.gifdecoder.GifDecoder;
+import com.bumptech.glide.gifencoder.AnimatedGifEncoder;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.Target;
@@ -54,6 +57,8 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.net.URLConnection;
+import java.nio.ByteBuffer;
 import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
@@ -63,10 +68,12 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
+import static android.content.ContentValues.TAG;
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
 
 public class MemePagerAdapter extends PagerAdapter {
-    private Context context;
+    private static Context context;
+
     private List<Meme.Data> items;
     private DeleteDialog deleteDialog;
     private SelectDialog selectDialog;
@@ -211,17 +218,14 @@ public class MemePagerAdapter extends PagerAdapter {
                 Bitmap drawable=null;
                 GifDrawable drawable1=null;
                 if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
-                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();}
+                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap(); }
                 else if(memeimg.getDrawable() instanceof GifDrawable)
                     drawable1 = ((GifDrawable)memeimg.getDrawable());
-
                 Uri myurl=null;
-
                 if(drawable1!=null){
-                } else  myurl=getImageUri(context, drawable);
-                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+                    //ByteBuffer byteBuffer=drawable1.buffer();
+                } else  myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
 
-                //Uri screenshotUri = Uri.parse(name);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
                 context.startActivity(Intent.createChooser(sharingIntent, "Share image using"));
@@ -234,8 +238,16 @@ public class MemePagerAdapter extends PagerAdapter {
             public void onClick(View v) {
                 Utility.checkPermission(context);
                 Bitmap drawable=null;
-                drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-                saveBitmaptoJpeg(drawable,"FOF",items.get(position).getCopyright()+items.get(position).getImageUrl());
+                GifDrawable drawable1=null;
+
+                if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
+                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap(); }
+                else if(memeimg.getDrawable() instanceof GifDrawable)
+                    drawable1 = ((GifDrawable)memeimg.getDrawable());
+                if(drawable1!=null){
+                    //ByteBuffer byteBuffer=drawable1.buffer();
+                } else{ drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
+                saveImage(drawable,"download"+items.get(position).getMemeIdx());}
 
                 Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
@@ -257,7 +269,20 @@ public class MemePagerAdapter extends PagerAdapter {
         return view;
 
     }
-
+    public static String saveImage(Bitmap bitmap, String name){
+        String ex_storage = Environment.getExternalStorageDirectory().getAbsolutePath(); // Get Absolute Path in External Sdcard
+        String foler_name = "/FoF/";
+        String file_name = name+".jpg";
+        String string_path = ex_storage+foler_name; File file_path; try{
+            file_path = new File(string_path);
+            if(!file_path.isDirectory()){ file_path.mkdirs();
+            } FileOutputStream out = new FileOutputStream(string_path+file_name);
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); out.close();
+        }catch(FileNotFoundException exception){ Log.e("FileNotFoundException", exception.getMessage());
+        }catch(IOException exception){
+            Log.e("IOException", exception.getMessage());
+        }return string_path+file_name;
+    }
 
     public void calldialog(Dialog reportDialog){
         reportDialog.setCancelable(true);
@@ -266,66 +291,24 @@ public class MemePagerAdapter extends PagerAdapter {
         reportDialog.show();
     }
 
-
-    private Uri getImageUri(Context context, Bitmap inImage) {
-        ByteArrayOutputStream bytes = new ByteArrayOutputStream();
-        inImage.compress(Bitmap.CompressFormat.JPEG, 100, bytes);
-        String path = MediaStore.Images.Media.insertImage(context.getContentResolver(), inImage, "Title", null);
-        return Uri.parse(path);
-    }
-    public static void saveBitmaptoJpeg(Bitmap bitmap,String folder, String name){
-         String ex_storage = Environment.getExternalStorageDirectory().getAbsolutePath(); // Get Absolute Path in External Sdcard
-
-         String foler_name = "/"+folder+"/";
-         String file_name = name;
-         String string_path = ex_storage+foler_name; File file_path; try{
-             file_path = new File(string_path);
-             if(!file_path.isDirectory()){ file_path.mkdirs();
-             } FileOutputStream out = new FileOutputStream(string_path+file_name);
-             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); out.close();
-         }catch(FileNotFoundException exception){ Log.e("FileNotFoundException", exception.getMessage());
-         }catch(IOException exception){
-             Log.e("IOException", exception.getMessage());
-         }
-    }
-
-
-    public static Bitmap getImage(String strUrl){
-        URL url = null;
-        HttpURLConnection conn = null;
-        InputStream is = null;
-        BufferedInputStream bis = null;
-        Bitmap bm = null;
-
-
+    public static Uri saveBitmaptoJpeg(Bitmap bitmap,String folder, String name){
+        File imagesFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
         try {
-            url = new URL(strUrl);
-            conn = (HttpURLConnection)url.openConnection();
-            conn.setDoInput(true);
+            imagesFolder.mkdirs();
+            File file = new File(imagesFolder, "shared_image.png");
 
-            conn.connect();
+            FileOutputStream stream = new FileOutputStream(file);
+            bitmap.compress(Bitmap.CompressFormat.PNG, 90, stream);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context, "com.mydomain.fileprovider", file);
 
-            is = conn.getInputStream();
-            bis = new BufferedInputStream(is);
-
-            bm = BitmapFactory.decodeStream(bis);
-
-        } catch (Exception e) {
-            //throw e;
-            Log.i("meme", e.toString());
-            return null;
-        }finally{
-            try{
-                if(is != null) is.close();
-                if(bis != null) bis.close();
-            }catch(Exception e){}
+        } catch (IOException e) {
+            Log.d(TAG, "IOException while trying to write file for sharing: " + e.getMessage());
         }
-
-        return bm;
+        return uri;
     }
-
-
-
 
     public void selectbtnclick(int position){
         report.setOnClickListener(new View.OnClickListener() {

@@ -4,6 +4,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
+import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
@@ -27,6 +28,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.recyclerview.widget.RecyclerView;
 import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
+import com.FoF.FoF_Android.make.Utility;
 import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
@@ -55,6 +57,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
+import static com.FoF.FoF_Android.home.MemePagerAdapter.saveBitmaptoJpeg;
+import static com.FoF.FoF_Android.home.MemePagerAdapter.saveImage;
 import static com.FoF.FoF_Android.make.UploadNextFragment.RESULT_CODE;
 
 public class DetailFragment extends Fragment implements OnBackPressed {
@@ -96,6 +100,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
+
+
     }
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -121,10 +127,8 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
                 if(drawable1!=null){
                     // myurl=getImageUri(context,);
-                } else  myurl=getImageUri(getContext(), drawable);
-                //  String name=saveBitmapToJpeg(context,drawable,"임시");
+                } else  myurl=saveBitmaptoJpeg(drawable,"FOF","download"+detail.getMemeIdx());
 
-                //Uri screenshotUri = Uri.parse(name);
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
                 getContext().startActivity(Intent.createChooser(sharingIntent, "Share image using"));
@@ -142,12 +146,10 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         copy.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Uri copyuri = Uri.parse(items.get(position).getImageUrl());
+                Utility.checkPermission(getContext());
                 Bitmap drawable=null;
                 drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-                //  String name=saveBitmapToJpeg(context,drawable,"임시");
-                Uri myurl=null;
-                myurl=getImageUri(getContext(), drawable);
+                saveImage(drawable,"download"+detail.getMemeIdx());
                 Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
@@ -192,7 +194,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             public void onClick(View v) {
                 Intent modifyintent = new Intent(getContext(), ModifyCopyrightActivity.class);
 
-                modifyintent.putExtra("memeIdx", items.get(position).getMemeIdx());
+                modifyintent.putExtra("memeIdx", detail.getMemeIdx());
                 startActivityForResult(modifyintent, SELECT_FILE);
                 // Intent intent = new Intent(    , Register.class);
 
@@ -229,6 +231,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
         title.setText(detail.getMemeTitle());
         copyright.setText(detail.getCopyright());
+        copyright.setPaintFlags(copyright.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         if(detail.getLikeStatus()==1)like_btn.setChecked(true);
         TextView btn[] = new TextView[30];
         String hashtag=detail.getTag();
@@ -480,6 +483,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
         if(requestCode == 3 && resultCode == RESULT_CODE) {
             String testResult = data.getStringExtra("tagname");
             copyright.setText("(C) "+testResult+" all rights rserved.");
+            copyright.setPaintFlags(copyright.getPaintFlags()| Paint.UNDERLINE_TEXT_FLAG);
         }
 
 

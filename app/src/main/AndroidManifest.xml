@@ -41,6 +41,15 @@
         <activity android:name="com.FoF.FoF_Android.dialog.ModifyCopyrightActivity" />
         <activity android:name="com.FoF.FoF_Android.make.UploadHashtag" />
         <activity android:name="com.FoF.FoF_Android.my.WithdrawalActivity" />
+        <provider
+            android:name="androidx.core.content.FileProvider"
+            android:authorities="com.mydomain.fileprovider"
+            android:exported="false"
+            android:grantUriPermissions="true">
+            <meta-data
+                android:name="android.support.FILE_PROVIDER_PATHS"
+                android:resource="@xml/file_paths" />
+        </provider>
     </application>
 
 </manifest>
