@@ -82,7 +82,7 @@ public class MyFragment extends Fragment {
     TokenManager gettoken;
     String token;
     View view;
-
+    String encoder;
     private String userChoosenTask;
     InputStream in;
     File f;
@@ -111,7 +111,7 @@ public class MyFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         view = inflater.inflate(R.layout.fragment_my, container, false);
-
+        encoder=((int) (Math.random() * (1000000 - 1000 + 1) + 1000))+"test";
         settingBt = view.findViewById(R.id.setting_bt);
         nicktv = view.findViewById(R.id.nick);
         profImage = view.findViewById(R.id.circleImageView);
@@ -209,7 +209,7 @@ public class MyFragment extends Fragment {
         public void onClick(View v) {
             logoutDialog.dismiss();
             uploadImg();
-            String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+gettoken.checkIdx(getContext()).toString()+"prof"+f.getName();
+            String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+gettoken.checkIdx(getContext()).toString()+"prof"+encoder;
             //TODO 수정 처리
             api.patchprofileimg(gettoken.checklogin(getContext()),imgurl).enqueue(new Callback<SignUp>() {
                 @Override
@@ -506,7 +506,7 @@ public class MyFragment extends Fragment {
 
         transferUtility = new TransferUtility(s3, getContext());
 
-        TransferObserver observer = transferUtility.upload("fofuploadtest",gettoken.checkIdx(getContext()).toString()+"prof"+f.getName(),f);
+        TransferObserver observer = transferUtility.upload("fofuploadtest",gettoken.checkIdx(getContext()).toString()+"prof"+encoder,f);
 
     }
 

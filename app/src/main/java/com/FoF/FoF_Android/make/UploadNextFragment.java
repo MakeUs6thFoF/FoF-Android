@@ -37,6 +37,7 @@ import com.FoF.FoF_Android.dialog.model.CancelDialog;
 import com.FoF.FoF_Android.signup.SignUp;
 
 import java.io.File;
+import java.net.URLEncoder;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -63,6 +64,7 @@ public class UploadNextFragment extends Fragment {
     TokenManager gettoken;
     FrameLayout back;
     //카테고리
+    String encoder;
     RadioButton togBt1;
     RadioButton togBt2;
     RadioButton togBt3;
@@ -106,6 +108,9 @@ public class UploadNextFragment extends Fragment {
         title=view.findViewById(R.id.title);
         copyright=view.findViewById(R.id.copyright);
         hashtag=view.findViewById(R.id.hashtag);
+
+        String rdn= URLEncoder.encode(f.getName());
+        encoder=((int) (Math.random() * (1000000 - 1000 + 1) + 1000))+"test";
 
         HttpClient client = new HttpClient();
         api = client.getRetrofit().create(RetrofitApi.class);
@@ -222,7 +227,7 @@ public class UploadNextFragment extends Fragment {
                 String titletxt=title.getText().toString();
                 String[] hashTagArray=null;
 
-                String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+useridx.toString()+f.getName();
+                String imgurl="https://fofuploadtest.s3.ap-northeast-2.amazonaws.com/"+useridx.toString()+encoder;
 
                 if(getInsertTag()!=null)
                     hashTagArray = getInsertTag();
@@ -274,7 +279,7 @@ public class UploadNextFragment extends Fragment {
 
         transferUtility = new TransferUtility(s3, getContext());
 
-        TransferObserver observer = transferUtility.upload("fofuploadtest",useridx.toString()+f.getName(),f);
+        TransferObserver observer = transferUtility.upload("fofuploadtest",useridx.toString()+encoder,f);
 
     }
 
