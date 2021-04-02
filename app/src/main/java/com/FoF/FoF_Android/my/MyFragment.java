@@ -23,6 +23,7 @@ import android.view.ViewGroup;
 import android.widget.ImageButton;
 import android.widget.TextView;
 
+import com.FoF.FoF_Android.home.CirclesDrawable;
 import com.amazonaws.auth.CognitoCachingCredentialsProvider;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferObserver;
 import com.amazonaws.mobileconnectors.s3.transferutility.TransferUtility;
@@ -30,6 +31,7 @@ import com.amazonaws.regions.Region;
 import com.amazonaws.regions.Regions;
 import com.amazonaws.services.s3.AmazonS3;
 import com.amazonaws.services.s3.AmazonS3Client;
+import com.baoyz.widget.PullRefreshLayout;
 import com.bumptech.glide.Glide;
 import com.FoF.FoF_Android.HttpClient;
 import com.FoF.FoF_Android.R;
@@ -74,6 +76,7 @@ public class MyFragment extends Fragment {
     String profileImage;
     private int likepage = 0;
     private int uploadpage = 0;
+    private int state = 0;
     private boolean isLoading = false;
     private int SELECT_FILE = 3;
     private List<UploadLike.Data> uploadList;
@@ -125,6 +128,29 @@ public class MyFragment extends Fragment {
         toptv[0] = view.findViewById(R.id.top1);    toptv[1] = view.findViewById(R.id.top2);    toptv[2] = view.findViewById(R.id.top3);    toptv[3] = view.findViewById(R.id.top4);    toptv[4] = view.findViewById(R.id.top5);
 
         token = gettoken.checklogin(getContext());
+
+        PullRefreshLayout mSwipeRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.myRefresh);
+
+        mSwipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
+        mSwipeRefreshLayout.setRefreshDrawable(new CirclesDrawable(getContext(),mSwipeRefreshLayout));
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FE2C55"),Color.parseColor("#BEDCFF"),Color.parseColor("#07C87B"),Color.parseColor("#FE2C55"));
+        // mSwipeRefreshLayout.setScrollBarSize();
+        mSwipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout .OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        if(state == 0)
+                            getUploadData(api, token);
+                        else
+                            getLikeData(api, token);
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },1000);
+
+            }
+        });
 
         upLoadtv.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -294,6 +320,7 @@ public class MyFragment extends Fragment {
         }
     }
     public void getUploadData(RetrofitApi api, String token){
+        state = 0;
         uploadpage=0;
         api.getUploadLike(token, "uploaded", getPage(0), 4).enqueue(new Callback<UploadLike>() {
             @Override
@@ -314,6 +341,7 @@ public class MyFragment extends Fragment {
     }
 
     public void setUploadData(){
+        state = 0;
         layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter);
@@ -351,6 +379,7 @@ public class MyFragment extends Fragment {
     }
 
     public void getLikeData(RetrofitApi api, String token){
+        state = 1;
         likepage = 0;
         api.getUploadLike(token, "favorite", getPage(1), 10).enqueue(new Callback<UploadLike>() {
             @Override
@@ -369,6 +398,7 @@ public class MyFragment extends Fragment {
     }
 
     public void setLikeData(){
+        state = 1;
         layoutManager = new StaggeredGridLayoutManager(3, StaggeredGridLayoutManager.VERTICAL);
         mRecyclerView.setLayoutManager(layoutManager);
         mRecyclerView.setAdapter(mAdapter2);
