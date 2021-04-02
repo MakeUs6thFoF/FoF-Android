@@ -1,11 +1,15 @@
 package com.FoF.FoF_Android.home;
 
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.os.Handler;
+import android.preference.PreferenceManager;
 import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.GestureDetector;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.MotionEvent;
 import android.view.View;
@@ -21,6 +25,7 @@ import androidx.swiperefreshlayout.widget.SwipeRefreshLayout;
 import androidx.viewpager.widget.ViewPager;
 
 import com.FoF.FoF_Android.HttpClient;
+import com.FoF.FoF_Android.OnboardingActivity;
 import com.FoF.FoF_Android.R;
 import com.FoF.FoF_Android.RetrofitApi;
 import com.FoF.FoF_Android.TokenManager;
@@ -89,6 +94,17 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
 
         recycle = view.findViewById((R.id.recycler));
         myviewpager=view.findViewById(R.id.myviewpager);
+
+        SharedPreferences sharedPreferences =
+                PreferenceManager.getDefaultSharedPreferences(getContext());
+        // Check if we need to display our OnboardingSupportFragment
+        if (!sharedPreferences.getBoolean(
+                "onBoarding", false)) {
+            OnboardingActivity reportDialog=new OnboardingActivity(getContext());
+            reportDialog.setCancelable(true);
+            reportDialog.getWindow().setGravity(Gravity.CENTER);
+            reportDialog.show();
+        }
         PullRefreshLayout  mSwipeRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.swipe_layout);
 
         mSwipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
@@ -361,9 +377,9 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
     public void onResume() {
         super.onResume();
         if(pitems!=null) setPageradapter(pitems);
-        else {i=1;
-
-        initPagerUI(i);
+        else {
+            i=1;
+            initPagerUI(i);
         }
         if(tabid!=3) {setCurrentTabFragment(tabid,view);
             TabLayout.Tab tab=tabLayout.getTabAt(tabid);

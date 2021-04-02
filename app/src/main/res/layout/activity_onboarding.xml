@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <ImageButton
+        android:id="@+id/cancel"
+        android:layout_width="17.8dp"
+        android:layout_height="18.5dp"
+        android:layout_marginTop="50dp"
+        android:layout_marginEnd="25dp"
+        android:background="@drawable/btn_cancel"
+        android:backgroundTint="@color/white"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView13"
+        android:layout_width="49dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="227dp"
+        android:layout_marginEnd="40dp"
+        android:background="@drawable/union_info"
+
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:id="@+id/textView11"
+        style="@style/basic_14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="227dp"
+        android:textColor="@color/white"
+        android:text="한장씩 넘기면서\n밈을 보세요"
+        android:layout_marginEnd="15dp"
+        app:layout_constraintEnd_toStartOf="@+id/imageView13"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView12"
+        android:layout_width="49dp"
+        android:layout_height="41dp"
+        android:layout_marginTop="324dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/union_info"
+        android:rotation="180"
+        app:layout_constraintEnd_toStartOf="@+id/textView4"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TextView
+        android:layout_marginTop="324dp"
+        android:id="@+id/textView4"
+        style="@style/basic_14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="30dp"
+        android:textColor="@color/white"
+        android:text="반대로 넘기면\n이전 밈을 볼 수 있어요"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <ImageView
+        android:id="@+id/imageView1"
+        android:layout_width="49dp"
+        android:layout_height="41dp"
+        android:background="@drawable/union_info"
+        android:rotation="270"
+        android:layout_marginTop="100dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView12" />
+
+    <TextView
+        android:id="@+id/textView10"
+        style="@style/basic_14dp"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="위로 올리면 관련된 밈을\n다양하게 즐길 수 있어요"
+        android:layout_marginTop="15dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:textColor="@color/white"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imageView1" />
+</androidx.constraintlayout.widget.ConstraintLayout>
