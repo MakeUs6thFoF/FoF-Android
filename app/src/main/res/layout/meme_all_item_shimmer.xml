@@ -15,7 +15,6 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         android:adjustViewBounds="true"        android:visibility="gone"
-        android:background="@drawable/placeholder"
         android:transitionName="example_transition" />
     <com.facebook.shimmer.ShimmerFrameLayout
         android:id="@+id/framelayout"

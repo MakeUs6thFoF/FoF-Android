@@ -155,7 +155,8 @@ public class MemePagerAdapter extends PagerAdapter {
             btn[i].setTextAppearance(R.style.basic_12dp_black);
             btn[i].setId(i);
             if (i < 4) {
-                Tag.addView(btn[i]);
+                if(array[i].length()>7) Tag2.addView(btn[i]);
+                else Tag.addView(btn[i]);
             }else Tag2.addView(btn[i]);
             int finalI1 = i;
             btn[i].setOnClickListener(new View.OnClickListener() {
