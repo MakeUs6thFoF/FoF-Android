@@ -40,13 +40,13 @@ public class HashClickFragment extends Fragment {
     HashSearchAdapter mAdapter;
     RecyclerView mRecyclerView;
     int memeCount;    Integer j=0;
-
+    View view;
     List<MemeSearch.Data> memeList = new ArrayList<>();
 
     private static final String ARG_PARAM2 = "param2";
 
 
-    private String mParam2; //tagName
+     String mParam2; //tagName
 
     public HashClickFragment() {
 
@@ -84,13 +84,13 @@ public class HashClickFragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_hash_click, container, false);
+         view = inflater.inflate(R.layout.fragment_hash_click, container, false);
         hashText = view.findViewById(R.id.hashNametv);
         hashCnt = view.findViewById(R.id.hashCnttv);
         hashText.setText(mParam2);
 
         mRecyclerView = view.findViewById(R.id.hashClickRecycle);
-        setRecyclerView(api, view);
+        setRecyclerView(api);
 
         return view;
     }
@@ -98,9 +98,10 @@ public class HashClickFragment extends Fragment {
         j ++;
         return j;
     }
-    public void setRecyclerView(RetrofitApi api, View view){
-       token = gettoken.checklogin(getContext());
 
+    public void setRecyclerView(RetrofitApi api){
+       token = gettoken.checklogin(getContext());
+    j=0;
         api.getSearchMeme(token, mParam2,  getPage(0), 50).enqueue(new Callback<MemeSearch>() {
             @Override
             public void onResponse(Call<MemeSearch> call, Response<MemeSearch> response) {
@@ -149,8 +150,13 @@ public  void plushashtag(){
 }
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        setRecyclerView(api);
+    }
 
-public void setAdapter(List<MemeSearch.Data> pmemeList){
+    public void setAdapter(List<MemeSearch.Data> pmemeList){
 
         mAdapter = new HashSearchAdapter(pmemeList, getContext());
         StaggeredGridLayoutManager layoutManager = new StaggeredGridLayoutManager(2, StaggeredGridLayoutManager.VERTICAL);

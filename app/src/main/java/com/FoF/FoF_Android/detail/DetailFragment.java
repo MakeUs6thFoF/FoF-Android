@@ -304,7 +304,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 hashsearch=array[position].replaceFirst("#","");
             }
             HashClickFragment hashclick= HashClickFragment.newInstance(hashsearch);
-            hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+            hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom).setDuration(200));
             getFragmentManager().beginTransaction().setReorderingAllowed(true).addToBackStack(null).replace(R.id.container, hashclick).commit();
 
     }
@@ -410,8 +410,7 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
                     DetailFragment detail = new DetailFragment(position);
 
-                    detail.setSharedElementEnterTransition(TransitionInflater.from(getContext()).inflateTransition(R.transition.image_shared_element_transition).setDuration(100));
-                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.fade).setDuration(50));
+                    detail.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
 
                     getFragmentManager().beginTransaction().addSharedElement(v.findViewById(R.id.imageView), ViewCompat.getTransitionName(v.findViewById(R.id.imageView)))
                             .setReorderingAllowed(true)

@@ -291,7 +291,7 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
             public void onItemClick(View v, String position) {
 
                 HashClickFragment hashclick= HashClickFragment.newInstance(position);
-                hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_right).setDuration(200));
+                hashclick.setEnterTransition(TransitionInflater.from(getContext()).inflateTransition(android.R.transition.slide_bottom).setDuration(200));
                 getActivity().getSupportFragmentManager().beginTransaction().add(R.id.container, hashclick).addToBackStack(null).commit();
             }
         });
