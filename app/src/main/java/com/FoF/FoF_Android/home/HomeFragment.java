@@ -1,6 +1,8 @@
 package com.FoF.FoF_Android.home;
 
+import android.graphics.Color;
 import android.os.Bundle;
+import android.os.Handler;
 import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.GestureDetector;
@@ -28,6 +30,7 @@ import com.FoF.FoF_Android.home.model.MemeResponse;
 import com.FoF.FoF_Android.home.view.CustomSwipeableViewPager;
 import com.FoF.FoF_Android.home.view.StackPageTransformer;
 import com.FoF.FoF_Android.search.EndlessScrollListener;
+import com.baoyz.widget.PullRefreshLayout;
 import com.google.android.material.tabs.TabLayout;
 
 import java.util.List;
@@ -85,13 +88,24 @@ public class HomeFragment extends Fragment implements OnItemClick, FragmentManag
         view = (ViewGroup) inflater.inflate(R.layout.fragment_home, container, false);
 
         recycle = view.findViewById((R.id.recycler));
-       myviewpager=view.findViewById(R.id.myviewpager);
-        SwipeRefreshLayout mSwipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipe_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
+        myviewpager=view.findViewById(R.id.myviewpager);
+        PullRefreshLayout  mSwipeRefreshLayout = (PullRefreshLayout) view.findViewById(R.id.swipe_layout);
+
+        mSwipeRefreshLayout.setRefreshStyle(PullRefreshLayout.STYLE_WATER_DROP);
+        mSwipeRefreshLayout.setRefreshDrawable(new CirclesDrawable(getContext(),mSwipeRefreshLayout));
+        mSwipeRefreshLayout.setColorSchemeColors(Color.parseColor("#FE2C55"),Color.parseColor("#BEDCFF"),Color.parseColor("#07C87B"),Color.parseColor("#FE2C55"));
+       // mSwipeRefreshLayout.setScrollBarSize();
+        mSwipeRefreshLayout.setOnRefreshListener(new PullRefreshLayout .OnRefreshListener() {
             @Override
             public void onRefresh() {
-                getUploadData();
-                mSwipeRefreshLayout.setRefreshing(false);
+                mSwipeRefreshLayout.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        getUploadData();
+                        mSwipeRefreshLayout.setRefreshing(false);
+                    }
+                },1000);
+
             }
         });
        // initUI();
