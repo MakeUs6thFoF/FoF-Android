@@ -16,6 +16,7 @@ import androidx.viewpager.widget.PagerAdapter;
 import com.bumptech.glide.Glide;
 import com.FoF.FoF_Android.R;
 import com.FoF.FoF_Android.detail.DetailFragment;
+import com.bumptech.glide.load.engine.DiskCacheStrategy;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,27 +55,27 @@ public class RankPagerAdapter extends PagerAdapter {
 
         switch (position) {
             case 0:
-                Glide.with(container.getContext()).load(mList.get(0).getImageUrl()).into(imageView);
+                Glide.with(container.getContext()).load(mList.get(0).getImageUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 ranktv.setText("1");
                 ranktv.setVisibility(View.VISIBLE);
                 break;
             case 1:
-                Glide.with(container.getContext()).load(mList.get(1).getImageUrl()).into(imageView);
+                Glide.with(container.getContext()).load(mList.get(1).getImageUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 ranktv.setText("2");
                 ranktv.setVisibility(View.VISIBLE);
                 break;
             case 2:
-                Glide.with(container.getContext()).load(mList.get(2).getImageUrl()).into(imageView);
+                Glide.with(container.getContext()).load(mList.get(2).getImageUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 ranktv.setText("3");
                 ranktv.setVisibility(View.VISIBLE);
                 break;
             case 3:
-                Glide.with(container.getContext()).load(mList.get(3).getImageUrl()).into(imageView);
+                Glide.with(container.getContext()).load(mList.get(3).getImageUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 ranktv.setText("4");
                 ranktv.setVisibility(View.VISIBLE);
                 break;
             case 4:
-                Glide.with(container.getContext()).load(mList.get(4).getImageUrl()).into(imageView);
+                Glide.with(container.getContext()).load(mList.get(4).getImageUrl()).diskCacheStrategy(DiskCacheStrategy.SOURCE).into(imageView);
                 ranktv.setText("5");
                 ranktv.setVisibility(View.VISIBLE);
                 break;
