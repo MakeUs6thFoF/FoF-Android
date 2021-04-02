@@ -31,6 +31,7 @@ import androidx.recyclerview.widget.StaggeredGridLayoutManager;
 
 import com.FoF.FoF_Android.make.Utility;
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.gifencoder.AnimatedGifEncoder;
 import com.bumptech.glide.load.resource.bitmap.GlideBitmapDrawable;
 import com.bumptech.glide.load.resource.gif.GifDrawable;
 import com.bumptech.glide.request.target.Target;
@@ -63,6 +64,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 import static android.view.View.TEXT_ALIGNMENT_CENTER;
+import static com.FoF.FoF_Android.home.MemePagerAdapter.saveBitmaptoGif;
 import static com.FoF.FoF_Android.home.MemePagerAdapter.saveBitmaptoJpeg;
 import static com.FoF.FoF_Android.home.MemePagerAdapter.saveImage;
 import static com.FoF.FoF_Android.make.UploadNextFragment.RESULT_CODE;
@@ -131,13 +133,14 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                     drawable1 = ((GifDrawable)memeimg.getDrawable());
                 Uri myurl=null;
                 if(drawable1!=null){
-                    Toast.makeText(getContext(), "이미지 전송을 실패했습니다.", Toast.LENGTH_SHORT).show();
-                } else  {myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
-
+                    myurl= saveBitmaptoGif(drawable1.getData(),"FOF","download"+items.get(position).getMemeIdx());
+                } else { myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
+                }
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
                 getContext().startActivity(Intent.createChooser(sharingIntent, "Share image using"));
-            }}
+                //context.getContentResolver().delete(myurl,null,null);
+            }
         });
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -157,16 +160,24 @@ public class DetailFragment extends Fragment implements OnBackPressed {
 
                 if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
                     drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap(); }
-                else if(memeimg.getDrawable() instanceof GifDrawable)
-                    drawable1 = ((GifDrawable)memeimg.getDrawable());
+                else if(memeimg.getDrawable() instanceof GifDrawable){
+                    drawable1=((GifDrawable)memeimg.getDrawable());
+
+                }
                 if(drawable1!=null){
-                    //TODO GIF처리
-                    Toast.makeText(getContext(), "이미지 저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
-                    //ByteBuffer byteBuffer=drawable1.buffer();
+                    byte[] bytes = ((GifDrawable)memeimg.getDrawable()).getData();
+                    FileOutputStream outStream = null;
+                    try{
+                        outStream = new FileOutputStream("/sdcard/FoF/download"+items.get(position).getMemeIdx()+".gif");
+                        outStream.write(bytes);
+                        outStream.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
                 } else{ drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
                     saveImage(drawable,"download"+items.get(position).getMemeIdx());
-
-                    Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();}
+                }
+                    Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
 
         });

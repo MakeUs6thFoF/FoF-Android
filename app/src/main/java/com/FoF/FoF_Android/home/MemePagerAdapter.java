@@ -225,15 +225,14 @@ public class MemePagerAdapter extends PagerAdapter {
                     drawable1 = ((GifDrawable)memeimg.getDrawable()).getDecoder();
                 Uri myurl=null;
                 if(drawable1!=null){
-                    Toast.makeText(context, "이미지 전송을 실패했습니다.", Toast.LENGTH_SHORT).show();
-                    //TODO GIF처리
+                    myurl= saveBitmaptoGif(drawable1.getData(),"FOF","download"+items.get(position).getMemeIdx());
                 } else { myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
-
+                }
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
                 context.startActivity(Intent.createChooser(sharingIntent, "Share image using"));
                 //context.getContentResolver().delete(myurl,null,null);
-            }}
+           }
         });
 
         copy.setOnClickListener(new View.OnClickListener() {
@@ -248,13 +247,21 @@ public class MemePagerAdapter extends PagerAdapter {
                 else if(memeimg.getDrawable() instanceof GifDrawable)
                     drawable1 = ((GifDrawable)memeimg.getDrawable());
                 if(drawable1!=null){
-                    //TODO GIF처리
-                    Toast.makeText(context, "이미지 저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    byte[] bytes = ((GifDrawable)memeimg.getDrawable()).getData();
+                    FileOutputStream outStream = null;
+                    try{
+                        outStream = new FileOutputStream("/sdcard/FoF/download"+items.get(position).getMemeIdx()+".gif");
+                        outStream.write(bytes);
+                        outStream.close();
+                    }catch(Exception e){
+                        e.printStackTrace();
+                    }
+
                     //ByteBuffer byteBuffer=drawable1.buffer();
                 } else{ drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
                 saveImage(drawable,"download"+items.get(position).getMemeIdx());
-
-                Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();}
+                }
+                Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
             }
         });
         container.addView(view);
@@ -317,7 +324,24 @@ public class MemePagerAdapter extends PagerAdapter {
         }
         return uri;
     }
+    public static Uri saveBitmaptoGif(byte[] bitmap,String folder, String name){
+        File imagesFolder = new File(context.getCacheDir(), "images");
+        Uri uri = null;
+        try {
+            imagesFolder.mkdirs();
+            File file = new File(imagesFolder, "shared_image.gif");
 
+            FileOutputStream stream = new FileOutputStream(file);
+            stream.write(bitmap);
+            stream.flush();
+            stream.close();
+            uri = FileProvider.getUriForFile(context, "com.mydomain.fileprovider", file);
+
+        } catch (IOException e) {
+            Log.d(TAG, "IOException while trying to write file for sharing: " + e.getMessage());
+        }
+        return uri;
+    }
     public void selectbtnclick(int position){
         report.setOnClickListener(new View.OnClickListener() {
             @Override
