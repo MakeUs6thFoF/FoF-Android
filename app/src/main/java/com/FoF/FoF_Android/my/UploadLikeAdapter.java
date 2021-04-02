@@ -11,6 +11,8 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.bumptech.glide.Glide;
+import com.bumptech.glide.load.resource.drawable.GlideDrawable;
+import com.bumptech.glide.request.RequestListener;
 import com.bumptech.glide.request.target.Target;
 import com.FoF.FoF_Android.R;
 import com.FoF.FoF_Android.search.HashTagAdapter;
@@ -84,7 +86,22 @@ public class UploadLikeAdapter extends RecyclerView.Adapter<RecyclerView.ViewHol
     @Override
     public void onBindViewHolder(@NonNull RecyclerView.ViewHolder holder, int position) {
         if(holder instanceof UploadLikeViewHolder)
-            Glide.with(context).load(mList.get(position).getImageUrl()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).into(((UploadLikeViewHolder) holder).hashImage);
+        {
+            Glide.with(context).load(mList.get(position).getImageUrl()).override(Target.SIZE_ORIGINAL, Target.SIZE_ORIGINAL).listener(new RequestListener<String, GlideDrawable>() {
+                @Override
+                public boolean onException(Exception e, String model, Target<GlideDrawable> target, boolean isFirstResource) {
+                    System.out.println(e.getMessage()+mList.get(position).getImageUrl());
+                    return false;
+                }
+
+                @Override
+                public boolean onResourceReady(GlideDrawable resource, String model, Target<GlideDrawable> target, boolean isFromMemoryCache, boolean isFirstResource) {
+                    return false;
+                }
+            }).into(((UploadLikeViewHolder) holder).hashImage);
+            System.out.print("되는거"+mList.get(position).getImageUrl());
+        }
+
         else if(holder instanceof MemeLoadingViewHolder)
             showLoadingView((MemeLoadingViewHolder) holder, position);
     }
