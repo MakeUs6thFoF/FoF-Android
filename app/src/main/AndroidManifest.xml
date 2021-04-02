@@ -31,16 +31,18 @@
             android:enabled="true" />
 
         <activity android:name="com.FoF.FoF_Android.signup.StartActivity" />
-        <activity android:name="com.FoF.FoF_Android.MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
-        </activity>
+        <activity android:name="com.FoF.FoF_Android.MainActivity"/>
         <activity android:name="com.FoF.FoF_Android.dialog.ModifyCopyrightActivity" />
         <activity android:name="com.FoF.FoF_Android.make.UploadHashtag" />
         <activity android:name="com.FoF.FoF_Android.my.WithdrawalActivity" />
+        <activity android:name=".SplashActivity" >
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+        </activity>
+
         <provider
             android:name="androidx.core.content.FileProvider"
             android:authorities="com.mydomain.fileprovider"

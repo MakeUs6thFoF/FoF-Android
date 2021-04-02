@@ -31,11 +31,7 @@ public class StartActivity extends AppCompatActivity {
         Integer userIdx = tokenManager.checkIdx(StartActivity.this);
 
         Log.i("StartActivity", token.toString());
-        if(token != null && userIdx != null && token.length()>8){
-            Intent mainintent = new Intent(StartActivity.this, MainActivity.class);
-            startActivity(mainintent);
-            finish();
-        } //자동 로그인
+
         //kakao_login_btn = findViewById(R.id.kakao_login_btn);
 
 
