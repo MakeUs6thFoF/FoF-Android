@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.graphics.Paint;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Environment;
 import android.provider.MediaStore;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -50,7 +51,12 @@ import com.FoF.FoF_Android.search.EndlessScrollListener;
 import com.FoF.FoF_Android.signup.SignUp;
 
 import java.io.ByteArrayOutputStream;
+import java.io.File;
+import java.io.FileNotFoundException;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -119,20 +125,19 @@ public class DetailFragment extends Fragment implements OnBackPressed {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 Bitmap drawable=null;
                 GifDrawable drawable1=null;
-                //imgBitmap=getImage(items.get(position).getImageUrl());
                 if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
-                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();}
+                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap(); }
                 else if(memeimg.getDrawable() instanceof GifDrawable)
                     drawable1 = ((GifDrawable)memeimg.getDrawable());
-
+                Uri myurl=null;
                 if(drawable1!=null){
-                    // myurl=getImageUri(context,);
-                } else  myurl=saveBitmaptoJpeg(drawable,"FOF","download"+detail.getMemeIdx());
+                    Toast.makeText(getContext(), "이미지 전송을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                } else  {myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
 
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
                 getContext().startActivity(Intent.createChooser(sharingIntent, "Share image using"));
-            }
+            }}
         });
 
         back.setOnClickListener(new View.OnClickListener() {
@@ -148,10 +153,22 @@ public class DetailFragment extends Fragment implements OnBackPressed {
             public void onClick(View v) {
                 Utility.checkPermission(getContext());
                 Bitmap drawable=null;
-                drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-                saveImage(drawable,"download"+detail.getMemeIdx());
-                Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                GifDrawable drawable1=null;
+
+                if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
+                    drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap(); }
+                else if(memeimg.getDrawable() instanceof GifDrawable)
+                    drawable1 = ((GifDrawable)memeimg.getDrawable());
+                if(drawable1!=null){
+                    //TODO GIF처리
+                    Toast.makeText(getContext(), "이미지 저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    //ByteBuffer byteBuffer=drawable1.buffer();
+                } else{ drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
+                    saveImage(drawable,"download"+items.get(position).getMemeIdx());
+
+                    Toast.makeText(getContext(), "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();}
             }
+
         });
 
         onclickbtn(i);

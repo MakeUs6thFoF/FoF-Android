@@ -62,6 +62,7 @@ import java.nio.ByteBuffer;
 import java.security.Permission;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.ExecutionException;
 
 import de.hdodenhof.circleimageview.CircleImageView;
 import retrofit2.Call;
@@ -216,21 +217,22 @@ public class MemePagerAdapter extends PagerAdapter {
             public void onClick(View v) {
                 Intent sharingIntent = new Intent(Intent.ACTION_SEND);
                 Bitmap drawable=null;
-                GifDrawable drawable1=null;
+                GifDecoder drawable1=null;
                 if(memeimg.getDrawable() instanceof GlideBitmapDrawable){
                     drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap(); }
                 else if(memeimg.getDrawable() instanceof GifDrawable)
-                    drawable1 = ((GifDrawable)memeimg.getDrawable());
+                    drawable1 = ((GifDrawable)memeimg.getDrawable()).getDecoder();
                 Uri myurl=null;
                 if(drawable1!=null){
-                    //ByteBuffer byteBuffer=drawable1.buffer();
-                } else  myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
+                    Toast.makeText(context, "이미지 전송을 실패했습니다.", Toast.LENGTH_SHORT).show();
+                    //TODO GIF처리
+                } else { myurl= saveBitmaptoJpeg(drawable,"FOF","download"+items.get(position).getMemeIdx());
 
                 sharingIntent.setType("image/*");
                 sharingIntent.putExtra(Intent.EXTRA_STREAM, myurl);
                 context.startActivity(Intent.createChooser(sharingIntent, "Share image using"));
                 //context.getContentResolver().delete(myurl,null,null);
-            }
+            }}
         });
 
         copy.setOnClickListener(new View.OnClickListener() {
@@ -245,11 +247,13 @@ public class MemePagerAdapter extends PagerAdapter {
                 else if(memeimg.getDrawable() instanceof GifDrawable)
                     drawable1 = ((GifDrawable)memeimg.getDrawable());
                 if(drawable1!=null){
+                    //TODO GIF처리
+                    Toast.makeText(context, "이미지 저장을 실패했습니다.", Toast.LENGTH_SHORT).show();
                     //ByteBuffer byteBuffer=drawable1.buffer();
                 } else{ drawable = ((GlideBitmapDrawable)memeimg.getDrawable()).getBitmap();
-                saveImage(drawable,"download"+items.get(position).getMemeIdx());}
+                saveImage(drawable,"download"+items.get(position).getMemeIdx());
 
-                Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();
+                Toast.makeText(context, "이미지를 저장하였습니다.", Toast.LENGTH_SHORT).show();}
             }
         });
         container.addView(view);
@@ -271,11 +275,14 @@ public class MemePagerAdapter extends PagerAdapter {
     }
     public static String saveImage(Bitmap bitmap, String name){
         String ex_storage = Environment.getExternalStorageDirectory().getAbsolutePath(); // Get Absolute Path in External Sdcard
-        String foler_name = "/FoF/";
+        String folder_name = "/FoF/";
         String file_name = name+".jpg";
-        String string_path = ex_storage+foler_name; File file_path; try{
+        String string_path = ex_storage+folder_name;
+        File file_path;
+        try{
             file_path = new File(string_path);
-            if(!file_path.isDirectory()){ file_path.mkdirs();
+            if(!file_path.isDirectory()){
+                file_path.mkdirs();
             } FileOutputStream out = new FileOutputStream(string_path+file_name);
             bitmap.compress(Bitmap.CompressFormat.JPEG, 100, out); out.close();
         }catch(FileNotFoundException exception){ Log.e("FileNotFoundException", exception.getMessage());
