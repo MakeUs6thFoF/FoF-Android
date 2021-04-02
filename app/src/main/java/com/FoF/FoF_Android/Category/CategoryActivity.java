@@ -107,6 +107,7 @@ public class CategoryActivity extends AppCompatActivity {
                 switch (v.getId()){
                     case R.id.skip_btn:
                         startActivity(mainIntent);
+                        finish();
                         break;
                     case R.id.next_btn:
                         postCategory(api, buttonList);
