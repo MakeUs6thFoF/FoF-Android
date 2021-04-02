@@ -12,17 +12,17 @@
         style="@style/point_40dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="258dp"
+        android:layout_marginTop="240dp"
         android:text="축하합니다"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
     <TextView
         android:id="@+id/sub_info"
-        style="@style/basic_24dp"
+        style="@style/basic_20dp"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="326dp"
+        android:layout_marginTop="308dp"
         android:text="성공적으로\n포프의 친구가 되었어요"
         android:gravity="center"
         app:layout_constraintEnd_toEndOf="parent"
@@ -33,15 +33,15 @@
     <ImageView
         android:id="@+id/congRectangle"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="206.5dp"
         android:background="@drawable/ic_rectangle_251"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
  />  <ImageView
-    android:layout_width="132dp"
-    android:layout_height="80dp"
-    android:layout_marginTop="102dp"
+    android:layout_width="85dp"
+    android:layout_height="50dp"
+    android:layout_marginTop="115dp"
     android:src="@drawable/main_logo"
     app:layout_constraintEnd_toEndOf="parent"
     app:layout_constraintStart_toStartOf="parent"
@@ -49,17 +49,17 @@
 
     <androidx.appcompat.widget.AppCompatButton
         android:id="@+id/login_btn"
+        style="@style/bold_16dp"
         android:layout_width="0dp"
         android:layout_height="61dp"
-        style="@style/bold_16dp"
-        android:layout_marginBottom="100dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginRight="20dp"
         android:background="@drawable/btn_check_box"
         android:text="로그인"
-        android:layout_marginRight="20dp"
-        android:layout_marginLeft="20dp"
         android:textColor="@color/white"
-        app:layout_constraintBottom_toBottomOf="parent"
+    android:layout_marginTop="596dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
