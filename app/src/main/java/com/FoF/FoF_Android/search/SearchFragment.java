@@ -65,7 +65,7 @@ public class SearchFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        view = inflater.inflate(R.layout.fragment_search, container, false);
+        view = inflater.inflate(R.layout.fragment_search_nestedscroll, container, false);
         getHashTag(api, view);
         searchBt = view.findViewById(R.id.searchEdit);
         searchIb = view.findViewById(R.id.searchIb);
