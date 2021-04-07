@@ -8,4 +8,4 @@
 `MVC`
 
 ## Technical Stack
-`Retrofit`, `Glide`, 'Amazon S3'
+`Retrofit`, `Glide`, `Amazon S3`
