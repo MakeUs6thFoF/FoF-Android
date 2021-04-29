@@ -18,7 +18,12 @@
 ![ezgif-2-bd112d7f0b75 (1)](https://user-images.githubusercontent.com/60344240/116515639-87044000-a907-11eb-851f-f0e79c8e8661.gif)
 ![ezgif-2-da86f34166ca](https://user-images.githubusercontent.com/60344240/116515943-eeba8b00-a907-11eb-8c01-973d3e7a8099.gif)
 
-
+## Part
+|Part|Name|
+|------|---|
+|Server|김민재|
+|Android|홍은호, 홍소현|
+|Designer||
 
 ## To Install
 https://play.google.com/store/apps/details?id=com.FoF.FoF_Android
