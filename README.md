@@ -9,3 +9,6 @@
 
 ## Technical Stack
 `Retrofit`, `Glide`, `Amazon S3`
+
+## To Install
+`https://play.google.com/store/apps/details?id=com.FoF.FoF_Android`
