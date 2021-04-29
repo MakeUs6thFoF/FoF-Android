@@ -13,8 +13,9 @@
 ## Demonstration
 [시연영상](https://youtu.be/fFVip-_1OWc)
 
+![ezgif-2-51ab127208be](https://user-images.githubusercontent.com/60344240/116515145-df870d80-a906-11eb-971e-28436aeaf013.gif)
+![ezgif-2-1ab2f416ca6c](https://user-images.githubusercontent.com/60344240/116515150-e0b83a80-a906-11eb-96bf-a233e179952f.gif)
 
-<img src="https://user-images.githubusercontent.com/60344240/116514044-69ce7200-a905-11eb-8fa9-301e86ac560d.gif" width="40%">
-<img src="https://user-images.githubusercontent.com/60344240/116514317-d21d5380-a905-11eb-8a88-e5b2e8755881.gif" width="40%">
+
 ## To Install
 https://play.google.com/store/apps/details?id=com.FoF.FoF_Android
