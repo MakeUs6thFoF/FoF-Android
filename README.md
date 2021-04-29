@@ -23,7 +23,7 @@
 |------|---|
 |Server|김민재|
 |Android|홍은호, 홍소현|
-|Designer||
+|Designer|이소원|
 
 ## To Install
 https://play.google.com/store/apps/details?id=com.FoF.FoF_Android
