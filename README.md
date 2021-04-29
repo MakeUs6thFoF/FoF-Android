@@ -12,7 +12,8 @@
 
 ## Demonstration
 [시연영상](https://youtu.be/fFVip-_1OWc)
-![image](https://user-images.githubusercontent.com/60344240/116513975-50c5c100-a905-11eb-80bb-95fe37481397.png)
+![ezgif-2-70422b19ec68](https://user-images.githubusercontent.com/60344240/116514044-69ce7200-a905-11eb-8fa9-301e86ac560d.gif)
+
 
 
 ## To Install
